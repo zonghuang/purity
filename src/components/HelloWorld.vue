@@ -1,18 +1,23 @@
-<script setup lang="ts">
-import { ref } from 'vue'
+<template>
+  <h2>{{ data }}</h2>
+  <el-button type="primary" size="medium" @click="handleClick">按钮</el-button>
+</template>
 
-defineProps<{ msg: string }>()
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
+defineProps<{ data: string }>()
 
 const count = ref(0)
 const handleClick = () => {
   console.log('hello');
 }
-</script>
 
-<template>
-  <h2>{{ msg }}</h2>
-  <el-button type="primary" size="medium" @click="handleClick">按钮</el-button>
-</template>
+onMounted(() => {
+  console.log('++++')
+})
+
+</script>
 
 <style scoped>
 
