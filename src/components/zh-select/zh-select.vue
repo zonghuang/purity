@@ -1,5 +1,5 @@
 <template>
-  <button>乐摇摇</button>
+  <div>select</div>
 </template>
 
 <script setup lang="ts">

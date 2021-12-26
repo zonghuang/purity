@@ -21,7 +21,7 @@
 import { ElementT } from './element.type'
 
 const props = defineProps<{
-  elements: ElementT[],
+  elements: any[],
 }>()
 
 function handleUpdate() {

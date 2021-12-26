@@ -5,16 +5,11 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 // import 'normalize.css'
 
+import ZhButton from './components/zh-button/zh-button.vue'
+console.log(ZhButton);
 
-import { register } from './components/index'
-
-// const demands = ['zh-button', 'zh-input', 'zh-select']
-// register(demands)
-register()
 
 const app = createApp(App)
-
-app.config.compilerOptions.isCustomElement = tag => tag.includes('-')
-
 app.use(ElementPlus)
+app.component('zh-button', ZhButton)
 app.mount('#app')

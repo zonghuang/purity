@@ -6,6 +6,6 @@ export interface ElementT {
   animations: Array<object>
   config: object
   events: object
-  childrens: Array<ElementT>
+  childrens: object[]
   data: any
 }
