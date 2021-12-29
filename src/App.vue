@@ -1,13 +1,14 @@
 <template>
-  <Render :elements="elements" />
-  <lyy-btn></lyy-btn>
+  <!-- <Render :elements="elements" />
+  <lyy-btn></lyy-btn> -->
+  <router-view></router-view>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import { ElementT } from "./render/element.type";
 
-const elements = ref([
+const mockData: ElementT[] = [
   {
     version: 'v1',
     uuid: "s001",
@@ -50,17 +51,17 @@ const elements = ref([
         childrens: [],
         data: "我的按钮广告",
       },
-      {
-        version: 'v1',
-        uuid: "s006",
-        name: 'zh-input',
-        style: {},
-        animations: [],
-        config: {},
-        events: {},
-        childrens: [],
-        data: "我的输入框",
-      },
+      // {
+      //   version: 'v1',
+      //   uuid: "s006",
+      //   name: 'zh-input',
+      //   style: {},
+      //   animations: [],
+      //   config: {},
+      //   events: {},
+      //   childrens: [],
+      //   data: "我的输入框",
+      // },
       {
         version: 'v1',
         uuid: "s006",
@@ -87,6 +88,8 @@ const elements = ref([
     ],
     data: "page",
   }
-]);
+];
+
+const elements = ref(mockData);
 
 </script>

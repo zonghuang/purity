@@ -1,15 +1,18 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
+import router from './router'
+
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-// import 'normalize.css'
+import 'normalize.css'
 
-import ZhButton from './components/zh-button/zh-button.vue'
-console.log(ZhButton);
-
+import CustomComponent from './components'
 
 const app = createApp(App)
 app.use(ElementPlus)
-app.component('zh-button', ZhButton)
+app.use(CustomComponent)
+app.use(router)
 app.mount('#app')
+
+console.log(import.meta.env);

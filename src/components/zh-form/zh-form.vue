@@ -1,5 +1,5 @@
 <template>
-  <el-button :id="id" type="primary" size="medium">6666{{data}}</el-button>
+  <el-button :id="id" type="primary" size="medium">{{data}}</el-button>
 </template>
 
 <script setup lang="ts">
