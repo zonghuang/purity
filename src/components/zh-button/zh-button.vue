@@ -1,11 +1,17 @@
 <template>
-  <el-button :id="id" type="primary" size="medium">{{data}}</el-button>
+  <div class="zh-button">
+    <el-button :id="uuid" :type="propConfig.type" size="medium">
+      {{propValue}}
+      <slot></slot>
+    </el-button>
+  </div>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  id: string,
-  data: string,
+  uuid: string,
+  propValue: string,
+  propConfig: any
 }>()
 </script>
 

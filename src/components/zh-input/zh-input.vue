@@ -1,13 +1,14 @@
 <template>
-  <el-input :id="id" v-model="a" :placeholder="data" />
+  <el-input :uuid="uuid" v-model="propValue" :placeholder="propConfig.placeholder" />
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 
 defineProps<{
-  id: string,
-  data: string
+  uuid: string,
+  propValue: string
+  propConfig: any
 }>()
 
 const a = ref(0)

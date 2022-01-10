@@ -40,6 +40,7 @@
     .image {
       width: 100px;
       height: 65px;
+      border-radius: 4px;
     }
   }
 }

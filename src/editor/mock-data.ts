@@ -1,0 +1,252 @@
+import { IElement, ILib, IPage } from "./interface"
+import { componentsConfig } from "../components";
+
+// 测试无限层渲染数据
+export const loopElements: IElement[] = [
+  {
+    uuid: 's001',
+    name: 'zh-container',
+    style: { position: 'absolute' },
+    events: [],
+    propValue: 'page',
+    propConfig: { k: 'kk'},
+    childrens: [
+      {
+        uuid: 's002',
+        name: 'zh-input',
+        style: { width: '200px' },
+        events: [],
+        propValue: "zonghuang",
+        propConfig: { placeholder: '请输入' },
+        animations: [],
+        childrens: []
+      },
+      {
+        uuid: "s003",
+        name: "zh-button",
+        style: {},
+        events: [],
+        propValue: "提交",
+        propConfig: {},
+        animations: [],
+        childrens: [
+          {
+            uuid: "s008",
+            name: 'zh-button',
+            style: {},
+            events: [],
+            propValue: "嵌套按钮",
+            propConfig: { type: 'success' },
+            animations: [],
+            childrens: []
+          }
+        ]
+      },
+      {
+        uuid: "s010",
+        name: 'zh-container',
+        style: {},
+        events: [],
+        propValue: "容器",
+        propConfig: {},
+        animations: [],
+        childrens: [
+          {
+            uuid: "s0101",
+            name: "zh-container",
+            style: {},
+            events: [],
+            propValue: "子容器1",
+            propConfig: {},
+            animations: [],
+            childrens: []
+          },
+          {
+            uuid: "s0102",
+            name: "zh-container",
+            style: {},
+            events: [],
+            propValue: "子容器2",
+            propConfig: {},
+            animations: [],
+            childrens: [
+              {
+                uuid: "s01021",
+                name: "zh-container",
+                style: {},
+                events: [],
+                propValue: "孙容器1",
+                propConfig: {},
+                animations: [],
+                childrens: [
+                  {
+                    uuid: "s010211",
+                    name: "zh-container",
+                    style: {},
+                    events: [],
+                    propValue: "曾孙容器1",
+                    propConfig: {},
+                    animations: [],
+                    childrens: []
+                  },
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+];
+
+// 组件库列表
+export const componentLibs: ILib[] = [
+  {
+    label: '基础组件',
+    name: 'basic',
+    children: [
+      {
+        label: '文本',
+        name: 'text',
+        children: [
+          { label: '容器', name: 'zh-container', icon: '' },
+          { label: '文本', name: 'zh-text', icon: '' },
+          { label: '链接', name: 'zh-link', icon: '' },
+          { label: 'html', name: 'zh-html', icon: '' }
+        ]
+      },
+      {
+        label: '按钮',
+        name: 'button',
+        children: [
+          { label: '按钮', name: 'zh-button', icon: '' }
+        ]
+      },
+      {
+        label: '输入',
+        name: 'input',
+        children: [
+          { label: '输入框', name: 'zh-input', icon: '' },
+          { label: '密码框', name: 'zh-password', icon: '' },
+          { label: '复合型输入框', name: 'zh-mixed', icon: '' },
+          { label: '数字输入框', name: 'zh-number', icon: '' },
+          { label: '多行文本框', name: 'zh-textarea', icon: '' },
+        ]
+      },
+      {
+        label: '选择',
+        name: 'select',
+        children: [
+          { label: '开关', name: 'zh-switch', icon: '' },
+          { label: '单选框', name: 'zh-radio', icon: '' },
+          { label: '多选框', name: 'zh-checkbox', icon: '' },
+          { label: '下拉选择器', name: 'zh-select', icon: '' },
+          { label: '级联选择器', name: 'zh-cascader', icon: '' },
+          { label: '时间选择', name: 'zh-time-select', icon: '' },
+          { label: '时间选择器', name: 'zh-time-picker', icon: '' },
+          { label: '日期选择器', name: 'zh-date-picker', icon: '' },
+          { label: '日期时间选择器', name: 'zh-date-time-picker', icon: '' },
+          { label: '评分', name: 'zh-rate', icon: '' },
+          { label: '取色', name: 'zh-color', icon: '' },
+          { label: '滑块', name: 'zh-slider', icon: '' },
+          { label: '穿梭框', name: 'zh-transfer', icon: '' },
+          { label: '树', name: 'zh-tree', icon: '' },
+        ]
+      },
+    ]
+  },
+  {
+    label: '媒体组件',
+    name: 'media',
+    children: [
+      {
+        label: '媒体组件',
+        name: 'media',
+        children: [
+          { label: '图标', name: 'zh-icon', icon: '' },
+          { label: '图片', name: 'zh-picture', icon: '' },
+          { label: '视频', name: 'zh-video', icon: '' },
+          { label: '音频', name: 'zh-audio', icon: '' },
+          { label: '上传', name: 'zh-upload', icon: '' }
+        ]
+      }
+    ]
+  },
+  {
+    label: '容器组件',
+    name: 'container',
+    children: [
+      {
+        label: '常用',
+        name: 'general',
+        children: [
+          { label: '容器', name: 'zh-container', icon: '' },
+          { label: '布局', name: 'zh-layout', icon: '' },
+          { label: '表单', name: 'zh-form', icon: '' },
+          { label: '标签页', name: 'zh-tabs', icon: '' },
+          { label: '对话框', name: 'zh-dialog', icon: '' },
+          { label: '抽屉', name: 'zh-drawer', icon: '' },
+          { label: '工具栏', name: 'zh-toolbar', icon: '' },
+        ]
+      }
+    ]
+  },
+  {
+    label: '图表',
+    name: 'chart',
+    children: [
+      {
+        label: '图表',
+        name: 'chart',
+        children: [
+          { label: '表格', name: 'zh-table', icon: '' }
+        ]
+      }
+    ]
+  },
+  {
+    label: '流程',
+    name: 'workflow',
+    children: []
+  },
+  {
+    label: '业务',
+    name: 'business',
+    children: []
+  },
+  {
+    label: '自定义',
+    name: 'custom',
+    children: []
+  },
+]
+
+// 组件的默认数据
+export { componentsConfig }
+
+// 所有页数据
+export const pages: IPage[] = [
+  {
+    id: 'p1',
+    name: '首页',
+    elements: [],
+    settings: {}
+  },
+  {
+    id: 'p2',
+    name: '详情页',
+    elements: [],
+    settings: {}
+  }
+]
+
+// 当前页数据
+export const currentPage: IPage = {
+  id: 'p1',
+  name: '首页',
+  elements: [],
+  settings: {}
+}
+
+// 当前组件
+export const currentComponent: IElement | null = null

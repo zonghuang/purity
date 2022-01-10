@@ -1,5 +1,5 @@
 <template>
-  <div class="editor">
+  <div class="editor" v-for="page in pages" :key="page.id" v-show="page.id === currentPageId">
     <aside class="lib-layer">
       <el-tabs v-model="activeLib" @tab-click="handleClick">
         <el-tab-pane label="组件库" name="lib">
@@ -13,17 +13,17 @@
 
     <main class="edit-center">
       <top-toolbar></top-toolbar>
-      <!-- <div class="coord">x: {{ offset.x }} y: {{ offset.y }}</div> -->
       <div class="edit-area">
         <modal-list></modal-list>
-        <canvas-container></canvas-container>
+        <canvas-container @moveMouse="handleMouseMove" @mousedown="onMousedown"></canvas-container>
         <aside-toolbar></aside-toolbar>
       </div>
+      <div class="coord">x: {{ store.state.coord.x }} y: {{ store.state.coord.y }}</div>
       <page-list></page-list>
     </main>
 
     <aside class="config-center">
-      <el-tabs v-model="activeLib" @tab-click="handleClick">
+      <el-tabs v-model="activeConfig" @tab-click="handleClick">
         <el-tab-pane label="属性" name="prop">
           <prop-config></prop-config>
         </el-tab-pane>
@@ -46,13 +46,30 @@
 
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useStore } from 'vuex'
+import { key } from './store'
+
+const currentPageId = computed(() => store.state.currentPage.id)
+const pages = computed(() => store.state.pages)
 
 const activeLib = ref('lib')
+const activeConfig = ref('prop')
 
 function handleClick(event: any) {
   console.log(event)
 }
+
+function handleMouseMove (coord: object) {
+  // console.log(coord);
+}
+
+const store = useStore(key)
+
+const onMousedown = (ev: MouseEvent) => {
+  
+}
+
 </script>
 
 
@@ -60,10 +77,14 @@ function handleClick(event: any) {
 .editor {
   display: flex;
   height: 100vh;
-  /* font-size: 12px; */
 
   .lib-layer {
     width: 250px;
+    // overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .edit-center {
@@ -73,6 +94,14 @@ function handleClick(event: any) {
     border-left: 1px solid #eee;
     border-right: 1px solid #eee;
 
+    .edit-area {
+      flex: 1;
+      display: flex;
+      padding: 20px 6px;
+      padding-bottom: 0px;
+      height: calc(100% - 152px);
+    }
+
     .coord {
       display: flex;
       align-items: center;
@@ -80,13 +109,9 @@ function handleClick(event: any) {
       text-align: right;
       font-size: 12px;
       height: 20px;
-    }
-
-    .edit-area {
-      flex: 1;
-      display: flex;
-      padding: 20px 8px;
-      // padding-top: 0px;
+      padding-top: 6px;
+      padding-right: 4px;
+      box-shadow: 0 1px 1px rgba(100,100,100,.1);
     }
   }
 
@@ -95,21 +120,22 @@ function handleClick(event: any) {
   }
 }
 
-::v-deep .el-tabs__header {
+:deep(.el-tabs__header) {
   margin: 0;
-  background: aliceblue;
+  box-shadow: 0 1px 1px rgba(100,100,100,.1);
 }
-::v-deep .el-tabs__nav {
+
+:deep(.el-tabs__nav) {
   display: flex;
   width: 100%;
   height: 45px;
 }
-::v-deep .el-tabs__item {
+:deep(.el-tabs__item) {
   padding: 0;
   flex: 1;
   text-align: center;
 }
-::v-deep .el-tabs__nav-wrap::after {
+:deep(.el-tabs__nav-wrap::after) {
   content: none;
 }
 </style>

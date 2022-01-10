@@ -1,71 +1,75 @@
 <template>
-  <div class="canvas-container" @mousemove="handleMouseMove">
-    <svg
-      class="grid"
-      width="100%"
-      height="100%"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <pattern
-          id="smallGrid"
-          width="7.236328125"
-          height="7.236328125"
-          patternUnits="userSpaceOnUse"
-        >
-          <path
-            d="M 7.236328125 0 L 0 0 0 7.236328125"
-            fill="none"
-            stroke="rgba(207, 207, 207, 0.3)"
-            stroke-width="1"
-          ></path>
-        </pattern>
-        <pattern
-          id="grid"
-          width="36.181640625"
-          height="36.181640625"
-          patternUnits="userSpaceOnUse"
-        >
-          <rect
-            width="36.181640625"
-            height="36.181640625"
-            fill="url(#smallGrid)"
-          ></rect>
-          <path
-            d="M 36.181640625 0 L 0 0 0 36.181640625"
-            fill="none"
-            stroke="rgba(186, 186, 186, 0.5)"
-            stroke-width="1"
-          ></path>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#grid)"></rect>
-    </svg>
+  <div
+    class="canvas-container"
+    @mousemove="onMousemove"
+    @mousedown="onMousedown"
+    @mouseup="onMouseup"
+    @dragover="onDragover"
+    @drop="onDrop"
+  >
+    <component-template :elements="elements" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { computed, onMounted } from "vue";
+import { useStore } from 'vuex'
+import { key } from '../store'
 
-const offset = reactive({ x: 0, y: 0 });
+const store = useStore(key)
+const emit = defineEmits(['moveMouse'])
 
-function handleMouseMove(e: any) {
-  // console.log(e.screenX, e.screenY);
-  // console.log(e.clientX, e.clientX);
-  // console.log(e.offsetX, e.offsetY);
-  offset.x = e.offsetX;
-  offset.y = e.offsetY;
+const elements = computed(() => store.state.currentPage.elements)
+
+onMounted(() => {
+  const canvas: any = document.querySelector('.canvas-container')
+  store.commit('setCanvasOffset', { x: canvas.offsetLeft, y: canvas.offsetTop })
+})
+
+const onMousemove = (ev: MouseEvent) => {
+  // console.log('mousemove');
+  store.commit('setCoord', { x: ev.offsetX, y: ev.offsetY})
+}
+
+const onMousedown = (ev: MouseEvent) => {
+  // console.log('mousedown');
+}
+
+const onMouseup = (ev: MouseEvent) => {
+  // console.log('mouseup');
+}
+
+const onDragover = (ev: DragEvent) => {
+  // console.log('dragover');
+  ev.preventDefault();
+}
+
+const onDrop = (ev: DragEvent) => {
+  // console.log('drop');
+  ev.preventDefault();
+
+  const componentName = ev.dataTransfer.getData('text/plain');
+  if (componentName.indexOf('-') !== -1) {
+    const { x, y } = store.state.dragBeforeDownOffset
+    const left = ev.offsetX - x
+    const top = ev.offsetY - y
+    const style = { left: left + 'px', top: top + 'px' }
+    const payload = { componentName, style }
+    store.commit('addComponent', payload)
+  } else {
+    // const payload = { componentId: componentName, style }
+    // store.commit('moveComponent', payload)
+  }
 }
 </script>
 
 <style scoped lang="less">
 .canvas-container {
+  position: relative;
   flex: 1;
-  padding: 0 8px;
-  /* border: 1px solid #f0f0f0; */
-  
-  .grid {
-    position: relative;
-  }
+  margin: 0 8px;
+  height: 100%;
+  overflow: scroll;
+  background-image: url('../assets/canvas.svg');
 }
 </style>

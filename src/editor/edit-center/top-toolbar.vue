@@ -1,22 +1,44 @@
 <template>
   <div class="top-toolbar">
     <ul class="platform">
-      <li>Mac</li>
-      <li>iPad</li>
-      <li>iPhone</li>
+      <el-tooltip content="Mac" placement="bottom-end">
+        <li><zh-svg name="mac" :isActive="true" /></li>
+      </el-tooltip>
+      
+      <el-tooltip content="iPad" placement="bottom-end">
+        <li><zh-svg name="ipad" /></li>
+      </el-tooltip>
+      
+      <el-tooltip content="iPhone" placement="bottom-end">
+        <li><zh-svg name="iphone" /></li>
+      </el-tooltip>
     </ul>
 
     <ul class="operation">
-      <li>撤销</li>
-      <li>重做</li>
-      <li>保存</li>
-      <li>导入</li>
-      <li>导出</li>
+      <el-tooltip content="撤销" placement="bottom-end">
+        <li><zh-svg name="undo" /></li>
+      </el-tooltip>
+      <el-tooltip content="重做" placement="bottom-end">
+        <li><zh-svg name="redo" /></li>
+      </el-tooltip>
+      <el-tooltip content="保存" placement="bottom-end">
+        <li><zh-svg name="save" /></li>
+      </el-tooltip>
+      <el-tooltip content="上传" placement="bottom-end">
+        <li><zh-svg name="upload" /></li>
+      </el-tooltip>
+      <el-tooltip content="下载" placement="bottom-end">
+        <li><zh-svg name="download" /></li>
+      </el-tooltip>    
     </ul>
 
     <ul class="publish">
-      <li>预览</li>
-      <li>发布</li>
+      <el-tooltip content="预览" placement="bottom-end">
+        <li><zh-svg name="preview" /></li>
+      </el-tooltip>
+      <el-tooltip content="发布" placement="bottom-end">
+        <li><zh-svg name="publish" /></li>
+      </el-tooltip>
     </ul>
   </div>
 </template>
@@ -29,8 +51,8 @@
 .top-toolbar {
   display: flex;
   align-items: center;
-  height: 45px;
-  background: aliceblue;
+  height: 44px;
+  box-shadow: 0 1px 1px rgba(100,100,100,.1);
 
   .platform {
     display: flex;

@@ -3,25 +3,24 @@
     v-for="element in elements"
     :key="element.uuid"
     :is="element.name"
-    :id="element.uuid"
+    :uuid="element.uuid"
     :style="element.style"
-    :config="element.config"
     :events="element.events"
-    :data="element.data"
+    :propValue="element.propValue"
+    :propConfig="element.propConfig"
     @update="handleUpdate"
     @action="handleAction"
     @click="handleClick(element)"
   >
-    {{element.data}}
     <Render v-if="element.childrens && element.childrens.length" :elements="element.childrens" />
   </component>
 </template>
 
 <script setup lang="ts">
-import { ElementT } from './element.type'
+import { IElement } from '../editor/interface'
 
 const props = defineProps<{
-  elements: any[],
+  elements: IElement[],
 }>()
 
 function handleUpdate() {
@@ -32,7 +31,7 @@ function handleAction() {
   console.log('action')
 }
 
-function handleClick(element: ElementT) {
+function handleClick(element: IElement) {
   console.log('click', element)
 }
 </script>
