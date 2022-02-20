@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { toRaw, InjectionKey } from 'vue'
 import { createStore, useStore as baseUseStore, Store } from 'vuex'
-import { IState, IPage, IComponentConfig, IElement, } from './interface'
+import { IState, IPage, IElement, } from './interface'
 import {
   componentsConfig,
   pages,
@@ -16,35 +16,28 @@ export const store = createStore<IState>({
     return {
       coord: { x: 0, y: 0 },
       canvasOffset: { x: 0, y: 0 },
-      dragBeforeDownOffset: { x: 0, y: 0 },
+      elementOffset: { x: 0, y: 0 },
       pages,
       currentPage,
       currentComponent,
-      componentsConfig,
     }
   },
   getters: {},
   mutations: {
     // 鼠标位置
     setCoord(state, payload) {
-      const { x, y } = payload
-      state.coord.x = x
-      state.coord.x = y
+      state.coord = { ...payload }
     },
     // 画布偏移量
     setCanvasOffset(state, payload) {
-      const { x, y } = payload
-      state.canvasOffset.x = x
-      state.canvasOffset.y = y
+      state.canvasOffset = { ...payload }
     },
-    // 记录拖拽前鼠标按下时的（相对自身）偏移量
-    dragstartMousedown(state, payload) {
-      const { x, y } = payload
-      state.dragBeforeDownOffset.x = x
-      state.dragBeforeDownOffset.y = y
+    // 记录拖拽前鼠标按下时，元素（相对于自身的）偏移量
+    setElementOffset(state, payload) {
+      state.elementOffset = { ...payload }
     },
 
-    // 新建页、删除页、保存页面、改变选择页
+    // 新建页、删除页、保存页、选择页
     createPage(state) {
       const num = state.pages.length + 1
       const pageId = 'p' + num
@@ -82,13 +75,11 @@ export const store = createStore<IState>({
 
     // 新增、移动、删除
     addComponent(state, payload) {
-      const { componentName, style } = payload 
-      const componentsConfig = toRaw(state.componentsConfig)
-      state.currentComponent = _.cloneDeep(componentsConfig[componentName])
-      
+      const { name, style } = payload
+      state.currentComponent = _.cloneDeep(componentsConfig[name])
       state.currentComponent.uuid = String(new Date().getTime())
       store.commit('setComponentStyle', { component: state.currentComponent, style })
-      state.currentPage.elements.push(state.currentComponent)      
+      state.currentPage.elements.push(state.currentComponent)
     },
     moveComponent(state, payload) {
       const { componentId, style } = payload
@@ -96,6 +87,14 @@ export const store = createStore<IState>({
     },
     deleteComponent(state, uuid) {
 
+    },
+
+    // 添加子组件
+    addChildComponent(state, payload) {
+      const { style } = payload
+      const component = _.cloneDeep(state.currentComponent)
+      component.propValue = '按钮' + new Date().getTime()
+      state.currentPage.elements[0].childrens.push(component)
     },
 
     // 设置组件样式

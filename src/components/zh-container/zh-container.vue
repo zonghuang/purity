@@ -1,12 +1,15 @@
 <template>
   <div class="zh-container">
-    容器
+    容器{{uuid}}
     <slot></slot>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{ propValue: string }>()
+defineProps<{
+  propValue: string
+  uuid: string
+}>()
 </script>
 
 <style scoped>

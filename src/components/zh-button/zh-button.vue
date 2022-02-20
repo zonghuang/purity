@@ -1,6 +1,6 @@
 <template>
   <div class="zh-button">
-    <el-button :id="uuid" :type="propConfig.type" size="medium">
+    <el-button :type="propConfig.type" size="medium">
       {{propValue}}
       <slot></slot>
     </el-button>

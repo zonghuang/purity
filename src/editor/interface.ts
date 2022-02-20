@@ -1,6 +1,7 @@
 export interface IElement {
   uuid: string
   name: string
+  type?: string
   style: object
   events?: object[]
   propValue: any
@@ -11,11 +12,6 @@ export interface IElement {
 
 export interface IComponentConfig {
   [key: string]: IElement
-}
-
-export interface IPagination {
-  id: string
-  name: string
 }
 
 export interface ILib {
@@ -33,11 +29,10 @@ export interface ICoord {
 export interface IState {
   coord: ICoord
   canvasOffset: ICoord
-  dragBeforeDownOffset: ICoord
+  elementOffset: ICoord
   pages: IPage[]
   currentPage: IPage
   currentComponent: IElement | null
-  componentsConfig: IComponentConfig
 }
 
 export interface IPage {

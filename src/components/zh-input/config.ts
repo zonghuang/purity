@@ -7,6 +7,5 @@ export default {
   propConfig: {
     placeholder: '请输入'
   },
-  animations: [],
-  childrens: []
+  animations: []
 }

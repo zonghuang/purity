@@ -6,6 +6,7 @@ export const loopElements: IElement[] = [
   {
     uuid: 's001',
     name: 'zh-container',
+    type: 'container',
     style: { position: 'absolute' },
     events: [],
     propValue: 'page',
@@ -14,6 +15,7 @@ export const loopElements: IElement[] = [
       {
         uuid: 's002',
         name: 'zh-input',
+        
         style: { width: '200px' },
         events: [],
         propValue: "zonghuang",
@@ -45,6 +47,7 @@ export const loopElements: IElement[] = [
       {
         uuid: "s010",
         name: 'zh-container',
+        type: 'container',
         style: {},
         events: [],
         propValue: "容器",
@@ -54,6 +57,7 @@ export const loopElements: IElement[] = [
           {
             uuid: "s0101",
             name: "zh-container",
+            type: 'container',
             style: {},
             events: [],
             propValue: "子容器1",
@@ -64,6 +68,7 @@ export const loopElements: IElement[] = [
           {
             uuid: "s0102",
             name: "zh-container",
+            type: 'container',
             style: {},
             events: [],
             propValue: "子容器2",
@@ -73,6 +78,7 @@ export const loopElements: IElement[] = [
               {
                 uuid: "s01021",
                 name: "zh-container",
+                type: 'container',
                 style: {},
                 events: [],
                 propValue: "孙容器1",
@@ -82,6 +88,7 @@ export const loopElements: IElement[] = [
                   {
                     uuid: "s010211",
                     name: "zh-container",
+                    type: 'container',
                     style: {},
                     events: [],
                     propValue: "曾孙容器1",
@@ -98,6 +105,119 @@ export const loopElements: IElement[] = [
     ]
   }
 ];
+
+export const loopElements1: IElement[] = [
+  {
+    uuid: 's001',
+    name: 'zh-container',
+    type: 'container',
+    style: { margin: 0, padding: 0, width: '100%', height: '600px', background: '#ccc', border: 'none' },
+    events: [],
+    propValue: 'page',
+    propConfig: { k: 'kk'},
+    childrens: [
+      {
+        uuid: "s0077-inlineNoncontainer",
+        name: "zh-button",
+        
+        style: { display: 'inline-block' },
+        events: [],
+        propValue: "inlineNoncontainer",
+        propConfig: {}
+      },
+      {
+        uuid: "s007-inlineNoncontainer",
+        name: "zh-button",
+        
+        style: { display: 'inline-block' },
+        events: [],
+        propValue: "按钮-inlineNoncontainer",
+        propConfig: {}
+      },
+      {
+          uuid: "s003-blockNoncontainer",
+          name: "zh-input",
+          
+          style: { width: '100%' },
+          events: [],
+          propValue: "请输入-blockNoncontainer",
+          propConfig: {}
+      },
+      {
+        uuid: 's2',
+        name: 'zh-container',
+        type: 'container',
+        style: { display: 'block', position: 'relative' },
+        events: [],
+        propValue: 'page',
+        propConfig: { k: 'kk'},
+        childrens: [
+          {
+            uuid: 's002容器inlineContainer',
+            name: 'zh-container',
+            type: 'container',
+            style: { display: 'inline-block', width: '250px', height: '150px', background: 'pink' },
+            events: [],
+            propValue: 'page',
+            propConfig: { k: 'kk'},
+            childrens: []
+          },
+          {
+            uuid: 's0025-容器-inlineContainer',
+            name: 'zh-container',
+            type: 'container',
+            style: { display: 'inline-block', width: '300px', height: '150px', background: 'blue' },
+            events: [],
+            propValue: 'page',
+            propConfig: { k: 'kk'},
+            childrens: []
+          },
+        ]
+      },
+      {
+        uuid: 's002容器inlineContainer换个风格',
+        name: 'zh-container',
+        type: 'container',
+        style: { display: 'inline-block', width: '400px', height: '150px', background: 'pink' },
+        events: [],
+        propValue: 'page',
+        propConfig: { k: 'kk'},
+        childrens: []
+      },
+      {
+        uuid: 's0025-容器-inlineContainer',
+        name: 'zh-container',
+        type: 'container',
+        style: { display: 'inline-block', width: '300px', height: '150px', background: 'blue' },
+        events: [],
+        propValue: 'page',
+        propConfig: { k: 'kk'},
+        childrens: []
+      },
+      {
+        uuid: 's0083-容器-blockContainer',
+        name: 'zh-container',
+        type: 'container',
+        style: { width: '100%', height: '50px', background: '#888' },
+        events: [],
+        propValue: 'page',
+        propConfig: { k: 'kk'},
+        childrens: []
+      },
+      {
+        uuid: 's008-容器-blockContainer',
+        name: 'zh-container',
+        type: 'container',
+        style: { width: '100%', height: '80px', background: '#eee' },
+        events: [],
+        propValue: 'page',
+        propConfig: { k: 'kk'},
+        childrens: []
+      },
+    ]
+  }
+]
+
 
 // 组件库列表
 export const componentLibs: ILib[] = [

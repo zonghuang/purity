@@ -1,5 +1,7 @@
 <template>
-  <el-input :uuid="uuid" v-model="propValue" :placeholder="propConfig.placeholder" />
+  <div class="zh-input">
+    <el-input :uuid="uuid" v-model="propValue" :placeholder="propConfig.placeholder" />
+  </div>
 </template>
 
 <script setup lang="ts">

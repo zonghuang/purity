@@ -5,6 +5,5 @@ export default {
   events: [],
   propValue: '下拉选择器',
   propConfig: {},
-  animations: [],
-  childrens: []
+  animations: []
 }

@@ -41,10 +41,10 @@ function handleChange(value: string) {
   console.log(value)
 }
 
-// 记录拖拽前鼠标按下时的（相对自身）偏移量
+// 记录拖拽前鼠标按下时，元素（相对于自身的）偏移量
 const onMousedown = (ev: MouseEvent) => {
-  const dragBeforeDownOffset = { x: ev.offsetX, y: ev.offsetY }
-  store.commit('dragstartMousedown', dragBeforeDownOffset)
+  const elementOffset = { x: ev.offsetX, y: ev.offsetY }
+  store.commit('setElementOffset', elementOffset)
 }
 
 const onDragstart = (ev: DragEvent) => {
