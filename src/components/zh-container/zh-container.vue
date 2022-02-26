@@ -7,14 +7,11 @@
 
 <script setup lang="ts">
 defineProps<{
-  propValue: string
   uuid: string
+  propValue: string
 }>()
 </script>
 
 <style scoped>
-.zh-container {
-  /* padding: 10px; */
-  /* border: 1px solid #ccc; */
-}
+
 </style>

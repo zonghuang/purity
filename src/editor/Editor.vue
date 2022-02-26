@@ -15,10 +15,10 @@
       <top-toolbar></top-toolbar>
       <div class="edit-area">
         <modal-list></modal-list>
-        <canvas-container @moveMouse="handleMouseMove" @mousedown="onMousedown"></canvas-container>
+        <canvas-container></canvas-container>
         <aside-toolbar></aside-toolbar>
       </div>
-      <div class="coord">x: {{ store.state.coord.x }} y: {{ store.state.coord.y }}</div>
+      <div class="coord">x: 0 y: 0</div>
       <page-list></page-list>
     </main>
 
@@ -46,30 +46,22 @@
 
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { useStore } from 'vuex'
-import { key } from './store'
+import { ref, computed, onMounted } from "vue";
+import { useEditStore } from './store/edit'
 
-const currentPageId = computed(() => store.state.currentPage.id)
-const pages = computed(() => store.state.pages)
-
+const editStore = useEditStore()
 const activeLib = ref('lib')
 const activeConfig = ref('prop')
+const pages = computed(() => editStore.pages)
+const currentPageId = computed(() => editStore.currentPage.id)
+
+onMounted(() => {
+  editStore.fetchConfig('1')
+})
 
 function handleClick(event: any) {
   console.log(event)
 }
-
-function handleMouseMove (coord: object) {
-  // console.log(coord);
-}
-
-const store = useStore(key)
-
-const onMousedown = (ev: MouseEvent) => {
-  
-}
-
 </script>
 
 
@@ -80,7 +72,6 @@ const onMousedown = (ev: MouseEvent) => {
 
   .lib-layer {
     width: 250px;
-    // overflow-y: scroll;
 
     &::-webkit-scrollbar {
       display: none;

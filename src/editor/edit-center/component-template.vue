@@ -6,7 +6,6 @@
     :key="element.uuid"
     v-for="element in elements"
     :style="shellStyle(element)"
-    :isContainer="element.childrens ? true : false"
     @dragstart="dragstart"
     @dragend="dragend"
     @dragenter="dragenter($event, element)"
@@ -41,32 +40,31 @@
 </template>
 
 <script setup lang="ts">
+import { reactive, ref } from 'vue'
 import { IElement } from '../interface'
-import { useStore } from 'vuex'
-import { key } from '../store'
-import { reactive } from 'vue'
-
-const store = useStore(key)
+import { useEditStore } from '../store/edit';
 
 const props = defineProps<{
   elements: IElement[]
 }>()
 
+const editStore = useEditStore()
+const line = reactive({ direction: '', slotPosition: '', style: {} })
 const draggedElement = reactive({ id: '', offsetX: 0, offsetY: 0 })
 const targetElement = reactive({ id: '', clientWidth: 0, clientHeight: 0, type: '' })
-const line = reactive({ direction: '', slotPosition: '', style: {} })
+let insertSeat = ''
 
 const dragstart = (ev: DragEvent) => {
   ev.stopPropagation()
   const { currentTarget, offsetX, offsetY } = ev
   const id = currentTarget.getAttribute('id')
-  Object.assign(draggedElement, { id, offsetX, offsetY } )
+  const data = `${id},${offsetX},${offsetY}`
+  Object.assign(draggedElement, { id, offsetX, offsetY })
   ev.effectAllowed = 'copyMove'
-  ev.dataTransfer.setData('text/plain', id)
+  ev.dataTransfer.setData('text/plain', data)
 }
 
 const dragend = (ev: DragEvent) => {
-  hideLine()
   ev.dataTransfer.clearData()
 }
 
@@ -94,7 +92,7 @@ const dragenter = (ev: DragEvent, element: IElement) => {
   Object.assign(targetElement, { id, clientWidth, clientHeight, type })
 }
 
-const dragleave = (ev: DragEvent) => {
+const dragleave = () => {
   hideLine()
 }
 
@@ -103,85 +101,120 @@ const dragover = (ev: DragEvent, element: IElement) => {
   ev.stopPropagation()
 
   if (!targetElement.id) return
-
   const { offsetX, offsetY } = ev
   const { id, clientWidth, clientHeight, type } = targetElement
 
   switch (type) {
     case 'inlineNoncontainer': {
       if (offsetX < (clientWidth / 2)) {
+        insertSeat = 'previous'
         setLine('vertical', 'previous', 1, clientHeight)
-        // console.log('previous -> left')
       } else {
         setLine('vertical', 'next', 1, clientHeight)
-        // console.log('next -> right')
       }
       break
     }
-    
+
     case 'blockNoncontainer': {
       if (offsetY < clientHeight / 2) {
+        insertSeat = 'previous'
         setLine('horizontal', 'previous', clientWidth, 1)
-        // console.log('previous -> up')
       } else {
+        insertSeat = 'next'
         setLine('horizontal', 'next', clientWidth, 1)
-        // console.log('next -> down')
       }
       break
     }
-    
+
     case 'inlineContainer': {
       if (offsetX < 20) {
+        insertSeat = 'previous'
         setLine('vertical', 'previous', 1, clientHeight)
-        // console.log('previous -> left')
       } else if (offsetX > clientWidth - 20) {
+        insertSeat = 'next'
         setLine('vertical', 'next', 1, clientHeight)
-        // console.log('next -> right')
       } else {
+        insertSeat = 'inside'
         hideLine()
-        // console.log('children -> center')
       }
       break
     }
-    
+
     case 'blockContainer': {
       line.style = { width: clientWidth + 'px', height: '1px' }
       if (offsetY < 20) {
+        insertSeat = 'previous'
         setLine('horizontal', 'previous', clientWidth, 1)
-        // console.log('previous -> up')
       } else if (offsetY > clientHeight - 20) {
+        insertSeat = 'next'
         setLine('horizontal', 'next', clientWidth, 1)
-        // console.log('next -> down')
       } else {
+        insertSeat = 'inside'
         hideLine()
-        // console.log('children -> center')
       }
       break
     }
-  
+
     default:
       break;
   }
 }
 
 const drop = (ev: DragEvent) => {
+  hideLine()
   ev.preventDefault()
   ev.stopPropagation()
-  hideLine()
+
+  const data = ev.dataTransfer.getData('text/plain')
+
+  if (data.includes('isNew')) {
+    const [name, offsetX, offsetY] = data.split(',')
+    console.log(ev.offsetX, ev.offsetY, offsetX, offsetY);
+    const payload = { name, offsetX, offsetY }
+    editStore.addComponent(payload)
+    if (editStore.currentComponent.style?.position) {
+      const left = ev.offsetX - Number(offsetX)
+      const top = ev.offsetY - Number(offsetY)
+      const style = { left: left + 'px', top: top + 'px' }
+      editStore.setComponentStyle(style)
+    }
+    if (insertSeat === 'previous') editStore.insertBefore(editStore.currentPage.elements, targetElement.id)
+    if (insertSeat === 'next') editStore.insertAfter(editStore.currentPage.elements, targetElement.id)
+    if (insertSeat === 'inside') editStore.insertChild(editStore.currentPage.elements, targetElement.id)
+  
+  } else {
+    const [uuid, offsetX, offsetY] = data.split(',')
+    console.log(uuid, ev.offsetX, ev.offsetY, offsetX, offsetY);
+    
+    if (ev.currentTarget.getAttribute('id') === uuid) return
+    editStore.setComponent(editStore.currentPage.elements, uuid)
+    editStore.deleteComponent(editStore.currentPage.elements, uuid)
+    if (editStore.currentComponent.style?.position) {
+      // const canvas: any = document.querySelector('.canvas-container')
+      // const x = canvas.offsetLeft
+      // const y = canvas.offsetTop
+      console.log(insertSeat);
+      const left = ev.offsetX - Number(offsetX)
+      const top = ev.offsetY - Number(offsetY)
+      const style = { left: left + 'px', top: top + 'px' }
+      editStore.setComponentStyle(style)
+    }
+    if (insertSeat === 'previous') editStore.insertBefore(editStore.currentPage.elements, targetElement.id)
+    if (insertSeat === 'next') editStore.insertAfter(editStore.currentPage.elements, targetElement.id)
+    if (insertSeat === 'inside') editStore.insertChild(editStore.currentPage.elements, targetElement.id)
+  }
 }
 
 const setLine = (direction: string, slotPosition: string, width: number, height: number) => {
-  Object.assign(line, {
-    direction,
-    slotPosition,
-    style: { width: width + 'px', height: height + 'px'}
-  })
+  const style =  { width: width + 'px', height: height + 'px'}
+  Object.assign(line, { direction, slotPosition, style })
 }
 const hideLine = () => {
   Object.assign(line, { direction: '', slotPosition: '', style: {} })
 }
 const shellStyle = (element: IElement) => {
-  return { display: element.style.display }
+  const { display, width, height } = element.style
+  return { display, width, height }
 }
 </script>
 
@@ -190,10 +223,9 @@ const shellStyle = (element: IElement) => {
   pointer-events: none;
 }
 .shell {
-  cursor: move;
   margin: 1px;
+  cursor: move;
 }
-
 .component {
   border: 1px dashed red;
 }

@@ -14,24 +14,23 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useStore } from 'vuex'
-import { key } from '../store'
+import { useEditStore } from '../store/edit'
 
-const store = useStore(key)
+const editStore = useEditStore()
 
-const currentPageId = computed(() => store.state.currentPage.id)
+const currentPageId = computed(() => editStore.currentPage.id)
 const pageList = computed(() =>
-  store.state.pages.map(item => {
-    return { id: item.id, name: item.name }
+  editStore.pages.map(page => {
+    return { id: page.id, name: page.name }
   })
 )
 
 function createPage() {
-  store.commit('createPage')
+  editStore.createPage()
 }
 
 function changePage(pageId: string) {
-  store.commit('changePage', pageId)
+  editStore.changePage(pageId)
 }
 </script>
 

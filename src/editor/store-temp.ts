@@ -9,6 +9,8 @@ import {
   currentComponent,
 } from './mock-data'
 
+import { createPinia } from 'pinia'
+
 export const key: InjectionKey<Store<IState>> = Symbol()
 
 export const store = createStore<IState>({

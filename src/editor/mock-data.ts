@@ -117,7 +117,7 @@ export const loopElements1: IElement[] = [
     propConfig: { k: 'kk'},
     childrens: [
       {
-        uuid: "s0077-inlineNoncontainer",
+        uuid: "s0077inlineNoncontainer",
         name: "zh-button",
         
         style: { display: 'inline-block' },
@@ -126,7 +126,7 @@ export const loopElements1: IElement[] = [
         propConfig: {}
       },
       {
-        uuid: "s007-inlineNoncontainer",
+        uuid: "s007inlineNoncontainer",
         name: "zh-button",
         
         style: { display: 'inline-block' },
@@ -135,7 +135,7 @@ export const loopElements1: IElement[] = [
         propConfig: {}
       },
       {
-          uuid: "s003-blockNoncontainer",
+          uuid: "s003blockNoncontainer",
           name: "zh-input",
           
           style: { width: '100%' },
@@ -163,7 +163,7 @@ export const loopElements1: IElement[] = [
             childrens: []
           },
           {
-            uuid: 's0025-容器-inlineContainer',
+            uuid: 's0025容器inlineContainer',
             name: 'zh-container',
             type: 'container',
             style: { display: 'inline-block', width: '300px', height: '150px', background: 'blue' },
@@ -185,7 +185,7 @@ export const loopElements1: IElement[] = [
         childrens: []
       },
       {
-        uuid: 's0025-容器-inlineContainer',
+        uuid: 's0025容器inlineContainer1',
         name: 'zh-container',
         type: 'container',
         style: { display: 'inline-block', width: '300px', height: '150px', background: 'blue' },
@@ -195,7 +195,7 @@ export const loopElements1: IElement[] = [
         childrens: []
       },
       {
-        uuid: 's0083-容器-blockContainer',
+        uuid: 's0083容器blockContainer',
         name: 'zh-container',
         type: 'container',
         style: { width: '100%', height: '50px', background: '#888' },
@@ -205,14 +205,25 @@ export const loopElements1: IElement[] = [
         childrens: []
       },
       {
-        uuid: 's008-容器-blockContainer',
+        uuid: 's008容器blockContainer',
         name: 'zh-container',
         type: 'container',
         style: { width: '100%', height: '80px', background: '#eee' },
         events: [],
         propValue: 'page',
         propConfig: { k: 'kk'},
-        childrens: []
+        childrens: [
+          {
+            uuid: 's0083容器999',
+            name: 'zh-container',
+            type: 'container',
+            style: { width: '80%', height: '40px', background: '#888' },
+            events: [],
+            propValue: 'page',
+            propConfig: { k: 'kk'},
+            childrens: []
+          }
+        ]
       },
     ]
   }
@@ -349,15 +360,15 @@ export const pages: IPage[] = [
   {
     id: 'p1',
     name: '首页',
-    elements: [],
+    elements: loopElements1,
     settings: {}
   },
-  {
-    id: 'p2',
-    name: '详情页',
-    elements: [],
-    settings: {}
-  }
+  // {
+  //   id: 'p2',
+  //   name: '详情页',
+  //   elements: [],
+  //   settings: {}
+  // }
 ]
 
 // 当前页数据

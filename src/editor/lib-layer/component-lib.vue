@@ -13,10 +13,10 @@
             <li
               v-for="component in item.children"
               :key="component.name"
-              :id="component.name"
+              :name="component.name"
               draggable="true"
-              @mousedown="onMousedown"
-              @dragstart="onDragstart"
+              @mousedown="mousedown"
+              @dragstart="dragstart"
             >
               {{ component.label }}
             </li>
@@ -29,11 +29,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useStore } from 'vuex'
-import { key } from '../store'
 import { componentLibs } from '../mock-data';
 
-const store = useStore(key)
 const libs = ref(componentLibs)
 
 const activeNames = ref(['basic'])
@@ -42,13 +39,20 @@ function handleChange(value: string) {
 }
 
 // 记录拖拽前鼠标按下时，元素（相对于自身的）偏移量
-const onMousedown = (ev: MouseEvent) => {
+const mousedown = (ev: MouseEvent) => {
   const elementOffset = { x: ev.offsetX, y: ev.offsetY }
-  store.commit('setElementOffset', elementOffset)
 }
 
-const onDragstart = (ev: DragEvent) => {
-  ev.dataTransfer.setData('text/plain', ev.target.id)
+const dragstart = (ev: DragEvent) => {
+  const { currentTarget, offsetX, offsetY } = ev
+  const name = currentTarget.getAttribute('name')
+  const data = `${name},${offsetX},${offsetY},isNew`
+  ev.effectAllowed = 'copyMove'
+  ev.dataTransfer.setData('text/plain', data)
+}
+
+const dragend = (ev: DragEvent) => {
+  ev.dataTransfer.clearData()
 }
 </script>
 

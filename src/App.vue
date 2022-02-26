@@ -1,16 +1,9 @@
 <template>
   <router-view></router-view>
-  <!-- <Render :elements="elements" /> -->
-  <!-- <lyy-btn></lyy-btn> -->
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 
-import { IElement } from "./editor/interface";
-import { loopElements } from "./editor/mock-data";
-
-const elements = ref<IElement[]>(loopElements);
 </script>
 
 <style lang="less">
