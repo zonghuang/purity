@@ -6,6 +6,7 @@
     :key="element.uuid"
     v-for="element in elements"
     :style="shellStyle(element)"
+    @click="click($event, element)"
     @mousedown="mousedown"
     @dragstart="dragstart"
     @dragend="dragend"
@@ -22,7 +23,10 @@
  
     <component
       class="component"
-      :class="{ 'pointer-events': isPointerEvents(element), 'root-container': element.type === 'root' }"
+      :class="{ 'pointer-events': isPointerEvents(element), 
+                'root-container': element.type === 'root',
+                'active': editStore.currentComponent.uuid === element.uuid
+              }"
       :is="element.name"
       :uuid="element.uuid"
       :style="element.style"
@@ -55,6 +59,11 @@ const line = reactive({ direction: '', slotPosition: '', style: {} })
 const draggedElement = reactive({ id: '', offsetX: 0, offsetY: 0 })
 const targetElement = reactive({ id: '', clientWidth: 0, clientHeight: 0, type: '' })
 let insertSeat = ''
+
+const click = (ev: MouseEvent, element: IElement) => {
+  ev.stopPropagation()
+  editStore.currentComponent = element
+}
 
 const mousedown = (ev: MouseEvent) => {
   elementOffset.offsetX = ev.offsetX
@@ -117,6 +126,7 @@ const dragover = (ev: DragEvent, element: IElement) => {
         insertSeat = 'previous'
         setLine('vertical', 'previous', 1, clientHeight)
       } else {
+        insertSeat = 'next'
         setLine('vertical', 'next', 1, clientHeight)
       }
       break
@@ -192,8 +202,7 @@ const drop = (ev: DragEvent) => {
     editStore.deleteComponent(editStore.currentPage.elements, uuid)
     if (editStore.currentComponent.style?.position)
       setComponentPos(ev.pageX, ev.pageY, Number(offsetX), Number(offsetY))
-    if (insertSeat === 'previous')
-      editStore.insertBefore(editStore.currentPage.elements, targetElement.id)
+    if (insertSeat === 'previous') editStore.insertBefore(editStore.currentPage.elements, targetElement.id)
     if (insertSeat === 'next') editStore.insertAfter(editStore.currentPage.elements, targetElement.id)
     if (insertSeat === 'inside') editStore.insertChild(editStore.currentPage.elements, targetElement.id)
   }
@@ -233,6 +242,9 @@ const isPointerEvents = (element: IElement) => {
 }
 .component {
   border: 1px dashed red;
+}
+.active {
+  border: 1px solid #409eff;
 }
 .pointer-events {
   pointer-events: none;
