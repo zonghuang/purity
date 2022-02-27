@@ -1,11 +1,11 @@
 <template>
-  <div id="canvas-container"  class="canvas-container">
+  <div id="canvas-container" class="canvas-container">
     <component-template :elements="elements" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useEditStore } from '../store/edit'
 import { IElement } from "../interface"
 
@@ -20,6 +20,6 @@ const elements: IElement = computed(() => editStore.currentPage.elements)
   margin: 0 8px;
   height: 100%;
   overflow: scroll;
-  background-image: url('../assets/image/canvas.svg');
+  // background-image: url('../assets/image/canvas.svg');
 }
 </style>

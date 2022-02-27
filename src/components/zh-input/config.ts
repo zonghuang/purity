@@ -1,7 +1,7 @@
 export default {
   uuid: 's004',
   name: 'zh-input',
-  style: { position: 'absolute', width: '200px' },
+  style: { width: '200px' },
   events: [],
   propValue: '',
   propConfig: {

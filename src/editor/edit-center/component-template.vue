@@ -6,6 +6,7 @@
     :key="element.uuid"
     v-for="element in elements"
     :style="shellStyle(element)"
+    @mousedown="mousedown"
     @dragstart="dragstart"
     @dragend="dragend"
     @dragenter="dragenter($event, element)"
@@ -21,7 +22,7 @@
  
     <component
       class="component"
-      :class="{ 'pointer-events': element.type !== 'container' }"
+      :class="{ 'pointer-events': isPointerEvents(element), 'root-container': element.type === 'root' }"
       :is="element.name"
       :uuid="element.uuid"
       :style="element.style"
@@ -40,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 import { IElement } from '../interface'
 import { useEditStore } from '../store/edit';
 
@@ -49,14 +50,21 @@ const props = defineProps<{
 }>()
 
 const editStore = useEditStore()
+const elementOffset = reactive({ offsetX: 0, offsetY: 0 })
 const line = reactive({ direction: '', slotPosition: '', style: {} })
 const draggedElement = reactive({ id: '', offsetX: 0, offsetY: 0 })
 const targetElement = reactive({ id: '', clientWidth: 0, clientHeight: 0, type: '' })
 let insertSeat = ''
 
+const mousedown = (ev: MouseEvent) => {
+  elementOffset.offsetX = ev.offsetX
+  elementOffset.offsetY = ev.offsetY
+}
+
 const dragstart = (ev: DragEvent) => {
   ev.stopPropagation()
-  const { currentTarget, offsetX, offsetY } = ev
+  const { currentTarget } = ev
+  const { offsetX, offsetY } = elementOffset
   const id = currentTarget.getAttribute('id')
   const data = `${id},${offsetX},${offsetY}`
   Object.assign(draggedElement, { id, offsetX, offsetY })
@@ -73,14 +81,13 @@ const dragenter = (ev: DragEvent, element: IElement) => {
   ev.stopPropagation()
 
   if (ev.currentTarget.getAttribute('id') === draggedElement.id) {
-    targetElement.id = ''
     hideLine()
     return
   }
 
   const { currentTarget, currentTarget: { clientWidth, clientHeight } } = ev
   const id = currentTarget.getAttribute('id')
-  const isContainer = element.type === 'container'
+  const isContainer = element.type === 'container' || element.type === 'root'
   const { display = '', flexDirection } = element.style
   const isInline = display.includes('inline') || (display === 'flex' && flexDirection === 'row')
   
@@ -169,40 +176,34 @@ const drop = (ev: DragEvent) => {
 
   if (data.includes('isNew')) {
     const [name, offsetX, offsetY] = data.split(',')
-    console.log(ev.offsetX, ev.offsetY, offsetX, offsetY);
     const payload = { name, offsetX, offsetY }
     editStore.addComponent(payload)
-    if (editStore.currentComponent.style?.position) {
-      const left = ev.offsetX - Number(offsetX)
-      const top = ev.offsetY - Number(offsetY)
-      const style = { left: left + 'px', top: top + 'px' }
-      editStore.setComponentStyle(style)
-    }
+    if (editStore.currentComponent.style?.position)
+      setComponentPos(ev.pageX, ev.pageY, Number(offsetX), Number(offsetY))
     if (insertSeat === 'previous') editStore.insertBefore(editStore.currentPage.elements, targetElement.id)
     if (insertSeat === 'next') editStore.insertAfter(editStore.currentPage.elements, targetElement.id)
     if (insertSeat === 'inside') editStore.insertChild(editStore.currentPage.elements, targetElement.id)
   
   } else {
     const [uuid, offsetX, offsetY] = data.split(',')
-    console.log(uuid, ev.offsetX, ev.offsetY, offsetX, offsetY);
     
     if (ev.currentTarget.getAttribute('id') === uuid) return
     editStore.setComponent(editStore.currentPage.elements, uuid)
     editStore.deleteComponent(editStore.currentPage.elements, uuid)
-    if (editStore.currentComponent.style?.position) {
-      // const canvas: any = document.querySelector('.canvas-container')
-      // const x = canvas.offsetLeft
-      // const y = canvas.offsetTop
-      console.log(insertSeat);
-      const left = ev.offsetX - Number(offsetX)
-      const top = ev.offsetY - Number(offsetY)
-      const style = { left: left + 'px', top: top + 'px' }
-      editStore.setComponentStyle(style)
-    }
-    if (insertSeat === 'previous') editStore.insertBefore(editStore.currentPage.elements, targetElement.id)
+    if (editStore.currentComponent.style?.position)
+      setComponentPos(ev.pageX, ev.pageY, Number(offsetX), Number(offsetY))
+    if (insertSeat === 'previous')
+      editStore.insertBefore(editStore.currentPage.elements, targetElement.id)
     if (insertSeat === 'next') editStore.insertAfter(editStore.currentPage.elements, targetElement.id)
     if (insertSeat === 'inside') editStore.insertChild(editStore.currentPage.elements, targetElement.id)
   }
+}
+
+const setComponentPos = (pageX: number, pageY: number, offsetX: number, offsetY: number) => {
+  const left = pageX - 365 - offsetX
+  const top = pageY - 64 - offsetY
+  const style = { left: left + 'px', top: top + 'px' }
+  editStore.setComponentStyle(style)
 }
 
 const setLine = (direction: string, slotPosition: string, width: number, height: number) => {
@@ -213,20 +214,30 @@ const hideLine = () => {
   Object.assign(line, { direction: '', slotPosition: '', style: {} })
 }
 const shellStyle = (element: IElement) => {
-  const { display, width, height } = element.style
-  return { display, width, height }
+  const { display = '' } = element.style
+  return element.type === 'root' ? { margin: 0, height: '100%' } 
+       : display.includes('inline') ? { display }
+       : {}
+}
+const isPointerEvents = (element: IElement) => {
+  const isAbsolutePos = element.style.position === 'absolute'
+  const isContainer = element.type == 'container' || element.type === 'root'
+  return isContainer || isAbsolutePos ? false : true
 }
 </script>
 
 <style scoped lang="less">
-.pointer-events {
-  pointer-events: none;
-}
 .shell {
   margin: 1px;
   cursor: move;
 }
 .component {
   border: 1px dashed red;
+}
+.pointer-events {
+  pointer-events: none;
+}
+.root-container {
+  height: calc(100% - 2px);
 }
 </style>

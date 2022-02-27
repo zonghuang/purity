@@ -35,7 +35,7 @@ export const useEditStore = defineStore({
       const name = 'page-' + num
       const rootContainer = _.cloneDeep(componentsConfig['zh-container'])
       rootContainer.uuid = String(new Date().getTime())
-      rootContainer.style = { width: '100%', height: '100%' }
+      rootContainer.type = 'root'
       this.pages.push({ id, name, elements: [rootContainer], settings: {} })
       this.changePage(id)
     },
