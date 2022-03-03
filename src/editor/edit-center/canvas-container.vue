@@ -20,6 +20,10 @@ const elements: IElement = computed(() => editStore.currentPage.elements)
   margin: 0 8px;
   height: 100%;
   overflow: scroll;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
   // background-image: url('../assets/image/canvas.svg');
 }
 </style>

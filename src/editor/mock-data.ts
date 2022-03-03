@@ -1,4 +1,4 @@
-import { IElement, ILib, IPage } from "./interface"
+import { IElement, ILib, IPage, ISnapshot } from "./interface"
 import { componentsConfig } from "../components";
 
 // 测试无限层渲染数据
@@ -360,7 +360,7 @@ export const pages: IPage[] = [
   {
     id: 'p1',
     name: '首页',
-    elements: loopElements1,
+    elements: [],
     settings: {}
   },
   // {
@@ -381,3 +381,10 @@ export const currentPage: IPage = {
 
 // 当前组件
 export const currentComponent: IElement | null = null
+
+// 当前快照
+export const snapshot: ISnapshot = {
+  id: 'p1',
+  index: -1,
+  List: []
+}

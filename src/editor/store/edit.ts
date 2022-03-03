@@ -1,12 +1,7 @@
 import _ from 'lodash';
 import { defineStore, acceptHMRUpdate } from "pinia";
-import { IElement, IPage } from "../interface";
-import {
-  componentsConfig,
-  pages,
-  currentPage,
-  currentComponent,
-} from '../mock-data'
+import { IElement, IPage, ISnapshot } from "../interface";
+import { componentsConfig, pages, snapshot } from '../mock-data'
 
 function getPages(id: string) {
   return pages
@@ -18,6 +13,9 @@ export const useEditStore = defineStore({
     pages,
     currentPage: {} as IPage,
     currentComponent: {} as IElement,
+
+    snapshot: snapshot,
+    snapshotStore: [snapshot]
   }),
   getters: {
 
@@ -26,6 +24,16 @@ export const useEditStore = defineStore({
     async fetchConfig(id: string) {
       const pages = await getPages(id)
       this.$patch({ pages: pages, currentPage: pages[0] })
+
+      // 临时
+      const pageId = this.currentPage.id
+      const rootContainer = _.cloneDeep(componentsConfig['zh-container'])
+      rootContainer.uuid = String(new Date().getTime())
+      rootContainer.type = 'root'
+      this.currentPage.elements.push(rootContainer)
+      this.changePage(pageId)
+      this.recordSnapshot()
+
     },
 
     // 新建页、删除页、保存页、选择页
@@ -37,6 +45,7 @@ export const useEditStore = defineStore({
       rootContainer.uuid = String(new Date().getTime())
       rootContainer.type = 'root'
       this.pages.push({ id, name, elements: [rootContainer], settings: {} })
+      this.snapshotStore.push({ id, index: -1, List: [] })
       this.changePage(id)
     },
     deletePage(pageId: string) {
@@ -55,7 +64,9 @@ export const useEditStore = defineStore({
     },
     changePage(pageId: string) {
       this.savePage()
+      this.saveSnapshot()
       this.currentPage = this.pages.find(item => item.id === pageId) as IPage
+      this.snapshot = this.snapshotStore.find(item => item.id === pageId) as ISnapshot
     },
 
     // 新增组件
@@ -123,7 +134,49 @@ export const useEditStore = defineStore({
     // 设置组件样式
     setComponentStyle(style: any) {
       Object.assign(this.currentComponent.style, style)
-    }
+    },
+
+    // 记录快照
+    recordSnapshot() {
+      this.snapshot.List[++this.snapshot.index] = _.cloneDeep(this.currentPage.elements)
+      if (this.snapshot.index < this.snapshot.List.length - 1) {
+        this.snapshot.List = this.snapshot.List.slice(0, this.snapshot.index + 1)
+      } 
+    },
+
+    // 保存快照
+    saveSnapshot() {
+      const index = this.snapshotStore.findIndex(item => item.id === this.currentPage.id)
+      if (index === -1) {
+        const pageSnapshot = { id: this.currentPage.id, index: this.snapshot.index, List: this.snapshot.List }
+        this.snapshotStore.splice(this.pages.length - 1, 0, pageSnapshot)
+      } else {
+        this.snapshotStore.splice(index, 1, this.snapshot)
+      }
+    },
+
+    // 撤回
+    undo() {
+      if (this.snapshot.index > 0) {
+        this.snapshot.index--
+        const elements = _.cloneDeep(this.snapshot.List[this.snapshot.index])
+        this.setCurrentPageElements(elements)
+      }
+    },
+
+    // 重做
+    redo() {
+      if (this.snapshot.index < this.snapshot.List.length - 1) {
+        this.snapshot.index++
+        const elements = _.cloneDeep(this.snapshot.List[this.snapshot.index])
+        this.setCurrentPageElements(elements)
+      }
+    },
+
+    // 设置当前页面的 elements
+    setCurrentPageElements(elements: any) {
+      this.currentPage.elements = elements
+    },
 
   }
 })

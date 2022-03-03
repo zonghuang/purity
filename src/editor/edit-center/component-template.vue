@@ -1,7 +1,7 @@
 <template>
   <div
     class="shell"
-    draggable=true
+    :draggable="element.type === 'root' ? false : true"
     :id="element.uuid"
     :key="element.uuid"
     v-for="element in elements"
@@ -193,7 +193,7 @@ const drop = (ev: DragEvent) => {
     if (insertSeat === 'previous') editStore.insertBefore(editStore.currentPage.elements, targetElement.id)
     if (insertSeat === 'next') editStore.insertAfter(editStore.currentPage.elements, targetElement.id)
     if (insertSeat === 'inside') editStore.insertChild(editStore.currentPage.elements, targetElement.id)
-  
+
   } else {
     const [uuid, offsetX, offsetY] = data.split(',')
     
@@ -250,6 +250,6 @@ const isPointerEvents = (element: IElement) => {
   pointer-events: none;
 }
 .root-container {
-  height: calc(100% - 2px);
+  min-height: calc(100% - 2px) !important;
 }
 </style>

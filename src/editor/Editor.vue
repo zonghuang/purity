@@ -18,7 +18,6 @@
         <canvas-container></canvas-container>
         <aside-toolbar></aside-toolbar>
       </div>
-      <div class="coord">x: 0 y: 0</div>
       <page-list></page-list>
     </main>
 
@@ -91,18 +90,6 @@ function handleClick(event: any) {
       padding: 20px 6px;
       padding-bottom: 0px;
       height: calc(100% - 152px);
-    }
-
-    .coord {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      text-align: right;
-      font-size: 12px;
-      height: 20px;
-      padding-top: 6px;
-      padding-right: 4px;
-      box-shadow: 0 1px 1px rgba(100,100,100,.1);
     }
   }
 

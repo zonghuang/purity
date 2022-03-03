@@ -41,3 +41,9 @@ export interface IPage {
   elements: IElement[]
   settings: object
 }
+
+export interface ISnapshot {
+  id: string
+  index: number
+  List: any[]
+}

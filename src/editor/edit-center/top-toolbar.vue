@@ -16,10 +16,16 @@
 
     <ul class="operation">
       <el-tooltip content="撤销" placement="bottom-end">
-        <li><zh-svg name="undo" /></li>
+        <li v-if="editStore.snapshot.index === 0" class="disabled">
+          <zh-svg name="undo" :color="'#aaa'" />
+        </li>
+        <li v-else @click="undo"><zh-svg name="undo" /></li>   
       </el-tooltip>
       <el-tooltip content="重做" placement="bottom-end">
-        <li><zh-svg name="redo" /></li>
+        <li v-if="editStore.snapshot.index === editStore.snapshot.List.length - 1" class="disabled">
+          <zh-svg name="redo" :color="'#aaa'" />
+        </li>
+        <li v-else @click="redo"><zh-svg name="redo" /></li>
       </el-tooltip>
       <el-tooltip content="保存" placement="bottom-end">
         <li><zh-svg name="save" /></li>
@@ -44,6 +50,12 @@
 </template>
 
 <script setup lang="ts">
+import { useEditStore } from '../store/edit'
+
+const editStore = useEditStore()
+
+const undo = () => editStore.undo()
+const redo = () => editStore.redo()
 
 </script>
 
@@ -76,6 +88,10 @@
     li {
       width: 60px;
       text-align: center;
+    }
+
+    .disabled {
+      pointer-events: none;
     }
   }
 

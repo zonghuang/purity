@@ -27,6 +27,7 @@ const pageList = computed(() =>
 
 function createPage() {
   editStore.createPage()
+  editStore.recordSnapshot()
 }
 
 function changePage(pageId: string) {
