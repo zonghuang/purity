@@ -16,7 +16,12 @@ const allComponents = {
 const demandComponents = {
   version: 'v1',
   install: (app: App) => {
-    const modules = import.meta.globEager('./**/zh-button.vue') 
+    // 遍历传入需要的组件，打包
+    // const modules = import.meta.globEager('./**/zh-button.vue')
+
+    // 现在先全量打包，这是临时的
+    const modules = import.meta.globEager('./**/*.vue')
+
     for (const path in modules) {
       app.component(path.split('/')[1], modules[path].default)
     }
