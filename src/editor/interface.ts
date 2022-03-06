@@ -2,11 +2,11 @@ export interface IElement {
   uuid: string
   name: string
   type?: string
-  style: object
-  events?: object[]
+  style: any
+  events?: any[]
   propValue: any
-  propConfig: object
-  animations?: object[]
+  propConfig: any
+  animations?: any[]
   childrens?: IElement[]
 }
 
@@ -17,7 +17,7 @@ export interface IComponentConfig {
 export interface ILib {
   label: string
   name: string
-  children?: ILib[]
+  childrens?: ILib[]
   icon?: string
 }
 
@@ -46,4 +46,10 @@ export interface ISnapshot {
   id: string
   index: number
   List: any[]
+}
+
+export interface ITarget {
+  index: number
+  config: any
+  parent: any
 }

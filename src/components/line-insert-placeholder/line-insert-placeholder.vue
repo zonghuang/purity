@@ -32,7 +32,6 @@ defineProps<{
   display: flex;
   flex-direction: row;
   align-items: center;
-  /* height: 16px; */
   width: inherit;
   height: inherit;
 }
@@ -42,7 +41,6 @@ defineProps<{
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* width: 16px; */
   width: inherit;
   height: inherit;
 }

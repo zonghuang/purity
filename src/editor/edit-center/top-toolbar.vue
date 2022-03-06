@@ -40,22 +40,26 @@
 
     <ul class="publish">
       <el-tooltip content="预览" placement="bottom-end">
-        <li><zh-svg name="preview" /></li>
+        <li @click="preview"><zh-svg name="preview" /></li>
       </el-tooltip>
       <el-tooltip content="发布" placement="bottom-end">
-        <li><zh-svg name="publish" /></li>
+        <li @click="publish"><zh-svg name="publish" /></li>
       </el-tooltip>
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { useEditStore } from '../store/edit'
 
 const editStore = useEditStore()
+const router = useRouter()
 
 const undo = () => editStore.undo()
 const redo = () => editStore.redo()
+const preview = () => router.push({ name: 'render' })
+const publish = () => editStore.publish()
 
 </script>
 

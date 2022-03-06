@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { defineStore, acceptHMRUpdate } from "pinia";
-import { IElement, IPage, ISnapshot } from "../interface";
+import { IElement, IPage, ISnapshot, ITarget } from "../interface";
 import { componentsConfig, pages, snapshot } from '../mock-data'
 
 function getPages(id: string) {
@@ -22,18 +22,22 @@ export const useEditStore = defineStore({
   },
   actions: {
     async fetchConfig(id: string) {
+      if (this.currentPage.elements && this.currentPage.elements.length > 0) return
+
       const pages = await getPages(id)
       this.$patch({ pages: pages, currentPage: pages[0] })
 
       // 临时
       const pageId = this.currentPage.id
       const rootContainer = _.cloneDeep(componentsConfig['zh-container'])
+      if (!rootContainer) {
+        return
+      }
       rootContainer.uuid = String(new Date().getTime())
       rootContainer.type = 'root'
       this.currentPage.elements.push(rootContainer)
       this.changePage(pageId)
       this.recordSnapshot()
-
     },
 
     // 新建页、删除页、保存页、选择页
@@ -70,65 +74,51 @@ export const useEditStore = defineStore({
     },
 
     // 新增组件
-    addComponent(payload: any) {
-      const { name, offsetX, offsetY  } = payload
+    addComponent(name: string) {
       this.currentComponent = _.cloneDeep(componentsConfig[name])
       this.currentComponent.uuid = String(new Date().getTime())
     },
 
     // 在目标组件前面插入当前组件
-    insertBefore(elements: IElement[], targetId: string) {
-      elements.some((item, index) => {
-        if (item.uuid === targetId) {
-          elements.splice(index, 0, this.currentComponent)
-          return true
-        }
-        if (item.childrens) this.insertBefore(item.childrens, targetId)
-      })
+    insertBefore(targetId: string) {
+      const target = this.findTarget(this.currentPage.elements, targetId)
+      target?.parent.splice(target.index, 0, this.currentComponent)
     },
 
     // 在目标组件后面插入当前组件
-    insertAfter(elements: IElement[], targetId: string) {
-      elements.some((item, index) => {
-        if (item.uuid === targetId) {
-          elements.splice(index + 1, 0, this.currentComponent)
-          return true
-        }
-        if (item.childrens) this.insertAfter(item.childrens, targetId)
-      })
+    insertAfter(targetId: string) {
+      const target = this.findTarget(this.currentPage.elements, targetId)
+      target?.parent.splice(target.index + 1, 0, this.currentComponent)
     },
 
     // 在目标组件插入子组件
-    insertChild(elements: IElement[], targetId: string) {
-      elements.some(item => {
-        if (item.childrens && item.uuid === targetId) {
-          item.childrens.push(this.currentComponent)
-          return true
-        }
-        if (item.childrens) this.insertChild(item.childrens, targetId)
-      })
+    insertChild(targetId: string) {
+      const target = this.findTarget(this.currentPage.elements, targetId)
+      target?.config.childrens.push(this.currentComponent)
+    },
+
+    // 查找目标组件的索引、配置、父组件
+    findTarget(elements: IElement[], targetId: string, target?: ITarget) {
+      for (let i = 0; i < elements.length; i++) {
+        if (target) break
+        if (elements[i].uuid === targetId) 
+          return { index: i, config: elements[i], parent: elements }
+        if (!target && elements[i].childrens) 
+          target = this.findTarget(elements[i].childrens!, targetId, target)
+      }
+      return target
     },
 
     // 设置当前组件
-    setComponent(elements: IElement[], uuid: string) {
-      elements.some(item => {
-        if (item.uuid === uuid) {
-          this.currentComponent = item
-          return true
-        }
-        if (item.childrens) this.setComponent(item.childrens, uuid)
-      })
+    setComponent(targetId: string) {
+      const target = this.findTarget(this.currentPage.elements, targetId)
+      this.currentComponent = target?.config
     },
 
     // 删除组件
-    deleteComponent(elements: IElement[], deleteId: string) {
-      elements.some((item, index) => {
-        if (item.uuid === deleteId) {
-          elements.splice(index, 1)
-          return true
-        }
-        if (item.childrens) this.deleteComponent(item.childrens, deleteId)
-      })
+    deleteComponent(targetId: string) {
+      const target = this.findTarget(this.currentPage.elements, targetId)
+      target?.parent.splice(target.index, 1)
     },
 
     // 设置组件样式
@@ -177,6 +167,13 @@ export const useEditStore = defineStore({
     setCurrentPageElements(elements: any) {
       this.currentPage.elements = elements
     },
+
+    // 预览
+    preview() {},
+
+    // 发布
+    publish() {},
+
 
   }
 })

@@ -7,7 +7,7 @@
       <li><zh-svg name="copy" /></li>
     </el-tooltip>
     <el-tooltip content="删除" placement="right">
-      <li><zh-svg name="delete" /></li>
+      <li @click="deleteComponent"><zh-svg name="delete" /></li>
     </el-tooltip>
     <el-tooltip content="组合" placement="right">
       <li><zh-svg name="compose" /></li>
@@ -19,7 +19,11 @@
 </template>
 
 <script setup lang="ts">
+import { useEditStore } from "../store/edit"
 
+const editStore = useEditStore()
+
+const deleteComponent = () => editStore.deleteComponent(editStore.currentComponent.uuid)
 </script>
 
 <style scoped>

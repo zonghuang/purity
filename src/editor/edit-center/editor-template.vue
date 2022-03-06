@@ -7,23 +7,23 @@
     v-for="element in elements"
     :style="shellStyle(element)"
     @click="click($event, element)"
-    @mousedown="mousedown"
-    @dragstart="dragstart"
+    @mousedown="mousedown($event, element)"
+    @dragstart="dragstart($event, element)"
     @dragend="dragend"
     @dragenter="dragenter($event, element)"
     @dragleave="dragleave"
     @dragover="dragover($event, element)"
-    @drop="drop"
+    @drop="drop($event, element)"
   >
     <line-insert-placeholder
       v-if="targetElement.id === element.uuid && line.slotPosition === 'previous'"
       :style="line.style"
-      :propConfig="{ direction: line.direction }"
-    />
+      :propConfig="{ direction: line.direction }">
+    </line-insert-placeholder>
  
     <component
       class="component"
-      :class="{ 'pointer-events': isPointerEvents(element), 
+      :class="{ 'pointer-none': isPointerNone(element), 
                 'root-container': element.type === 'root',
                 'active': editStore.currentComponent.uuid === element.uuid
               }"
@@ -33,69 +33,74 @@
       :propValue="element.propValue"
       :propConfig="element.propConfig"
     >
-      <component-template v-if="element.childrens && element.childrens.length" :elements="element.childrens" />
+      <editor-template v-if="element.childrens && element.childrens.length" :elements="element.childrens"></editor-template>
     </component>
 
     <line-insert-placeholder
       v-if="targetElement.id === element.uuid && line.slotPosition === 'next'"
       :style="line.style"
-      :propConfig="{ direction: line.direction }"
-    />
+      :propConfig="{ direction: line.direction }">
+    </line-insert-placeholder>
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { IElement } from '../interface'
-import { useEditStore } from '../store/edit';
+import { useEditStore } from '../store/edit'
 
+const editStore = useEditStore()
 const props = defineProps<{
   elements: IElement[]
 }>()
 
-const editStore = useEditStore()
 const elementOffset = reactive({ offsetX: 0, offsetY: 0 })
 const line = reactive({ direction: '', slotPosition: '', style: {} })
-const draggedElement = reactive({ id: '', offsetX: 0, offsetY: 0 })
+const draggedElement = reactive({ id: '' })
 const targetElement = reactive({ id: '', clientWidth: 0, clientHeight: 0, type: '' })
 let insertSeat = ''
 
 const click = (ev: MouseEvent, element: IElement) => {
+  ev.stopPropagation()  
+  const id = (ev.currentTarget as Element).getAttribute('id')
+  if (id !== element.uuid) return
+
+  // 其他操作
+}
+
+const mousedown = (ev: MouseEvent, element: IElement) => {
   ev.stopPropagation()
+  const id = (ev.currentTarget as Element).getAttribute('id')
+  if (id !== element.uuid) return
+  
+  elementOffset.offsetX = ev.offsetX
+  elementOffset.offsetY = ev.offsetY
   editStore.currentComponent = element
 }
 
-const mousedown = (ev: MouseEvent) => {
-  elementOffset.offsetX = ev.offsetX
-  elementOffset.offsetY = ev.offsetY
-}
-
-const dragstart = (ev: DragEvent) => {
+const dragstart = (ev: DragEvent, element: IElement) => {
   ev.stopPropagation()
-  const { currentTarget } = ev
+  const id = (ev.currentTarget as Element).getAttribute('id')
+  if (id !== element.uuid) return
+
   const { offsetX, offsetY } = elementOffset
-  const id = currentTarget.getAttribute('id')
   const data = `${id},${offsetX},${offsetY}`
-  Object.assign(draggedElement, { id, offsetX, offsetY })
-  ev.effectAllowed = 'copyMove'
-  ev.dataTransfer.setData('text/plain', data)
+  Object.assign(draggedElement, { id })
+  ev.dataTransfer!.effectAllowed = 'copyMove'
+  ev.dataTransfer!.setData('text/plain', data)
 }
 
 const dragend = (ev: DragEvent) => {
-  ev.dataTransfer.clearData()
+  ev.dataTransfer!.clearData()
 }
 
 const dragenter = (ev: DragEvent, element: IElement) => {
   ev.preventDefault()
   ev.stopPropagation()
+  const id = (ev.currentTarget as Element).getAttribute('id')
+  if (id !== element.uuid) return
 
-  if (ev.currentTarget.getAttribute('id') === draggedElement.id) {
-    hideLine()
-    return
-  }
-
-  const { currentTarget, currentTarget: { clientWidth, clientHeight } } = ev
-  const id = currentTarget.getAttribute('id')
+  const { clientWidth, clientHeight } = (ev.currentTarget as Element)
   const isContainer = element.type === 'container' || element.type === 'root'
   const { display = '', flexDirection } = element.style
   const isInline = display.includes('inline') || (display === 'flex' && flexDirection === 'row')
@@ -115,11 +120,11 @@ const dragleave = () => {
 const dragover = (ev: DragEvent, element: IElement) => {
   ev.preventDefault()
   ev.stopPropagation()
+  const id = (ev.currentTarget as Element).getAttribute('id')
+  if (id !== element.uuid) return
 
-  if (!targetElement.id) return
   const { offsetX, offsetY } = ev
-  const { id, clientWidth, clientHeight, type } = targetElement
-
+  const { clientWidth, clientHeight, type } = targetElement
   switch (type) {
     case 'inlineNoncontainer': {
       if (offsetX < (clientWidth / 2)) {
@@ -177,46 +182,53 @@ const dragover = (ev: DragEvent, element: IElement) => {
   }
 }
 
-const drop = (ev: DragEvent) => {
+const drop = (ev: DragEvent, element: IElement) => {
   hideLine()
   ev.preventDefault()
   ev.stopPropagation()
+  const id = (ev.currentTarget as Element).getAttribute('id')
+  if (id !== element.uuid) return
 
-  const data = ev.dataTransfer.getData('text/plain')
-
+  const data = ev.dataTransfer!.getData('text/plain')
   if (data.includes('isNew')) {
     const [name, offsetX, offsetY] = data.split(',')
-    const payload = { name, offsetX, offsetY }
-    editStore.addComponent(payload)
-    if (editStore.currentComponent.style?.position)
-      setComponentPos(ev.pageX, ev.pageY, Number(offsetX), Number(offsetY))
-    if (insertSeat === 'previous') editStore.insertBefore(editStore.currentPage.elements, targetElement.id)
-    if (insertSeat === 'next') editStore.insertAfter(editStore.currentPage.elements, targetElement.id)
-    if (insertSeat === 'inside') editStore.insertChild(editStore.currentPage.elements, targetElement.id)
+    editStore.addComponent(name)
+    setComponentPosition(ev.pageX, ev.pageY, offsetX, offsetY)
+    insertComponent(id)
+    editStore.recordSnapshot()
 
   } else {
     const [uuid, offsetX, offsetY] = data.split(',')
-    
-    if (ev.currentTarget.getAttribute('id') === uuid) return
-    editStore.setComponent(editStore.currentPage.elements, uuid)
-    editStore.deleteComponent(editStore.currentPage.elements, uuid)
-    if (editStore.currentComponent.style?.position)
-      setComponentPos(ev.pageX, ev.pageY, Number(offsetX), Number(offsetY))
-    if (insertSeat === 'previous') editStore.insertBefore(editStore.currentPage.elements, targetElement.id)
-    if (insertSeat === 'next') editStore.insertAfter(editStore.currentPage.elements, targetElement.id)
-    if (insertSeat === 'inside') editStore.insertChild(editStore.currentPage.elements, targetElement.id)
+    if (id === uuid) return
+    editStore.setComponent(uuid)
+    editStore.deleteComponent(uuid)
+    setComponentPosition(ev.pageX, ev.pageY, offsetX, offsetY)
+    insertComponent(id)
+    editStore.recordSnapshot()
   }
 }
 
-const setComponentPos = (pageX: number, pageY: number, offsetX: number, offsetY: number) => {
-  const left = pageX - 365 - offsetX
-  const top = pageY - 64 - offsetY
-  const style = { left: left + 'px', top: top + 'px' }
-  editStore.setComponentStyle(style)
+const insertComponent = (id: string) => {
+  if (insertSeat === 'previous') {
+    editStore.insertBefore(id)
+  } else if (insertSeat === 'next') {
+    editStore.insertAfter(id)
+  } else if (insertSeat === 'inside') {
+    editStore.insertChild(id)
+  }
+}
+
+const setComponentPosition = (pageX: number, pageY: number, offsetX: string, offsetY: string) => {
+  if (editStore.currentComponent.style?.position) {
+    const left = pageX - 365 - Number(offsetX)
+    const top = pageY - 64 - Number(offsetY)
+    const style = { left: left + 'px', top: top + 'px' }
+    editStore.setComponentStyle(style)
+  }
 }
 
 const setLine = (direction: string, slotPosition: string, width: number, height: number) => {
-  const style =  { width: width + 'px', height: height + 'px'}
+  const style =  { width: width + 'px', height: height + 'px' }
   Object.assign(line, { direction, slotPosition, style })
 }
 const hideLine = () => {
@@ -224,14 +236,14 @@ const hideLine = () => {
 }
 const shellStyle = (element: IElement) => {
   const { display = '' } = element.style
-  return element.type === 'root' ? { margin: 0, height: '100%' } 
+  return element.type === 'root'    ? { margin: 0, height: '100%' } 
        : display.includes('inline') ? { display }
        : {}
 }
-const isPointerEvents = (element: IElement) => {
+const isPointerNone = (element: IElement) => {
   const isAbsolutePos = element.style.position === 'absolute'
   const isContainer = element.type == 'container' || element.type === 'root'
-  return isContainer || isAbsolutePos ? false : true
+  return (isContainer || isAbsolutePos) ? false : true
 }
 </script>
 
@@ -246,7 +258,7 @@ const isPointerEvents = (element: IElement) => {
 .active {
   border: 1px solid #409eff;
 }
-.pointer-events {
+.pointer-none {
   pointer-events: none;
 }
 .root-container {

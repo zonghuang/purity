@@ -1,37 +1,11 @@
 <template>
-  <component
-    v-for="element in elements"
-    :key="element.uuid"
-    :is="element.name"
-    :uuid="element.uuid"
-    :style="element.style"
-    :events="element.events"
-    :propValue="element.propValue"
-    :propConfig="element.propConfig"
-    @update="handleUpdate"
-    @action="handleAction"
-    @click="handleClick(element)"
-  >
-    <Render v-if="element.childrens && element.childrens.length" :elements="element.childrens" />
-  </component>
+  <render-template :elements="elements"></render-template>
 </template>
 
 <script setup lang="ts">
-import { IElement } from '../editor/interface'
+import { IElement } from '../editor/interface';
+import { useEditStore } from '../editor/store/edit';
 
-const props = defineProps<{
-  elements: IElement[],
-}>()
-
-function handleUpdate() {
-  console.log('update')
-}
-
-function handleAction() {
-  console.log('action')
-}
-
-function handleClick(element: IElement) {
-  console.log('click', element)
-}
+const editStore = useEditStore()
+const elements: IElement[] = editStore.currentPage.elements
 </script>

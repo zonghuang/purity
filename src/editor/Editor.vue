@@ -15,7 +15,9 @@
       <top-toolbar></top-toolbar>
       <div class="edit-area">
         <modal-list></modal-list>
-        <canvas-container></canvas-container>
+        <div class="canvas-container">
+          <editor-template :elements="elements"></editor-template>
+        </div>
         <aside-toolbar></aside-toolbar>
       </div>
       <page-list></page-list>
@@ -46,6 +48,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
+import { IElement } from "./interface";
 import { useEditStore } from './store/edit'
 
 const editStore = useEditStore()
@@ -53,13 +56,14 @@ const activeLib = ref('lib')
 const activeConfig = ref('prop')
 const pages = computed(() => editStore.pages)
 const currentPageId = computed(() => editStore.currentPage.id)
+const elements: IElement[] = computed(() => editStore.currentPage.elements)
 
 onMounted(() => {
   editStore.fetchConfig('1')
 })
 
 function handleClick(event: any) {
-  console.log(event)
+  // console.log(event)
 }
 </script>
 
@@ -96,6 +100,19 @@ function handleClick(event: any) {
   .config-center {
     width: 350px;
   }
+}
+
+.canvas-container {
+  position: relative;
+  flex: 1;
+  margin: 0 8px;
+  height: 100%;
+  overflow: scroll;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  // background-image: url('../assets/image/canvas.svg');
 }
 
 :deep(.el-tabs__header) {
