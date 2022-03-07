@@ -53,7 +53,7 @@ import { useEditStore } from './store/edit'
 
 const editStore = useEditStore()
 const activeLib = ref('lib')
-const activeConfig = ref('prop')
+const activeConfig = ref('style')
 const pages = computed(() => editStore.pages)
 const currentPageId = computed(() => editStore.currentPage.id)
 const elements: IElement[] = computed(() => editStore.currentPage.elements)

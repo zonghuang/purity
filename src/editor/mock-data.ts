@@ -432,7 +432,8 @@ export const pages: IPage[] = [
     id: 'p1',
     name: '首页',
     elements: [],
-    settings: {}
+    settings: {},
+    modalList: []
   },
   // {
   //   id: 'p2',
@@ -447,7 +448,8 @@ export const currentPage: IPage = {
   id: 'p1',
   name: '首页',
   elements: [],
-  settings: {}
+  settings: {},
+  modalList: []
 }
 
 // 当前组件

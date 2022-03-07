@@ -1,5 +1,5 @@
 <template>
-  <div class="style-config">
+  <div v-if="style" class="style-config">
     <el-collapse v-model="activeNames" @change="handleChange">
       <el-collapse-item
         v-for="category in categorys"
@@ -8,24 +8,58 @@
         :name="category.value"
       >
         <div v-if="category.value === 'elementplus'"></div>
+
         <div v-else-if="category.value === 'placement'">
-          <el-form :model="style.placement" label-position="top" label-width="120px">
+          <el-form :model="style" label-position="top" label-width="120px">
             <el-form-item label="position">
-                <el-select v-model="style.position" placeholder="Select">
-                  <el-option
-                    v-for="item in positions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
+              <el-select v-model="style.position" placeholder="Select">
+                <el-option
+                  v-for="item in positions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="top">
               <el-input v-model="style.top"></el-input>
             </el-form-item>
             <el-form-item label="right">
               <el-input v-model="style.right"></el-input>
+            </el-form-item>
+            <el-form-item label="bottom">
+              <el-input v-model="style.bottom"></el-input>
+            </el-form-item>
+            <el-form-item label="left">
+              <el-input v-model="style.left"></el-input>
+            </el-form-item>
+
+            <el-form-item label="display">
+              <el-select v-model="style.display" placeholder="Select">
+                <el-option
+                  v-for="item in displays"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+        </div>
+
+        <div v-if="category.value === 'boxmodel'">
+          <el-form :model="style" label-position="top" label-width="120px">
+            <el-form-item label="宽度">
+              <el-input v-model="style.width" placeholder="请输入，如 100px"></el-input>
+            </el-form-item>
+            <el-form-item label="高度">
+              <el-input v-model="style.height"></el-input>
+            </el-form-item>
+            <el-form-item label="外边距">
+              <el-input v-model="style.margin"></el-input>
+            </el-form-item>
+            <el-form-item label="内边距">
+              <el-input v-model="style.padding"></el-input>
             </el-form-item>
           </el-form>
         </div>
@@ -36,9 +70,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { computed, ref } from 'vue'
+import { useEditStore } from '../store/edit';
 
-const activeNames = ref('position')
+const editStore = useEditStore()
+
+const activeNames = ref('boxmodel')
 const categorys = [
   { label: 'Element Plus', value: 'elementplus' },
   { label: '布局', value: 'placement' },
@@ -60,7 +97,21 @@ const positions = [
   { label: 'unset', value: 'unset' }
 ]
 
-const style = reactive({ placement: {} })
+const displays = [
+  { label: 'block', value: 'block' },
+  { label: 'inline', value: 'inline' },
+  { label: 'flex', value: 'flex' },
+  { label: 'grid', value: 'grid' },
+  { label: 'inline-block', value: 'inline-block' },
+  { label: 'inline-flex', value: 'inline-flex' },
+  { label: 'inline-grid', value: 'inline-grid' },
+  { label: 'inherit', value: 'inherit' },
+  { label: 'initial', value: 'initial' },
+  { label: 'unset', value: 'unset' },
+  { label: 'none', value: 'none' }
+]
+
+const style = computed(() => editStore.currentComponent.style)
 
 
 function handleChange(value: string) {

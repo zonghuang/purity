@@ -1,7 +1,7 @@
 <template>
   <div
     class="shell"
-    :draggable="element.type === 'root' ? false : true"
+    :draggable="element.type === 'root' || element.type === 'modal' ? false : true"
     :id="element.uuid"
     :key="element.uuid"
     v-for="element in elements"
@@ -101,7 +101,7 @@ const dragenter = (ev: DragEvent, element: IElement) => {
   if (id !== element.uuid) return
 
   const { clientWidth, clientHeight } = (ev.currentTarget as Element)
-  const isContainer = element.type === 'container' || element.type === 'root'
+  const isContainer = element.type === 'container' || element.type === 'root' || element.type === 'modal' || element.type === 'form'
   const { display = '', flexDirection } = element.style
   const isInline = display.includes('inline') || (display === 'flex' && flexDirection === 'row')
   
@@ -242,7 +242,7 @@ const shellStyle = (element: IElement) => {
 }
 const isPointerNone = (element: IElement) => {
   const isAbsolutePos = element.style.position === 'absolute'
-  const isContainer = element.type == 'container' || element.type === 'root'
+  const isContainer = element.type == 'container' || element.type === 'root' || element.type === 'modal' || element.type === 'form'
   return (isContainer || isAbsolutePos) ? false : true
 }
 </script>

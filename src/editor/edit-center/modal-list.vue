@@ -1,31 +1,27 @@
 <template>
   <div class="modal-list">
-    <div class="modal-preview">
-      <el-image
-        class="image"
-        src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
-      />
-      <span class="title">弹窗1</span>
-    </div>
-    <div class="modal-preview">
-      <el-image
-        class="image"
-        src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg"
-      />
-      <span class="title">弹窗2</span>
-    </div>
-    <div class="modal-preview">
-      <el-image
-        class="image"
-        src="https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg"
-      />
-      <span class="title">弹窗3</span>
+    <div
+      class="modal-preview"
+      :key="item.id"
+      v-for="item in modalList"
+      @click="handleClick(item)"
+    >
+      <div class="image"></div>
+      <span class="title">{{ item.name }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useEditStore } from '../store/edit'
 
+const editStore = useEditStore()
+const modalList = computed(() => editStore.currentPage.modalList)
+
+const handleClick = (item: any) => {
+  editStore.openModal(item.id)
+}
 </script>
 
 <style scoped lang="less">
@@ -36,11 +32,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    row-gap: 4px;
+    margin-bottom: 8px;
+    cursor: pointer;
+
+    &:hover {
+      color: #409eff;
+    }
 
     .image {
       width: 100px;
       height: 65px;
       border-radius: 4px;
+      border: 1px solid #eee;
+
+      &:hover {
+      border: 1px solid #409eff;
+    }
     }
   }
 }

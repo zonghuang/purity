@@ -81,20 +81,42 @@ export const useEditStore = defineStore({
 
     // 在目标组件前面插入当前组件
     insertBefore(targetId: string) {
+      if (this.currentComponent.type === 'modal') {
+        this.insertModal()
+        return
+      }
+
       const target = this.findTarget(this.currentPage.elements, targetId)
       target?.parent.splice(target.index, 0, this.currentComponent)
     },
 
     // 在目标组件后面插入当前组件
     insertAfter(targetId: string) {
+      if (this.currentComponent.type === 'modal') {
+        this.insertModal()
+        return
+      }
+
       const target = this.findTarget(this.currentPage.elements, targetId)
       target?.parent.splice(target.index + 1, 0, this.currentComponent)
     },
 
     // 在目标组件插入子组件
     insertChild(targetId: string) {
+      if (this.currentComponent.type === 'modal') {
+        this.insertModal()
+        return
+      }
+
       const target = this.findTarget(this.currentPage.elements, targetId)
       target?.config.childrens.push(this.currentComponent)
+    },
+
+    insertModal() {
+      this.currentPage.elements.push(this.currentComponent)
+      const { uuid, propConfig: { title } } = this.currentComponent
+      this.currentPage.modalList.push({ id: uuid, name: title })
+      console.log(this.currentPage.modalList)
     },
 
     // 查找目标组件的索引、配置、父组件
@@ -124,6 +146,26 @@ export const useEditStore = defineStore({
     // 设置组件样式
     setComponentStyle(style: any) {
       Object.assign(this.currentComponent.style, style)
+    },
+
+    // 打开模态框
+    openModal(targetId: string) {
+      this.currentPage.elements.some(item => {
+        if (item.uuid === targetId) {
+          item.propConfig.visible = true
+          return true
+        }
+      })
+    },
+
+    // 关闭模态框
+    closeModal(targetId: string) {
+      this.currentPage.elements.some(item => {
+        if (item.uuid === targetId) {
+          item.propConfig.visible = false   
+          return true
+        }
+      })
     },
 
     // 记录快照

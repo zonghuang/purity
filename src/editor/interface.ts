@@ -40,6 +40,7 @@ export interface IPage {
   name: string
   elements: IElement[]
   settings: object
+  modalList: any[]
 }
 
 export interface ISnapshot {
