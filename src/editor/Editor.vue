@@ -57,6 +57,7 @@ const currentPageId = computed(() => editStore.currentPage.id)
 const elements = computed(() => editStore.currentPage.elements)
 
 onMounted(() => {
+  editStore.editing = true
   editStore.fetchConfig('1')
 })
 

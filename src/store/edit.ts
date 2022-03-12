@@ -204,9 +204,14 @@ export const useEditStore = defineStore({
       }
     },
 
-    // 设置当前页面的 elements
+    // 设置当前页面的 elements 和 模态框列表
     setCurrentPageElements(elements: any) {
       this.currentPage.elements = elements
+      this.currentPage.modalList = elements.filter((item: IElement) => {
+        if (item.type === 'modal') {
+          return { id: item.uuid, name: item.propConfig.title }
+        } 
+      })
     },
 
     // 预览

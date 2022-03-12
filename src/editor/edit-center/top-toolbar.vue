@@ -57,7 +57,10 @@ const router = useRouter()
 
 const undo = () => editStore.undo()
 const redo = () => editStore.redo()
-const preview = () => router.push({ name: 'render' })
+const preview = () => {
+  editStore.editing = false
+  router.push({ name: 'render' })
+}
 const publish = () => editStore.publish()
 
 </script>

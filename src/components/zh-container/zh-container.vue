@@ -1,6 +1,6 @@
 <template>
   <div class="zh-container">
-    容器{{uuid}}
+    {{uuid}}
     <slot></slot>
   </div>
 </template>

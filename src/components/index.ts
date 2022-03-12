@@ -1,5 +1,18 @@
 import type { App } from 'vue'
+import * as icons from '@element-plus/icons-vue'
 import { IComponentConfig } from '../interface-type'
+
+// Element Plus Icons
+const elementPlustIcons = {
+  version: 'v1',
+  install: (app: App) => {
+    for (const iconName in icons) {
+      if (Reflect.has(icons, iconName))
+        // @ts-ignore
+        app.component(iconName, icons[iconName])
+    }
+  }
+}
 
 // 全量导入组件
 const allComponents = {
@@ -39,4 +52,4 @@ for (const path in allConfig) {
 
 const components = import.meta.env.MODE === 'development' ? allComponents : demandComponents
 
-export { components, componentsConfig }
+export { elementPlustIcons, components, componentsConfig }
