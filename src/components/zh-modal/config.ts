@@ -8,7 +8,9 @@ export default {
   propConfig: {
     title: '模态框',
     width: '500px',
-    visible: true
+    visible: true,
+    modal: true,
+    closeOnClickModal: true
   },
   animations: [],
   childrens: []

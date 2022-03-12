@@ -7,7 +7,9 @@
         :title="category.label"
         :name="category.value"
       >
-        <div v-if="category.value === 'elementplus'"></div>
+        <div v-if="category.value === 'elementplus'">
+          <trbl-input v-model="trbl"></trbl-input>
+        </div>
 
         <div v-else-if="category.value === 'placement'">
           <el-form :model="style" label-position="top" label-width="120px">
@@ -70,10 +72,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useEditStore } from '../store/edit';
+import { useEditStore } from '@/store/edit'
 
 const editStore = useEditStore()
+
+const trbl = reactive({ top: '', right: '', bottom: '', left: '' })
 
 const activeNames = ref('boxmodel')
 const categorys = [
@@ -128,6 +131,10 @@ function handleChange(value: string) {
   padding-left: 10px;
 }
 :deep(.el-collapse-item__content) {
-  padding-bottom: 10px;
+  padding: 10px;
+}
+
+.el-collapse-item {
+
 }
 </style>

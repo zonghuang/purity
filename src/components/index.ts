@@ -1,5 +1,5 @@
-import { App } from 'vue'
-import { IComponentConfig } from '../editor/interface'
+import type { App } from 'vue'
+import { IComponentConfig } from '../interface-type'
 
 // 全量导入组件
 const allComponents = {

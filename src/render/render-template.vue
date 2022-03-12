@@ -17,9 +17,8 @@
 </template>
 
 <script setup lang="ts">
-import { IElement } from '../editor/interface'
-import { useEditStore } from '../editor/store/edit';
-
+import { IElement } from '@/interface-type'
+import { useEditStore } from '@/store/edit';
 
 const editStore = useEditStore()
 const props = defineProps<{

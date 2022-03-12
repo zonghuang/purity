@@ -50,8 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
-import { useEditStore } from '../store/edit'
+import { useEditStore } from '@/store/edit'
 
 const editStore = useEditStore()
 

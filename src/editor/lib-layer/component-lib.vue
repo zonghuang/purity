@@ -27,8 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { componentLibs } from '../mock-data';
+import { componentLibs } from '@/mock-data'
 
 const libs = ref(componentLibs)
 
@@ -53,7 +52,7 @@ const dragend = (ev: DragEvent) => {
 <style scoped lang="less">
 .component-list {
   margin: 0;
-  padding: 10px 0 10px 10px;
+  padding: 10px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -62,15 +61,17 @@ const dragend = (ev: DragEvent) => {
   // box-shadow: 0 1px 1px rgba(100, 100, 100, .1);
 
   li {
-    width: 111px;
+    width: 116px;
     height: 32px;
     line-height: 32px;
     padding-left: 8px;
-    background: #ecf5ff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: move;
 
     &:hover {
-      cursor: pointer;
       color: #409eff;
+      border: 1px solid #409eff;
     }
   }
 }

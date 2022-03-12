@@ -1,7 +1,6 @@
 import _ from 'lodash';
-import { defineStore, acceptHMRUpdate } from "pinia";
-import { IElement, IPage, ISnapshot, ITarget } from "../interface";
-import { componentsConfig, pages, snapshot } from '../mock-data'
+import { IElement, IPage, ISnapshot, ITarget } from "@/interface-type";
+import { componentsConfig, pages, snapshot } from '@/mock-data'
 
 function getPages(id: string) {
   return pages
@@ -10,6 +9,7 @@ function getPages(id: string) {
 export const useEditStore = defineStore({
   id: 'edit',
   state: () => ({
+    editing: true,
     pages,
     currentPage: {} as IPage,
     currentComponent: {} as IElement,
@@ -48,7 +48,7 @@ export const useEditStore = defineStore({
       const rootContainer = _.cloneDeep(componentsConfig['zh-container'])
       rootContainer.uuid = String(new Date().getTime())
       rootContainer.type = 'root'
-      this.pages.push({ id, name, elements: [rootContainer], settings: {} })
+      this.pages.push({ id, name, elements: [rootContainer], settings: {}, modalList: [] })
       this.snapshotStore.push({ id, index: -1, List: [] })
       this.changePage(id)
     },
@@ -116,7 +116,6 @@ export const useEditStore = defineStore({
       this.currentPage.elements.push(this.currentComponent)
       const { uuid, propConfig: { title } } = this.currentComponent
       this.currentPage.modalList.push({ id: uuid, name: title })
-      console.log(this.currentPage.modalList)
     },
 
     // 查找目标组件的索引、配置、父组件

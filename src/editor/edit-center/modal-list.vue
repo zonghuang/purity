@@ -13,8 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useEditStore } from '../store/edit'
+import { useEditStore } from '@/store/edit'
 
 const editStore = useEditStore()
 const modalList = computed(() => editStore.currentPage.modalList)
@@ -47,8 +46,12 @@ const handleClick = (item: any) => {
       border: 1px solid #eee;
 
       &:hover {
-      border: 1px solid #409eff;
+        border: 1px solid #409eff;
+      }
     }
+
+    .title {
+      font-size: 14px;
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div
     class="shell"
-    :draggable="element.type === 'root' || element.type === 'modal' ? false : true"
+    :draggable="isDraggable(element.type)"
     :id="element.uuid"
     :key="element.uuid"
     v-for="element in elements"
@@ -18,42 +18,39 @@
     <line-insert-placeholder
       v-if="targetElement.id === element.uuid && line.slotPosition === 'previous'"
       :style="line.style"
-      :propConfig="{ direction: line.direction }">
-    </line-insert-placeholder>
- 
+      :propConfig="{ direction: line.direction }"
+    ></line-insert-placeholder>
+
     <component
       class="component"
-      :class="{ 'pointer-none': isPointerNone(element), 
-                'root-container': element.type === 'root',
-                'active': editStore.currentComponent.uuid === element.uuid
-              }"
+      :class="componentClass(element)"
       :is="element.name"
       :uuid="element.uuid"
       :style="element.style"
       :propValue="element.propValue"
       :propConfig="element.propConfig"
     >
-      <editor-template v-if="element.childrens && element.childrens.length" :elements="element.childrens"></editor-template>
+      <editor-template v-if="element.childrens && element.childrens.length" :elements="element.childrens" />
     </component>
 
     <line-insert-placeholder
       v-if="targetElement.id === element.uuid && line.slotPosition === 'next'"
       :style="line.style"
-      :propConfig="{ direction: line.direction }">
-    </line-insert-placeholder>
+      :propConfig="{ direction: line.direction }"
+    ></line-insert-placeholder>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
-import { IElement } from '../interface'
-import { useEditStore } from '../store/edit'
+import { IElement } from '@/interface-type';
+import { useEditStore } from '@/store/edit'
 
 const editStore = useEditStore()
 const props = defineProps<{
   elements: IElement[]
 }>()
 
+const containers = ['root', 'container', 'modal', 'form']
 const elementOffset = reactive({ offsetX: 0, offsetY: 0 })
 const line = reactive({ direction: '', slotPosition: '', style: {} })
 const draggedElement = reactive({ id: '' })
@@ -61,7 +58,7 @@ const targetElement = reactive({ id: '', clientWidth: 0, clientHeight: 0, type: 
 let insertSeat = ''
 
 const click = (ev: MouseEvent, element: IElement) => {
-  ev.stopPropagation()  
+  ev.stopPropagation()
   const id = (ev.currentTarget as Element).getAttribute('id')
   if (id !== element.uuid) return
 
@@ -72,7 +69,7 @@ const mousedown = (ev: MouseEvent, element: IElement) => {
   ev.stopPropagation()
   const id = (ev.currentTarget as Element).getAttribute('id')
   if (id !== element.uuid) return
-  
+
   elementOffset.offsetX = ev.offsetX
   elementOffset.offsetY = ev.offsetY
   editStore.currentComponent = element
@@ -101,10 +98,10 @@ const dragenter = (ev: DragEvent, element: IElement) => {
   if (id !== element.uuid) return
 
   const { clientWidth, clientHeight } = (ev.currentTarget as Element)
-  const isContainer = element.type === 'container' || element.type === 'root' || element.type === 'modal' || element.type === 'form'
+  const isContainer = containers.includes(element.type)
   const { display = '', flexDirection } = element.style
   const isInline = display.includes('inline') || (display === 'flex' && flexDirection === 'row')
-  
+
   const type = isInline  && !isContainer ? 'inlineNoncontainer'
              : !isInline && !isContainer ? 'blockNoncontainer'
              : isInline  && isContainer  ? 'inlineContainer'
@@ -125,6 +122,11 @@ const dragover = (ev: DragEvent, element: IElement) => {
 
   const { offsetX, offsetY } = ev
   const { clientWidth, clientHeight, type } = targetElement
+  if (element.type === 'root' || element.type === 'modal') {
+    insertSeat = 'inside'
+    hideLine()
+    return
+  }
   switch (type) {
     case 'inlineNoncontainer': {
       if (offsetX < (clientWidth / 2)) {
@@ -228,21 +230,34 @@ const setComponentPosition = (pageX: number, pageY: number, offsetX: string, off
 }
 
 const setLine = (direction: string, slotPosition: string, width: number, height: number) => {
-  const style =  { width: width + 'px', height: height + 'px' }
+  const style = { width: width + 'px', height: height + 'px' }
   Object.assign(line, { direction, slotPosition, style })
 }
 const hideLine = () => {
   Object.assign(line, { direction: '', slotPosition: '', style: {} })
 }
+
+const isDraggable = (type: string) => {
+  return type === 'root' || type === 'modal' ? false : true
+}
 const shellStyle = (element: IElement) => {
   const { display = '' } = element.style
   return element.type === 'root'    ? { margin: 0, height: '100%' } 
+       : element.type === 'modal'   ? { margin: 0, width: 0 }
        : display.includes('inline') ? { display }
        : {}
 }
+const componentClass = (element: IElement) => {
+  return {
+    'pointer-none': isPointerNone(element),
+    'root-container': element.type === 'root',
+    'border-none': element.type === 'modal',
+    'active': editStore.currentComponent.uuid === element.uuid
+  }
+}
 const isPointerNone = (element: IElement) => {
   const isAbsolutePos = element.style.position === 'absolute'
-  const isContainer = element.type == 'container' || element.type === 'root' || element.type === 'modal' || element.type === 'form'
+  const isContainer = containers.includes(element.type)
   return (isContainer || isAbsolutePos) ? false : true
 }
 </script>
@@ -263,5 +278,8 @@ const isPointerNone = (element: IElement) => {
 }
 .root-container {
   min-height: calc(100% - 2px) !important;
+}
+.border-none {
+  border: none;
 }
 </style>

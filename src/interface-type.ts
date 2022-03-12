@@ -1,13 +1,23 @@
 export interface IElement {
   uuid: string
   name: string
-  type?: string
+  type: string
   style: any
-  events?: any[]
+  events: any[]
   propValue: any
   propConfig: any
   animations?: any[]
   childrens?: IElement[]
+}
+
+export interface IStyle {
+  width?: string | number
+  height?: string | number
+  top?: string | number
+  right?: string | number
+  bottom?: string | number
+  left?: string | number
+  [key: string]: string | number | undefined
 }
 
 export interface IComponentConfig {
@@ -21,25 +31,11 @@ export interface ILib {
   icon?: string
 }
 
-export interface ICoord {
-  x: number
-  y: number
-}
-
-export interface IState {
-  coord: ICoord
-  canvasOffset: ICoord
-  elementOffset: ICoord
-  pages: IPage[]
-  currentPage: IPage
-  currentComponent: IElement | null
-}
-
 export interface IPage {
   id: string
   name: string
   elements: IElement[]
-  settings: object
+  settings: any
   modalList: any[]
 }
 
@@ -54,3 +50,4 @@ export interface ITarget {
   config: any
   parent: any
 }
+

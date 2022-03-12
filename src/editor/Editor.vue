@@ -2,7 +2,7 @@
   <div class="editor" v-for="page in pages" :key="page.id" v-show="page.id === currentPageId">
     <aside class="lib-layer">
       <el-tabs v-model="activeLib" @tab-click="handleClick">
-        <el-tab-pane label="组件库" name="lib">
+        <el-tab-pane label="组件" name="lib">
           <component-lib></component-lib>
         </el-tab-pane>
         <el-tab-pane label="图层" name="layer">
@@ -16,7 +16,7 @@
       <div class="edit-area">
         <modal-list></modal-list>
         <div class="canvas-container">
-          <editor-template :elements="elements"></editor-template>
+          <editor-template v-if="elements" :elements="elements"></editor-template>
         </div>
         <aside-toolbar></aside-toolbar>
       </div>
@@ -37,7 +37,7 @@
         <el-tab-pane label="动画" name="animation">
           <animation-config></animation-config>
         </el-tab-pane>
-        <el-tab-pane label="页面设置" name="page">
+        <el-tab-pane label="页面" name="page">
           <page-config></page-config>
         </el-tab-pane>
       </el-tabs>
@@ -47,16 +47,14 @@
 
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
-import { IElement } from "./interface";
-import { useEditStore } from './store/edit'
+import { useEditStore } from '@/store/edit'
 
 const editStore = useEditStore()
 const activeLib = ref('lib')
 const activeConfig = ref('style')
 const pages = computed(() => editStore.pages)
 const currentPageId = computed(() => editStore.currentPage.id)
-const elements: IElement[] = computed(() => editStore.currentPage.elements)
+const elements = computed(() => editStore.currentPage.elements)
 
 onMounted(() => {
   editStore.fetchConfig('1')
@@ -74,7 +72,7 @@ function handleClick(event: any) {
   height: 100vh;
 
   .lib-layer {
-    width: 250px;
+    width: 280px;
 
     &::-webkit-scrollbar {
       display: none;
@@ -91,14 +89,14 @@ function handleClick(event: any) {
     .edit-area {
       flex: 1;
       display: flex;
-      padding: 20px 6px;
+      padding: 20px 8px;
       padding-bottom: 0px;
       height: calc(100% - 152px);
     }
   }
 
   .config-center {
-    width: 350px;
+    width: 320px;
   }
 }
 

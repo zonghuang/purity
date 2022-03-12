@@ -1,7 +1,7 @@
 <template>
   <div class="zh-table">
     <!-- 临时的，到时候会用具名插槽或动态插槽插入表格的行/列，这样每个表格的每列都可以配置 -->
-    <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
+    <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName" @header-click="thClick">
       <el-table-column type="selection" width="55" />
       <el-table-column prop="date" label="Date" width="150" />
       <el-table-column prop="name" label="Name" width="120" />
@@ -22,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 
 defineProps<{
   uuid: string
@@ -81,6 +80,10 @@ const tableRowClassName = ({ row, rowIndex }: { row: any, rowIndex: number }) =>
     return 'success-row'
   }
   return ''
+}
+
+const thClick = (column: any, event: any) => {
+  console.log('column, event', column, event);
 }
 </script>
 

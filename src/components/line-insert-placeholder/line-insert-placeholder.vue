@@ -1,12 +1,12 @@
 <template>
   <div class="line-insert-placeholder" :style="style">
-    <div v-if="propConfig.direction === 'horizontal'" class="horizontal-line-insert-placeholder">
+    <div v-if="propConfig.direction === 'horizontal'" class="horizontal">
       <div class="triangle-left"></div>
       <div class="horizontal-line"></div>
       <div class="triangle-right"></div>
     </div>
 
-    <div v-else class="vertical-line-insert-placeholder">
+    <div v-else class="vertical">
       <div class="triangle-top"></div>
       <div class="vertical-line"></div>
       <div class="triangle-bottom"></div>
@@ -15,8 +15,10 @@
 </template>
 
 <script setup lang="ts">
+import { IStyle } from '@/interface-type'
+
 defineProps<{
-  style: any
+  style: IStyle
   propConfig: any
 }>()
 </script>
@@ -27,7 +29,8 @@ defineProps<{
   position: absolute;
   z-index: 1;
 }
-.horizontal-line-insert-placeholder {
+
+.horizontal {
   position: relative;
   display: flex;
   flex-direction: row;
@@ -36,7 +39,7 @@ defineProps<{
   height: inherit;
 }
 
-.vertical-line-insert-placeholder {
+.vertical {
   position: relative;
   display: flex;
   flex-direction: column;

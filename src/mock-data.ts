@@ -1,5 +1,5 @@
-import { IElement, ILib, IPage, ISnapshot } from "./interface"
-import { componentsConfig } from "../components";
+import { IElement, ILib, IPage, ISnapshot } from "./interface-type"
+import { componentsConfig } from "./components";
 
 // 测试无限层渲染数据
 export const loopElements: IElement[] = [
@@ -15,7 +15,7 @@ export const loopElements: IElement[] = [
       {
         uuid: 's002',
         name: 'zh-input',
-        
+        type: 'input',
         style: { width: '200px' },
         events: [],
         propValue: "zonghuang",
@@ -26,6 +26,7 @@ export const loopElements: IElement[] = [
       {
         uuid: "s003",
         name: "zh-button",
+        type: 'button',
         style: {},
         events: [],
         propValue: "提交",
@@ -35,6 +36,7 @@ export const loopElements: IElement[] = [
           {
             uuid: "s008",
             name: 'zh-button',
+            type: 'button',
             style: {},
             events: [],
             propValue: "嵌套按钮",
@@ -119,7 +121,7 @@ export const loopElements1: IElement[] = [
       {
         uuid: "s0077inlineNoncontainer",
         name: "zh-button",
-        
+        type: 'button',
         style: { display: 'inline-block' },
         events: [],
         propValue: "inlineNoncontainer",
@@ -128,7 +130,7 @@ export const loopElements1: IElement[] = [
       {
         uuid: "s007inlineNoncontainer",
         name: "zh-button",
-        
+        type: 'button',
         style: { display: 'inline-block' },
         events: [],
         propValue: "按钮-inlineNoncontainer",
@@ -137,7 +139,7 @@ export const loopElements1: IElement[] = [
       {
           uuid: "s003blockNoncontainer",
           name: "zh-input",
-          
+          type: 'input',
           style: { width: '100%' },
           events: [],
           propValue: "请输入-blockNoncontainer",
@@ -269,12 +271,12 @@ export const componentLibs: ILib[] = [
         label: 'group-2',
         name: 'group-2',
         childrens: [
-          { label: '单行输入框', name: 'zh-input', icon: '' },
-          { label: '多行文本框', name: 'zh-textarea', icon: '' },
-          { label: '范围输入框', name: 'zh-range', icon: '' },
-          { label: '复合型输入框', name: 'zh-mixed', icon: '' },
-          { label: '数字输入框', name: 'zh-number', icon: '' },
-          { label: '金额输入框', name: 'zh-money', icon: '' },
+          { label: '单行文本', name: 'zh-input', icon: '' },
+          { label: '多行文本', name: 'zh-textarea', icon: '' },
+          { label: '区间范围', name: 'zh-range', icon: '' },
+          { label: '文本+单位', name: 'zh-mixed', icon: '' },
+          { label: '数字', name: 'zh-number', icon: '' },
+          { label: '金额', name: 'zh-money', icon: '' },
           { label: '计算公式', name: 'zh-formula', icon: '' }
         ]
       },
@@ -282,10 +284,10 @@ export const componentLibs: ILib[] = [
         label: 'group-3',
         name: 'group-3',
         childrens: [
-          { label: '密码输入框', name: 'zh-password', icon: '' },
-          { label: '电话输入框', name: 'zh-phone', icon: '' },
-          { label: '邮箱输入框', name: 'zh-email', icon: '' },
-          { label: '身份证输入框', name: 'zh-identity-card', icon: '' },
+          { label: '密码', name: 'zh-password', icon: '' },
+          { label: '手机/电话', name: 'zh-phone', icon: '' },
+          { label: '邮箱', name: 'zh-email', icon: '' },
+          { label: '身份证', name: 'zh-identity-card', icon: '' },
           // 银行卡(开户行、卡号、姓名)
           // 地址(省市区街道)
           { label: '银行卡', name: 'zh-credit-card', icon: '' },
@@ -308,12 +310,12 @@ export const componentLibs: ILib[] = [
         label: 'group-5',
         name: 'group-5',
         childrens: [
-          { label: '下拉选择器', name: 'zh-select', icon: '' },
-          { label: '级联选择器', name: 'zh-cascader', icon: '' },
-          { label: '日期选择器', name: 'zh-date-picker', icon: '' },
-          { label: '日期范围选择器', name: 'zh-date-time-picker', icon: '' },
+          { label: '下拉选择', name: 'zh-select', icon: '' },
+          { label: '级联选择', name: 'zh-cascader', icon: '' },
+          { label: '日期选择', name: 'zh-date-picker', icon: '' },
+          { label: '日期范围', name: 'zh-date-time-picker', icon: '' },
           { label: '时间选择', name: 'zh-time-select', icon: '' },
-          { label: '时间范围选择器', name: 'zh-time-picker', icon: '' },
+          { label: '时间范围', name: 'zh-time-picker', icon: '' },
           { label: '树', name: 'zh-tree', icon: '' },
           { label: '穿梭框', name: 'zh-transfer', icon: '' }
         ]

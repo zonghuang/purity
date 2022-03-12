@@ -19,14 +19,14 @@
 </template>
 
 <script setup lang="ts">
-import { useEditStore } from "../store/edit"
+import { useEditStore } from "@/store/edit"
 
 const editStore = useEditStore()
 
 const deleteComponent = () => editStore.deleteComponent(editStore.currentComponent.uuid)
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .aside-toolbar {
   display: flex;
   flex-direction: column;

@@ -12,9 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-
-interface SvgProps {
+interface ISvgProps {
   prefix?: string
   name: string
   width?: string
@@ -24,7 +22,7 @@ interface SvgProps {
   isActive?: boolean
 }
 
-const props: SvgProps= withDefaults(defineProps<SvgProps>(), {
+const props: ISvgProps = withDefaults(defineProps<ISvgProps>(), {
   prefix: 'icon',
   name: '',
   width: '20px',

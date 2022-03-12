@@ -1,6 +1,8 @@
 <template>
   <div class="zh-modal">
     <el-dialog
+      :modal="modal"
+      :close-on-click-modal="closeOnClickModal"
       v-model="visible"
       :title="title"
       :width="width"
@@ -21,16 +23,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useEditStore } from '../../editor/store/edit'
+import { useEditStore } from '@/store/edit'
 
 const editStore = useEditStore()
 const props = defineProps(['uuid', 'propValue', 'propConfig'])
 
+const editing = computed(() => editStore.editing)
+const visible = computed({
+  get: () => props.propConfig.visible,
+  set: (val: boolean) => val
+})
 const uuid = computed(() => (props.uuid))
 const title = computed(() => (props.propConfig.title))
 const width = computed(() => (props.propConfig.width))
-const visible = computed(() => (props.propConfig.visible))
+const modal = computed(() => (props.propConfig.modal))
+const closeOnClickModal = computed(() => (props.propConfig.closeOnClickModal))
 
 const handleClose = () => editStore.closeModal(uuid.value)
 </script>
@@ -47,8 +54,8 @@ const handleClose = () => editStore.closeModal(uuid.value)
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-height: calc(100% - 30px);
   max-width: calc(100% - 30px);
+  max-height: calc(100% - 30px);
 }
 :deep(.el-dialog .el-dialog__body) {
   max-height: 100%;
