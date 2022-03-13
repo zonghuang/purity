@@ -1,89 +1,142 @@
 <template>
   <div class="event-config">
-    事件配置
+    <div v-if="!events?.length && editStore.currentComponent.events">
+      <el-button type="text" @click="addEvent(events)">添加事件</el-button>
+    </div>
 
-    <!-- 临时的，后面补充更完整的配置项 -->
-    <h5>选择事件</h5>
-    <el-select v-model="firstEv.command" placeholder="请选择事件" @change="handleChange">
-      <el-option
-        v-for="item in eventOptions"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value">
-      </el-option>
-    </el-select>
-    <el-select v-model="firstEv.modalId" placeholder="请选择模态框" @change="handleChange">
-      <el-option
-        v-for="item in modalList"
-        :key="item.id"
-        :label="item.id"
-        :value="item.id">
-      </el-option>
-    </el-select>
-    <el-input v-model="firstEv.link" placeholder="请输入跳转链接" @change="handleChange"></el-input>
-    <el-input v-model="firstEv.api" placeholder="请输入请求api" @change="handleChange"></el-input>
+    <div v-else class="first-level" v-for="(firstEv, index) in events">
+      <div class="evnet">
+        <event-group
+          :level="'first'"
+          :index="index"
+          :event="firstEv"
+          @addEvent="addEvent(events)"
+          @addThenEvent="addThenEvent(firstEv)"
+          @removeEvent="removeEvent(events, index)"
+          @change="handleChange($event, firstEv)"
+        ></event-group>
+      </div>
+      <div class="then-event">
 
-    <h5>下一步事件（即上面的事件执行完再触发）</h5>
-    <el-select v-model="nextEv.command" placeholder="请选择事件" @change="handleChange">
-      <el-option
-        v-for="item in eventOptions"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value">
-      </el-option>
-    </el-select>
-    <el-select v-model="nextEv.modalId" placeholder="请选择模态框" @change="handleChange">
-      <el-option
-        v-for="item in eventOptions"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value">
-      </el-option>
-    </el-select>
-    <el-input v-model="nextEv.link" placeholder="请输入跳转链接" @change="handleChange"></el-input>
-    <el-input v-model="nextEv.api" placeholder="请输入请求api" @change="handleChange"></el-input>
+        <div class="second-level" v-for="(secondEv, indey) in firstEv.thenEvents" :key="indey">
+          <div class="evnet">
+            <event-group
+              :level="'second'"
+              :index="indey"
+              :event="secondEv"
+              @addEvent="addEvent(firstEv.thenEvents || [])"
+              @addThenEvent="addThenEvent(secondEv)"
+              @removeEvent="removeEvent(firstEv.thenEvents || [], indey)"
+              @change="handleChange($event, secondEv)"
+            ></event-group>
+          </div>
+          <div class="then-event">
 
-    <h5>同步事件（即与多个事件同步执行）</h5>
-    ……
+            <div class="third-level" v-for="(thirdEv, indez) in secondEv.thenEvents">
+              <div class="evnet">
+                <event-group
+                  :level="'third'"
+                  :index="indez"
+                  :event="thirdEv"
+                  @addEvent="addEvent(secondEv.thenEvents || [])"
+                  @addThenEvent="addThenEvent(thirdEv)"
+                  @removeEvent="removeEvent(secondEv.thenEvents || [], indez)"
+                  @change="handleChange($event, thirdEv)"
+                ></event-group>
+              </div>
+              <div class="then-event">
 
+                <div class="fourth-level" v-for="(fourthEv, indem) in thirdEv.thenEvents">
+                  <div class="evnet">
+                    <event-group
+                      :level="'fourth'"
+                      :index="indem" 
+                      :event="fourthEv"
+                      @addEvent="addEvent(thirdEv.thenEvents || [])"
+                      @addThenEvent="addThenEvent(fourthEv)"
+                      @removeEvent="removeEvent(thirdEv.thenEvents || [], indem)"
+                      @change="handleChange($event, fourthEv)"
+                    ></event-group>
+                  </div>
+                  <div class="then-event">
+
+                    <div class="fifth-level" v-for="(fifthEv, inden) in fourthEv.thenEvents">
+                      <div class="evnet">
+                        <event-group
+                          :level="'fifth'"
+                          :index="inden"
+                          :event="fifthEv"
+                          @addEvent="addEvent(fourthEv.thenEvents || [])"
+                          @addThenEvent="addThenEvent(fifthEv)"
+                          @removeEvent="removeEvent(fourthEv.thenEvents || [], inden)"
+                          @change="handleChange($event, fifthEv)"
+                        ></event-group>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { IEvent } from '@/interface-type';
 import { useEditStore } from '@/store/edit'
 
 const editStore = useEditStore()
 
-const firstEv: any = reactive({})
-const nextEv: any = reactive({})
-const modalList = computed(() => editStore.currentPage.modalList)
+const events = computed({
+  get: () => editStore.currentComponent.events,
+  set: (val: IEvent[]) => val
+})
 
+const handleChange = (eventGroup: IEvent, eventConfig: IEvent) => {
+  Object.assign(eventConfig, toRaw(eventGroup))
+}
 
-const eventOptions = [
-  { label: '打开弹窗', value: 'openModal' },
-  { label: '关闭弹窗', value: 'closeModal' },
-  { label: '跳转链接', value: 'jump' },
-  { label: '请求数据', value: 'request' },
-]
+const addEvent = (events: IEvent[]) => {
+  if (!events) return
+  events.push({
+    trigger: [{ logical: '', conditions: [] }],
+    command: '',
+    modalId: '',
+    link: '', aTarget: '',
+    api: '', method: '', params: [],
+    thenEvents: []
+  })
+}
 
-const handleChange = () => {
-  const { name, events } = editStore.currentComponent
-  if (name === 'zh-button' && events) {
-    if (!events.length) {
-      editStore.currentComponent.events?.push(firstEv)
-    } else {
-      if (nextEv.command) {
-        firstEv.thenEvents = [nextEv]
-      }
-      console.log('+++');
-      
-      editStore.currentComponent.events?.splice(0, 1, firstEv)
-    }
-  }
-  console.log(editStore.currentComponent)
+const addThenEvent = (eventConfig: IEvent) => {
+  // @ts-ignore
+  eventConfig.thenEvents.push({
+    trigger: [{ logical: '', conditions: [] }],
+    command: '',
+    modalId: '',
+    link: '', aTarget: '',
+    api: '', method: '', params: [],
+    thenEvents: []
+  })
+}
+
+const removeEvent = (events: IEvent[], index: number) => {
+  events.splice(index, 1)
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
+.event-config {
+  padding: 0 8px;
+}
 
+.second-level,
+.third-level,
+.fourth-level,
+.fifth-level {
+  padding-left: 10px;
+}
 </style>

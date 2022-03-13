@@ -86,10 +86,9 @@ export const useEditStore = defineStore({
 
     // 设置组件 uuid，以时间赋值
     setComponentId(component: IElement) {
-      component.uuid = String(this.time)
+      component.uuid = String(++this.time)
       if (component.childrens) {
         for (let i = 0; i < component.childrens.length; i++) {
-          this.time++
           this.setComponentId(component.childrens[i])
         }
       }

@@ -59,7 +59,7 @@ const handleEvents = (events: any) => {
         console.log('正在请求数据完成了，花费时间：');
         console.timeEnd('request')
       }, 2000);
-    } else if (item.command === 'jump') {
+    } else if (item.command === 'link') {
       console.log('跳转链接: ', item.link);
     }
 

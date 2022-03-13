@@ -35,6 +35,7 @@ declare module 'vue' {
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
     EventConfig: typeof import('./editor/config-center/event-config.vue')['default']
+    EventGroup: typeof import('./components/event-group/event-group.vue')['default']
     LineInsertPlaceholder: typeof import('./components/line-insert-placeholder/line-insert-placeholder.vue')['default']
     ModalList: typeof import('./editor/edit-center/modal-list.vue')['default']
     PageConfig: typeof import('./editor/config-center/page-config.vue')['default']

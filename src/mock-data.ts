@@ -463,3 +463,21 @@ export const snapshot: ISnapshot = {
   index: -1,
   List: []
 }
+
+// 事件选项
+export const eventOptions = [
+  { label: '打开弹窗', value: 'openModal' },
+  { label: '关闭弹窗', value: 'closeModal' },
+  { label: '跳转链接', value: 'link' },
+  { label: '请求数据', value: 'request' },
+]
+
+// 请求方式
+export const methodOptions = [
+  { label: 'get', value: 'GET' },
+  { label: 'post', value: 'POST' },
+  { label: 'delete', value: 'DELETE' },
+  { label: 'head', value: 'HEAD' },
+  { label: 'put', value: 'PUT' },
+  { label: 'patch', value: 'PATCH' },
+]

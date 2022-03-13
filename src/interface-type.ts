@@ -51,3 +51,18 @@ export interface ITarget {
   parent: any
 }
 
+export interface IEvent {
+  trigger?: [{ logical: string, conditions: any[] }]
+  command: string,
+  modalId?: string,
+  link?: string,
+  aTarget?: string,
+  api?: string,
+  method?: string,
+  params?: [{ key?: string, value?: string, keyValue?: string, type?: string }] | [],
+  thenEvents?: IEvent[]
+}
+export interface IOptions {
+  label: string
+  value: string | number | boolean
+}
