@@ -116,7 +116,6 @@ const closeModal = () => {
   padding: 20px;
   border: none;
   border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.05)
 }
 
 .modal-header {

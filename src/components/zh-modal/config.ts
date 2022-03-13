@@ -15,7 +15,7 @@ export default {
   animations: [],
   childrens: [
     {
-      uuid: 'modalContent',
+      uuid: '',
       name: 'zh-container',
       type: 'container',
       style: { minHeight: '100px', overflowY: 'scroll' },
@@ -26,7 +26,7 @@ export default {
       childrens: []
     },
     {
-      uuid: 'modalFooter',
+      uuid: '',
       name: 'zh-container',
       type: 'container',
       style: {
@@ -58,9 +58,7 @@ export default {
           style: { display: 'inline-block' },
           events: [],
           propValue: '确 认',
-          propConfig: {
-            type: 'primary'
-          },
+          propConfig: { type: 'primary' },
           animations: []
         }
       ]

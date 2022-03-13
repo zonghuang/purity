@@ -15,7 +15,7 @@
       <top-toolbar></top-toolbar>
       <div class="edit-area">
         <modal-list></modal-list>
-        <div class="canvas-container">
+        <div class="canvas-container" :class="{ 'overlay': isOverlay }">
           <editor-template v-if="elements" :elements="elements"></editor-template>
         </div>
         <aside-toolbar></aside-toolbar>
@@ -55,6 +55,7 @@ const activeConfig = ref('style')
 const pages = computed(() => editStore.pages)
 const currentPageId = computed(() => editStore.currentPage.id)
 const elements = computed(() => editStore.currentPage.elements)
+const isOverlay = computed(() => editStore.isOverlay)
 
 onMounted(() => {
   editStore.editing = true
@@ -112,6 +113,9 @@ function handleClick(event: any) {
     display: none;
   }
   // background-image: url('../assets/image/canvas.svg');
+}
+.overlay {
+  background-color: rgba(0, 0, 0, .5);
 }
 
 :deep(.el-tabs__header) {
