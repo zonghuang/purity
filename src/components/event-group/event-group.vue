@@ -1,9 +1,24 @@
 <template>
   <div class="event-group">
     <form class="form" onsubmit="return false">
+
+      <div v-if="level === 'first'" class="form-item user-action">
+        <label class="form-label">用户操作<abbr title="required">*</abbr></label>
+        <div class="form-content">
+          <el-select v-model="eventGroup.userAction" @change="handleChange" placeholder="请选择操作" clearable>
+            <el-option
+              v-for="item in userActionOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+
       <fieldset>
         <legend>
-          {{ level }} - 事件 {{ index + 1 }}
+          {{ level }} level - 事件 {{ index + 1 }}
           <div class="add-remove-event">
             <el-tooltip effect="light" content="添加事件" placement="bottom">
               <span class="box-item" @click="addEvent">
@@ -38,9 +53,9 @@
         </div>
 
         <div class="form-item">
-          <label class="form-label">触发事件</label>
+          <label class="form-label">触发事件<abbr title="required">*</abbr></label>
           <div class="form-content">
-            <el-select v-model="eventGroup.command" @change="handleChange" placeholder="请选择事件">
+            <el-select v-model="eventGroup.command" @change="handleChange" placeholder="请选择事件" clearable>
               <el-option
                 v-for="item in eventOptions"
                 :key="item.value"
@@ -52,9 +67,9 @@
         </div>
 
         <div v-if="eventGroup.command === 'openModal' || eventGroup.command === 'closeModal'" class="form-item">
-          <label class="form-label">模态框</label>
+          <label class="form-label">模态框<abbr title="required">*</abbr></label>
           <div class="form-content">
-            <el-select v-model="eventGroup.modalId" @change="handleChange" placeholder="请选择模态框">
+            <el-select v-model="eventGroup.modalId" @change="handleChange" placeholder="请选择模态框" clearable>
               <el-option
                 v-for="item in modalList"
                 :key="item.id"
@@ -66,29 +81,31 @@
         </div>
 
         <div v-if="eventGroup.command === 'link'" class="form-item">
-          <label class="form-label">跳转链接</label>
+          <label class="form-label">跳转链接<abbr title="required">*</abbr></label>
           <div class="form-content">
-            <el-input v-model="eventGroup.link" @change="handleChange" placeholder="请输入链接"></el-input>
+            <el-input v-model="eventGroup.link" @change="handleChange" placeholder="请输入链接" clearable></el-input>
           </div>
         </div>
         <div v-if="eventGroup.command === 'link'" class="form-item">
-          <label class="form-label">跳转方式</label>
+          <label class="form-label">跳转方式<abbr title="required">*</abbr></label>
           <div class="form-content">
-            <el-radio v-model="eventGroup.aTarget" label="_self">当前页面加载</el-radio>
-            <el-radio v-model="eventGroup.aTarget" label="_blank">新窗口打开</el-radio>
+            <el-radio-group v-model="eventGroup.aTarget" @change="handleChange">
+              <el-radio label="_self">当前页面加载</el-radio>
+              <el-radio label="_blank">新窗口打开</el-radio>
+            </el-radio-group>
           </div>
         </div>
 
         <div v-if="eventGroup.command === 'request'" class="form-item">
-          <label class="form-label">请求接口</label>
+          <label class="form-label">请求接口<abbr title="required">*</abbr></label>
           <div class="form-content">
-            <el-input v-model="eventGroup.api" @change="handleChange" placeholder="请输入api"></el-input>
+            <el-input v-model="eventGroup.api" @change="handleChange" placeholder="请输入api" clearable></el-input>
           </div>
         </div>
         <div v-if="eventGroup.command === 'request'" class="form-item">
-          <label class="form-label">请求方式</label>
+          <label class="form-label">请求方式<abbr title="required">*</abbr></label>
           <div class="form-content">
-            <el-select v-model="eventGroup.method" @change="handleChange" placeholder="请选择请求方式">
+            <el-select v-model="eventGroup.method" @change="handleChange" placeholder="请选择请求方式" clearable>
               <el-option
                 v-for="item in methodOptions"
                 :key="item.value"
@@ -105,22 +122,22 @@
               <template v-if="one.type === 'input-keyValue'">
                 <div class="key">
                   <label class="label">键</label>
-                  <el-input v-model="one.key" @change="handleChange" placeholder="请输入键"></el-input>
+                  <el-input v-model="one.key" @change="handleChange" placeholder="请输入键" clearable></el-input>
                 </div>
                 <div class="value">
                   <label class="label">值</label>
-                  <el-input v-model="one.value" @change="handleChange" placeholder="请输入值"></el-input>
+                  <el-input v-model="one.value" @change="handleChange" placeholder="请输入值" clearable></el-input>
                 </div>
               </template>
 
               <template v-if="one.type === 'inputKey-selectValue'">
                 <div class="key">
                   <label class="label">键</label>
-                  <el-input v-model="one.key" @change="handleChange" placeholder="请输入键"></el-input>
+                  <el-input v-model="one.key" @change="handleChange" placeholder="请输入键" clearable></el-input>
                 </div>
                 <div class="value">
                   <label class="label">值</label>
-                  <el-select v-model="one.value" @change="handleChange" placeholder="请选择值">
+                  <el-select v-model="one.value" @change="handleChange" placeholder="请选择值" clearable>
                     <el-option
                       v-for="item in keyValueOptions"
                       :key="item.value"
@@ -134,7 +151,7 @@
               <template v-if="one.type === 'select-keyValue'">
                 <div class="value">
                   <label class="label-spec">键-值</label>
-                  <el-select v-model="one.keyValue" @change="handleChange" placeholder="请选择键值">
+                  <el-select v-model="one.keyValue" @change="handleChange" placeholder="请选择键值" clearable>
                     <el-option
                       v-for="item in keyValueOptions"
                       :key="item.value"
@@ -179,7 +196,7 @@
 
 <script setup lang="ts">
 import { IElement, IEvent } from '@/interface-type';
-import { eventOptions, methodOptions } from '@/mock-data';
+import { userActionOptions, eventOptions, methodOptions } from '@/mock-data';
 import { useEditStore } from '@/store/edit'
 
 const editStore = useEditStore()
@@ -246,8 +263,16 @@ const addParam = (type: string) => {
   }
 }
 
+abbr {
+  color: #f56c6c;
+}
+
 .form {
   font-size: 14px;
+
+  .user-action {
+    margin-bottom: 22px;
+  }
 
   fieldset {
     display: flex;

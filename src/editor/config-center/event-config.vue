@@ -1,7 +1,7 @@
 <template>
   <div class="event-config">
     <div v-if="!events?.length && editStore.currentComponent.events">
-      <el-button type="text" @click="addEvent(events)">添加事件</el-button>
+      <el-button type="text" @click="addEvent(events, true)">添加事件</el-button>
     </div>
 
     <div v-else class="first-level" v-for="(firstEv, index) in events">
@@ -10,7 +10,7 @@
           :level="'first'"
           :index="index"
           :event="firstEv"
-          @addEvent="addEvent(events)"
+          @addEvent="addEvent(events, true)"
           @addThenEvent="addThenEvent(firstEv)"
           @removeEvent="removeEvent(events, index)"
           @change="handleChange($event, firstEv)"
@@ -99,16 +99,28 @@ const handleChange = (eventGroup: IEvent, eventConfig: IEvent) => {
   Object.assign(eventConfig, toRaw(eventGroup))
 }
 
-const addEvent = (events: IEvent[]) => {
+const addEvent = (events: IEvent[], isFirst?: boolean) => {
   if (!events) return
-  events.push({
-    trigger: [{ logical: '', conditions: [] }],
-    command: '',
-    modalId: '',
-    link: '', aTarget: '',
-    api: '', method: '', params: [],
-    thenEvents: []
-  })
+  if (isFirst) {
+    events.push({
+      userAction: 'click',
+      trigger: [{ logical: '', conditions: [] }],
+      command: '',
+      modalId: '',
+      link: '', aTarget: '',
+      api: '', method: '', params: [],
+      thenEvents: []
+    })
+  } else {
+    events.push({
+      trigger: [{ logical: '', conditions: [] }],
+      command: '',
+      modalId: '',
+      link: '', aTarget: '',
+      api: '', method: '', params: [],
+      thenEvents: []
+    })
+  }
 }
 
 const addThenEvent = (eventConfig: IEvent) => {

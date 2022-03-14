@@ -17,7 +17,8 @@
 </template>
 
 <script setup lang="ts">
-import { IElement } from '@/interface-type'
+import { IElement, IEvent } from '@/interface-type'
+import router from '@/router';
 import { useEditStore } from '@/store/edit';
 
 const editStore = useEditStore()
@@ -34,33 +35,31 @@ function handleAction() {
 }
 
 function handleClick(ev: MouseEvent, element: IElement) {
-  console.log('click', element)
-
-  // 临时的，用来测试事件
   const id = (ev.currentTarget as Element).getAttribute('uuid')
   if (id !== element.uuid) return
-  if (element.name === 'zh-button') {
-    console.log(element.name, element);
-    handleEvents(element.events)
-  }
+  const events = element.events.filter(item => item.userAction === 'click')  
+  handleEvents(events)
 }
 
-
-const handleEvents = (events: any) => {
-  events?.forEach((item: any) => {
+// 事件临时处理，后续完善
+const handleEvents = (events: IEvent[]) => {
+  events.forEach(item => {
     if (item.command === 'openModal') {
-      editStore.openModal(item.modalId)
+      item.modalId && editStore.openModal(item.modalId)
     } else if (item.command === 'closeModal') {
-      editStore.closeModal(item.modalId)
+      item.modalId && editStore.closeModal(item.modalId)
     } else if (item.command === 'request') {
-      console.log('正在请求数据, 访问 api: ', item.api);
+      console.log('正在请求数据, 访问 api: ', item.api, '请求方式: ', item.method, '请求参数: ', item.params);
       console.time('request')
       setTimeout(() => {
         console.log('正在请求数据完成了，花费时间：');
         console.timeEnd('request')
-      }, 2000);
+      }, 1500);
     } else if (item.command === 'link') {
-      console.log('跳转链接: ', item.link);
+      console.log('正在跳转链接: ', item.link, '打开方式: ', item.aTarget);
+      setTimeout(() => {
+        window.open(item.link, item.aTarget)
+      }, 1000);
     }
 
     // 这里还有暂停下来，判断前面的是执行完了才执行 thenEvents，这里假设执行完了
@@ -68,7 +67,7 @@ const handleEvents = (events: any) => {
       if (item.thenEvents) {
         handleEvents(item.thenEvents)
       }
-    }, 3000);
+    }, 2000);
   })
 }
 </script>

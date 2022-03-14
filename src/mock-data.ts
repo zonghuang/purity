@@ -464,6 +464,13 @@ export const snapshot: ISnapshot = {
   List: []
 }
 
+export const userActionOptions = [
+  { label: '点击', value: 'click' },
+  { label: '双击', value: 'dbclick' },
+  { label: '触摸', value: 'touch' },
+  { label: '滚动', value: 'scroll' },
+]
+
 // 事件选项
 export const eventOptions = [
   { label: '打开弹窗', value: 'openModal' },

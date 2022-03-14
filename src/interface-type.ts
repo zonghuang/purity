@@ -3,7 +3,7 @@ export interface IElement {
   name: string
   type: string
   style: any
-  events: any[]
+  events: IEvent[]
   propValue: any
   propConfig: any
   animations?: any[]
@@ -52,14 +52,15 @@ export interface ITarget {
 }
 
 export interface IEvent {
+  userAction?: string
   trigger?: [{ logical: string, conditions: any[] }]
-  command: string,
-  modalId?: string,
-  link?: string,
-  aTarget?: string,
-  api?: string,
-  method?: string,
-  params?: [{ key?: string, value?: string, keyValue?: string, type?: string }] | [],
+  command?: string
+  modalId?: string
+  link?: string
+  aTarget?: string
+  api?: string
+  method?: string
+  params?: [{ key?: string, value?: string, keyValue?: string, type?: string }] | []
   thenEvents?: IEvent[]
 }
 export interface IOptions {

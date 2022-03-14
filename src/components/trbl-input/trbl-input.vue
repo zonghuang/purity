@@ -9,13 +9,23 @@
       </div>
       <div class="gridview">
         <div></div>
-        <div class="top"></div>
+        <div class="top" @click="addTop">
+          <el-icon size="18px"><top /></el-icon>
+        </div>
         <div></div>
-        <div class="left"></div>
-        <div class="reset" @click="reset"></div>
-        <div class="right"></div>
+        <div class="left" @click="addLeft">
+          <el-icon size="18px"><back /></el-icon>
+        </div>
+        <div class="reset" @click="reset">
+          <el-icon size="20px"><refresh /></el-icon>
+        </div>
+        <div class="right" @click="addRight">
+          <el-icon size="18px"><right /></el-icon>
+        </div>
         <div></div>
-        <div class="bottom"></div>
+        <div class="bottom" @click="addBottom">
+          <el-icon size="18px"><bottom /></el-icon>
+        </div>
         <div></div>
       </div>
       <div class="right-input">
@@ -45,9 +55,20 @@ const reset = () => {
   trbl.left = ''
   emit('update:modelValue', trbl)
 }
+
+const addOne = (x: string | number | undefined) => {
+  if (!x) x = '0'
+  x = String(x)
+  return parseFloat(x) + 1 + 'px'
+}
+
+const addTop = () => trbl.top = addOne(trbl.top)
+const addLeft = () => trbl.left = addOne(trbl.left)
+const addRight = () => trbl.right = addOne(trbl.right)
+const addBottom = () => trbl.bottom = addOne(trbl.bottom)
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .top-input,
 .bottom-input {
   display: flex;
@@ -73,28 +94,56 @@ const reset = () => {
   height: 70px;
 }
 .reset {
-  border-radius: 50%;
-  background: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: #409eff;
+  }
 }
 
-.top,
-.right,
-.bottom,
-.left {
-  width: 0;
-  height: 0;
-  border: 10px solid transparent;
-}
 .top {
-  border-bottom: 15px solid rgb(8, 190, 245);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    color: #409eff;
+  }
 }
+
 .bottom {
-  border-top: 15px solid rgb(8, 190, 245);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    color: #409eff;
+  }
 }
+
 .left {
-  border-right: 15px solid rgb(8, 190, 245);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+
+  &:hover {
+    color: #409eff;
+  }
 }
+
 .right {
-  border-left: 15px solid rgb(8, 190, 245);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+
+  &:hover {
+    color: #409eff;
+  }
 }
 </style>
