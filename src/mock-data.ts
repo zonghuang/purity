@@ -488,3 +488,94 @@ export const methodOptions = [
   { label: 'put', value: 'PUT' },
   { label: 'patch', value: 'PATCH' },
 ]
+
+export const categorys = [
+  { label: 'Element Plus', value: 'elementplus' },
+  { label: '布局', value: 'placement' },
+  { label: '盒模型', value: 'boxmodel' },
+  { label: '文字', value: 'font' },
+  { label: '文本', value: 'text' },
+  { label: 'CSS3 属性', value: 'css3' },
+  { label: '高级输入', value: 'userinput' },
+]
+
+// 定位选项
+export const positions = [
+  { label: 'static', value: 'static' },
+  { label: 'relative', value: 'relative' },
+  { label: 'absolute', value: 'absolute' },
+  { label: 'fixed', value: 'fixed' },
+  { label: 'sticky', value: 'sticky' },
+  { label: 'inherit', value: 'inherit' },
+  { label: 'initial', value: 'initial' },
+  { label: 'unset', value: 'unset' }
+]
+
+// 浮动选项
+export const floatOptions = [
+  { label: '不浮动', value: 'none' },
+  { label: '向左浮动', value: 'left' },
+  { label: '向右浮动', value: 'right' },
+  { label: '在块容器的开始一侧浮动', value: 'inline-start' },
+  { label: '在块容器的结束一侧浮动', value: 'inline-end' },
+]
+
+// 清除浮动选项
+export const clearOptions = [
+  { label: '元素被向下移动用于清除之前的左右浮动', value: 'both' },
+  { label: '元素不会向下移动清除之前的浮动', value: 'none' },
+  { label: '元素被向下移动用于清除之前的左浮动', value: 'left' },
+  { label: '元素被向下移动用于清除之前的右浮动', value: 'right' },
+  { label: '元素向下移动以清除其包含块的起始侧上的浮动', value: 'inline-start' },
+  { label: '元素向下移动以清除其包含块的末端的浮点', value: 'inline-end' },
+]
+
+// 显示选项
+export const displays = [
+  { label: 'block', value: 'block' },
+  { label: 'inline', value: 'inline' },
+  { label: 'flex', value: 'flex' },
+  { label: 'grid', value: 'grid' },
+  { label: 'inline-block', value: 'inline-block' },
+  { label: 'inline-flex', value: 'inline-flex' },
+  { label: 'inline-grid', value: 'inline-grid' },
+  { label: 'inherit', value: 'inherit' },
+  { label: 'initial', value: 'initial' },
+  { label: 'unset', value: 'unset' },
+  { label: 'none', value: 'none' }
+]
+
+export const flexDirectionOptions = [
+  { label: 'row', value: 'row' },
+  { label: 'column', value: 'column' },
+  { label: 'row-reverse', value: 'row-reverse' },
+  { label: 'column-reverse', value: 'column-reverse' },
+]
+
+export const flexWrapOptions = [
+  { label: 'wrap', value: 'wrap' },
+  { label: 'nowrap', value: 'nowrap' }
+]
+
+export const alignItemsOptions = [
+  { label: 'stretch', value: 'stretch' },
+  { label: 'flex-start', value: 'flex-start' },
+  { label: 'flex-end', value: 'flex-end' },
+  { label: 'center', value: 'center' },
+]
+
+export const justifyContentOptions = [
+  { label: 'stretch', value: 'stretch' },
+  { label: 'flex-start', value: 'flex-start' },
+  { label: 'flex-end', value: 'flex-end' },
+  { label: 'center', value: 'center' },
+  { label: 'space-around', value: 'space-around' },
+  { label: 'space-between', value: 'space-between' },
+]
+
+export const alignSelfOptions = [
+  { label: 'stretch', value: 'stretch' },
+  { label: 'center', value: 'center' },
+  { label: 'start', value: 'start' },
+  { label: 'end', value: 'end' },
+]

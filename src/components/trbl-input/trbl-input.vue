@@ -44,16 +44,19 @@ import { IStyle } from '@/interface-type';
 const props = defineProps<{
   modelValue: IStyle
 }>()
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'change'])
 
 const trbl = reactive({ ...props.modelValue })
-const handleChange = () => emit('update:modelValue', trbl)
+const handleChange = () => { 
+  emit('update:modelValue', trbl)
+  emit('change', trbl)
+}
 const reset = () => {
   trbl.top = ''
   trbl.right = ''
   trbl.bottom = ''
   trbl.left = ''
-  emit('update:modelValue', trbl)
+  handleChange()
 }
 
 const addOne = (x: string | number | undefined) => {
@@ -62,13 +65,28 @@ const addOne = (x: string | number | undefined) => {
   return parseFloat(x) + 1 + 'px'
 }
 
-const addTop = () => trbl.top = addOne(trbl.top)
-const addLeft = () => trbl.left = addOne(trbl.left)
-const addRight = () => trbl.right = addOne(trbl.right)
-const addBottom = () => trbl.bottom = addOne(trbl.bottom)
+const addTop = () => { 
+  trbl.top = addOne(trbl.top)
+  handleChange()
+}
+const addLeft = () => {
+  trbl.left = addOne(trbl.left)
+  handleChange()
+}
+const addRight = () => { 
+  trbl.right = addOne(trbl.right)
+  handleChange()
+}
+const addBottom = () => {
+  trbl.bottom = addOne(trbl.bottom)
+  handleChange()
+}
 </script>
 
 <style scoped lang="less">
+.trbl-input {
+  width: 100%;
+}
 .top-input,
 .bottom-input {
   display: flex;
@@ -97,6 +115,7 @@ const addBottom = () => trbl.bottom = addOne(trbl.bottom)
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #666;
 
   &:hover {
     color: #409eff;
@@ -108,6 +127,7 @@ const addBottom = () => trbl.bottom = addOne(trbl.bottom)
   align-items: flex-end;
   justify-content: center;
   cursor: pointer;
+  color: #666;
 
   &:hover {
     color: #409eff;
@@ -119,6 +139,7 @@ const addBottom = () => trbl.bottom = addOne(trbl.bottom)
   align-items: flex-start;
   justify-content: center;
   cursor: pointer;
+  color: #666;
 
   &:hover {
     color: #409eff;
@@ -130,6 +151,7 @@ const addBottom = () => trbl.bottom = addOne(trbl.bottom)
   align-items: center;
   justify-content: flex-end;
   cursor: pointer;
+  color: #666;
 
   &:hover {
     color: #409eff;
@@ -141,6 +163,7 @@ const addBottom = () => trbl.bottom = addOne(trbl.bottom)
   align-items: center;
   justify-content: flex-start;
   cursor: pointer;
+  color: #666;
 
   &:hover {
     color: #409eff;

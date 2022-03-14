@@ -287,7 +287,7 @@ abbr {
       align-items: center;
       column-gap: 22px;
       width: 100%;
-      height: 25px;
+      height: 50px;
     }
   }
 
