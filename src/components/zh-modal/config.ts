@@ -4,7 +4,7 @@ export default {
   type: 'modal',
   style: {},
   events: [],
-  propValue: '',
+  modelValue: '',
   propConfig: {
     title: '模态框',
     width: '500px',
@@ -20,7 +20,7 @@ export default {
       type: 'container',
       style: { minHeight: '100px', overflowY: 'scroll' },
       events: [],
-      propValue: '',
+      modelValue: '',
       propConfig: {},
       animations: [],
       childrens: []
@@ -37,7 +37,7 @@ export default {
         height: '44px'
       },
       events: [],
-      propValue: '',
+      modelValue: '',
       propConfig: {},
       animations: [],
       childrens: [
@@ -47,7 +47,7 @@ export default {
           type: 'button',
           style: { display: 'inline-block' },
           events: [],
-          propValue: '取 消',
+          modelValue: '取 消',
           propConfig: {},
           animations: []
         },
@@ -57,7 +57,7 @@ export default {
           type: 'button',
           style: { display: 'inline-block' },
           events: [],
-          propValue: '确 认',
+          modelValue: '确 认',
           propConfig: { type: 'primary' },
           animations: []
         }

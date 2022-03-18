@@ -4,7 +4,7 @@ export default {
   type: 'select',
   style: { position: 'absolute' },
   events: [],
-  propValue: '下拉选择器',
+  modelValue: '下拉选择器',
   propConfig: {},
   animations: []
 }

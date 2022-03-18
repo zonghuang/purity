@@ -8,7 +8,7 @@
 <script setup lang="ts">
 defineProps<{
   uuid: string
-  propValue: string
+  modelValue: string
 }>()
 </script>
 

@@ -4,7 +4,7 @@ export default {
   type: 'container',
   style: { display: 'block', minHeight: '60px' },
   events: [],
-  propValue: '',
+  modelValue: '',
   propConfig: {},
   animations: [],
   childrens: []

@@ -8,10 +8,12 @@
 <script setup lang="ts">
 defineProps<{
   uuid: string
-  propValue: string
+  modelValue: string
 }>()
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+  &::-webkit-scrollbar {
+    display: none;
+  }
 </style>

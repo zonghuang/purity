@@ -120,16 +120,16 @@
         <div v-else-if="category.value === 'boxmodel'">
           <el-form :model="style" label-position="top" label-width="120px">
             <el-form-item label="宽高">
-              <el-input v-model="style.width" placeholder="请输入宽度" :style="{ width: '135px', marginRight: '10px' }"></el-input>
-              <el-input v-model="style.height" placeholder="请输入高度" :style="{ width: '135px' }"></el-input>
+              <el-input v-model="style.width" placeholder="请输入宽度" :style="{ width: '145px', marginRight: '10px' }"></el-input>
+              <el-input v-model="style.height" placeholder="请输入高度" :style="{ width: '145px' }"></el-input>
             </el-form-item>
             <el-form-item label="最小宽高">
-              <el-input v-model="style.minWidth" placeholder="请输入最小宽度" :style="{ width: '135px', marginRight: '10px' }"></el-input>
-              <el-input v-model="style.minHeight" placeholder="请输入最小高度" :style="{ width: '135px' }"></el-input>
+              <el-input v-model="style.minWidth" placeholder="请输入最小宽度" :style="{ width: '145px', marginRight: '10px' }"></el-input>
+              <el-input v-model="style.minHeight" placeholder="请输入最小高度" :style="{ width: '145px' }"></el-input>
             </el-form-item>
             <el-form-item label="最大宽高">
-              <el-input v-model="style.maxWidth" placeholder="请输入最大宽度" :style="{ width: '135px', marginRight: '10px' }"></el-input>
-              <el-input v-model="style.maxHeight" placeholder="请输入最大高度" :style="{ width: '135px' }"></el-input>
+              <el-input v-model="style.maxWidth" placeholder="请输入最大宽度" :style="{ width: '145px', marginRight: '10px' }"></el-input>
+              <el-input v-model="style.maxHeight" placeholder="请输入最大高度" :style="{ width: '145px' }"></el-input>
             </el-form-item>
 
             <el-form-item label="外边距">
@@ -140,8 +140,8 @@
             </el-form-item>
 
             <el-form-item label="边框/圆角">
-              <el-input v-model="style.border" placeholder="请输入边框" :style="{ width: '135px', marginRight: '10px' }"></el-input>
-              <el-input v-model="style.borderRadius" placeholder="请输入圆角" :style="{ width: '135px' }"></el-input>
+              <el-input v-model="style.border" placeholder="请输入边框" :style="{ width: '145px', marginRight: '10px' }"></el-input>
+              <el-input v-model="style.borderRadius" placeholder="请输入圆角" :style="{ width: '145px' }"></el-input>
             </el-form-item>
 
             <el-form-item label="背景">
@@ -312,6 +312,8 @@ const changeStyleGroups = () => {
 
 const addStyleGroup = () => styleGroups.push({ key: '', value: '' })  
 const removeStyleGroup = (index: number) => {
+  const key = toRaw(styleGroups[index]).key
+  delete style.value[key]
   styleGroups.splice(index, 1)
   changeStyleGroups()
 }

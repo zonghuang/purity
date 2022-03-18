@@ -3,8 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import { useEditStore } from '@/store/edit';
+import { useRenderStore } from '@/store/render';
 
-const editStore = useEditStore()
-const elements = editStore.currentPage.elements
+const renderStore = useRenderStore()
+renderStore.fetchConfig('1')
+const elements = computed(() => renderStore.currentPage.elements)
 </script>

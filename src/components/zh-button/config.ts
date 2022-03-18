@@ -4,7 +4,7 @@ export default {
   type: 'button',
   style: { display: 'inline-block' },
   events: [],
-  propValue: '按钮',
+  modelValue: '按钮',
   propConfig: {},
   animations: []
 }

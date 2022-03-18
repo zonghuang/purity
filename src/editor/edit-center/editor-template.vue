@@ -27,8 +27,9 @@
       :is="element.name"
       :uuid="element.uuid"
       :style="element.style"
-      :propValue="element.propValue"
+      :modelValue="element.modelValue"
       :propConfig="element.propConfig"
+      :childrens="element.childrens"
     >
       <editor-template v-if="element.childrens && element.childrens.length" :elements="element.childrens" />
     </component>

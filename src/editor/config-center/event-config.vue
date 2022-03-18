@@ -142,7 +142,7 @@ const removeEvent = (events: IEvent[], index: number) => {
 
 <style scoped lang="less">
 .event-config {
-  padding: 0 8px;
+  padding: 0 10px;
 }
 
 .second-level,

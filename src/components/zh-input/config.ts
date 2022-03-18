@@ -2,11 +2,15 @@ export default {
   uuid: 's004',
   name: 'zh-input',
   type: 'input',
-  style: { width: '200px' },
+  style: {},
   events: [],
-  propValue: '',
+  modelValue: '',
   propConfig: {
-    placeholder: '请输入'
+    label: '输入框',
+    field: '',
+    placeholder: '请输入',
+    labelWidth: '100px',
+    labelPosition: 'right'
   },
   animations: []
 }

@@ -6,8 +6,9 @@
     :uuid="element.uuid"
     :style="element.style"
     :events="element.events"
-    :propValue="element.propValue"
+    :modelValue="element.modelValue"
     :propConfig="element.propConfig"
+    :childrens="element.childrens"
     @update="handleUpdate"
     @action="handleAction"
     @click="handleClick($event, element)"
@@ -18,10 +19,9 @@
 
 <script setup lang="ts">
 import { IElement, IEvent } from '@/interface-type'
-import router from '@/router';
-import { useEditStore } from '@/store/edit';
+import { useRenderStore } from '@/store/render';
 
-const editStore = useEditStore()
+const renderStore = useRenderStore()
 const props = defineProps<{
   elements: IElement[],
 }>()
@@ -45,9 +45,9 @@ function handleClick(ev: MouseEvent, element: IElement) {
 const handleEvents = (events: IEvent[]) => {
   events.forEach(item => {
     if (item.command === 'openModal') {
-      item.modalId && editStore.openModal(item.modalId)
+      item.modalId && renderStore.openModal(item.modalId)
     } else if (item.command === 'closeModal') {
-      item.modalId && editStore.closeModal(item.modalId)
+      item.modalId && renderStore.closeModal(item.modalId)
     } else if (item.command === 'request') {
       console.log('正在请求数据, 访问 api: ', item.api, '请求方式: ', item.method, '请求参数: ', item.params);
       console.time('request')

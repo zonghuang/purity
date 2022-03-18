@@ -55,12 +55,15 @@ const activeConfig = ref('style')
 const pages = computed(() => editStore.pages)
 const currentPageId = computed(() => editStore.currentPage.id)
 const elements = computed(() => editStore.currentPage.elements)
-const isOverlay = computed(() => editStore.isOverlay)
-
-onMounted(() => {
-  editStore.editing = true
-  editStore.fetchConfig('1')
+const isOverlay = computed(() => {
+  return editStore.currentPage?.elements?.some(item => {
+    if (item.propConfig.visible) {
+      return true
+    }
+  })
 })
+
+editStore.fetchConfig('1')
 
 function handleClick(event: any) {
   // console.log(event)

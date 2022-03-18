@@ -25,7 +25,7 @@
 
 defineProps<{
   uuid: string
-  propValue: string
+  modelValue: string
 }>()
 
 const mackData: any[] = [

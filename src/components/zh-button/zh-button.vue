@@ -1,12 +1,12 @@
 <template>
   <div class="zh-button">
-    <el-button :type="propConfig.type">{{ propValue }}</el-button>
+    <el-button :type="propConfig.type">{{ modelValue }}</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  propValue: string
+  modelValue: string
   propConfig: any
 }>()
 </script>

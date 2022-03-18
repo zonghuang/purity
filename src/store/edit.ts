@@ -10,8 +10,6 @@ export const useEditStore = defineStore({
   id: 'edit',
   state: () => ({
     time: 0,
-    isOverlay: false,
-    editing: true,
     pages,
     currentPage: {} as IPage,
     currentComponent: {} as IElement,
@@ -131,7 +129,6 @@ export const useEditStore = defineStore({
       this.currentPage.elements.push(this.currentComponent)
       const { uuid, propConfig: { title } } = this.currentComponent
       this.currentPage.modalList.push({ id: uuid, name: title })
-      this.isOverlay = true
     },
 
     // 查找目标组件的索引、配置、父组件
@@ -168,7 +165,6 @@ export const useEditStore = defineStore({
       this.currentPage.elements.some(item => {
         if (item.uuid === targetId) {
           item.propConfig.visible = true
-          this.isOverlay = true
           return true
         }
       })
@@ -179,7 +175,6 @@ export const useEditStore = defineStore({
       this.currentPage.elements.some(item => {
         if (item.uuid === targetId) {
           item.propConfig.visible = false
-          this.isOverlay = false 
           return true
         }
       })
@@ -230,6 +225,11 @@ export const useEditStore = defineStore({
           return { id: item.uuid, name: item.propConfig.title }
         } 
       })
+    },
+
+    // 保存
+    save() {
+      localStorage.setItem('purity', JSON.stringify(this.pages))
     },
 
     // 预览

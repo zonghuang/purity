@@ -9,7 +9,7 @@ export const loopElements: IElement[] = [
     type: 'container',
     style: { position: 'absolute' },
     events: [],
-    propValue: 'page',
+    modelValue: 'page',
     propConfig: { k: 'kk'},
     childrens: [
       {
@@ -18,7 +18,7 @@ export const loopElements: IElement[] = [
         type: 'input',
         style: { width: '200px' },
         events: [],
-        propValue: "zonghuang",
+        modelValue: "zonghuang",
         propConfig: { placeholder: '请输入' },
         animations: [],
         childrens: []
@@ -29,7 +29,7 @@ export const loopElements: IElement[] = [
         type: 'button',
         style: {},
         events: [],
-        propValue: "提交",
+        modelValue: "提交",
         propConfig: {},
         animations: [],
         childrens: [
@@ -39,7 +39,7 @@ export const loopElements: IElement[] = [
             type: 'button',
             style: {},
             events: [],
-            propValue: "嵌套按钮",
+            modelValue: "嵌套按钮",
             propConfig: { type: 'success' },
             animations: [],
             childrens: []
@@ -52,7 +52,7 @@ export const loopElements: IElement[] = [
         type: 'container',
         style: {},
         events: [],
-        propValue: "容器",
+        modelValue: "容器",
         propConfig: {},
         animations: [],
         childrens: [
@@ -62,7 +62,7 @@ export const loopElements: IElement[] = [
             type: 'container',
             style: {},
             events: [],
-            propValue: "子容器1",
+            modelValue: "子容器1",
             propConfig: {},
             animations: [],
             childrens: []
@@ -73,7 +73,7 @@ export const loopElements: IElement[] = [
             type: 'container',
             style: {},
             events: [],
-            propValue: "子容器2",
+            modelValue: "子容器2",
             propConfig: {},
             animations: [],
             childrens: [
@@ -83,7 +83,7 @@ export const loopElements: IElement[] = [
                 type: 'container',
                 style: {},
                 events: [],
-                propValue: "孙容器1",
+                modelValue: "孙容器1",
                 propConfig: {},
                 animations: [],
                 childrens: [
@@ -93,7 +93,7 @@ export const loopElements: IElement[] = [
                     type: 'container',
                     style: {},
                     events: [],
-                    propValue: "曾孙容器1",
+                    modelValue: "曾孙容器1",
                     propConfig: {},
                     animations: [],
                     childrens: []
@@ -115,7 +115,7 @@ export const loopElements1: IElement[] = [
     type: 'container',
     style: { margin: 0, padding: 0, width: '100%', height: '600px', background: '#ccc', border: 'none' },
     events: [],
-    propValue: 'page',
+    modelValue: 'page',
     propConfig: { k: 'kk'},
     childrens: [
       {
@@ -124,7 +124,7 @@ export const loopElements1: IElement[] = [
         type: 'button',
         style: { display: 'inline-block' },
         events: [],
-        propValue: "inlineNoncontainer",
+        modelValue: "inlineNoncontainer",
         propConfig: {}
       },
       {
@@ -133,7 +133,7 @@ export const loopElements1: IElement[] = [
         type: 'button',
         style: { display: 'inline-block' },
         events: [],
-        propValue: "按钮-inlineNoncontainer",
+        modelValue: "按钮-inlineNoncontainer",
         propConfig: {}
       },
       {
@@ -142,7 +142,7 @@ export const loopElements1: IElement[] = [
           type: 'input',
           style: { width: '100%' },
           events: [],
-          propValue: "请输入-blockNoncontainer",
+          modelValue: "请输入-blockNoncontainer",
           propConfig: {}
       },
       {
@@ -151,7 +151,7 @@ export const loopElements1: IElement[] = [
         type: 'container',
         style: { display: 'block', position: 'relative' },
         events: [],
-        propValue: 'page',
+        modelValue: 'page',
         propConfig: { k: 'kk'},
         childrens: [
           {
@@ -160,7 +160,7 @@ export const loopElements1: IElement[] = [
             type: 'container',
             style: { display: 'inline-block', width: '250px', height: '150px', background: 'pink' },
             events: [],
-            propValue: 'page',
+            modelValue: 'page',
             propConfig: { k: 'kk'},
             childrens: []
           },
@@ -170,7 +170,7 @@ export const loopElements1: IElement[] = [
             type: 'container',
             style: { display: 'inline-block', width: '300px', height: '150px', background: 'blue' },
             events: [],
-            propValue: 'page',
+            modelValue: 'page',
             propConfig: { k: 'kk'},
             childrens: []
           },
@@ -182,7 +182,7 @@ export const loopElements1: IElement[] = [
         type: 'container',
         style: { display: 'inline-block', width: '400px', height: '150px', background: 'pink' },
         events: [],
-        propValue: 'page',
+        modelValue: 'page',
         propConfig: { k: 'kk'},
         childrens: []
       },
@@ -192,7 +192,7 @@ export const loopElements1: IElement[] = [
         type: 'container',
         style: { display: 'inline-block', width: '300px', height: '150px', background: 'blue' },
         events: [],
-        propValue: 'page',
+        modelValue: 'page',
         propConfig: { k: 'kk'},
         childrens: []
       },
@@ -202,7 +202,7 @@ export const loopElements1: IElement[] = [
         type: 'container',
         style: { width: '100%', height: '50px', background: '#888' },
         events: [],
-        propValue: 'page',
+        modelValue: 'page',
         propConfig: { k: 'kk'},
         childrens: []
       },
@@ -212,7 +212,7 @@ export const loopElements1: IElement[] = [
         type: 'container',
         style: { width: '100%', height: '80px', background: '#eee' },
         events: [],
-        propValue: 'page',
+        modelValue: 'page',
         propConfig: { k: 'kk'},
         childrens: [
           {
@@ -221,7 +221,7 @@ export const loopElements1: IElement[] = [
             type: 'container',
             style: { width: '80%', height: '40px', background: '#888' },
             events: [],
-            propValue: 'page',
+            modelValue: 'page',
             propConfig: { k: 'kk'},
             childrens: []
           }
@@ -413,6 +413,17 @@ export const componentLibs: ILib[] = [
     ]
   },
   {
+    label: '业务组件',
+    name: 'business',
+    childrens: [
+      // {
+      //   label: 'group-1',
+      //   name: 'group-1',
+      //   childrens: []
+      // }
+    ]
+  },
+  {
     label: '自定义组件',
     name: 'custom',
     childrens: [
@@ -578,4 +589,10 @@ export const alignSelfOptions = [
   { label: 'center', value: 'center' },
   { label: 'start', value: 'start' },
   { label: 'end', value: 'end' },
+]
+
+export const labelPositionOptions = [
+  { label: '顶部对齐', value: 'top' },
+  { label: '向左对齐', value: 'left' },
+  { label: '向右对齐', value: 'right' },
 ]

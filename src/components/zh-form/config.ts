@@ -4,7 +4,7 @@ export default {
   type: 'form',
   style: {},
   events: [],
-  propValue: '',
+  modelValue: '',
   propConfig: {},
   animations: [],
   childrens: []

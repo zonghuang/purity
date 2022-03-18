@@ -34,14 +34,11 @@
 </template>
 
 <script setup lang="ts">
-import { useEditStore } from '@/store/edit'
-
-const editStore = useEditStore()
-const props = defineProps(['uuid', 'propValue', 'propConfig'])
+const route = useRoute()
+const props = defineProps(['uuid', 'modelValue', 'propConfig'])
 
 const myModal = ref()
-
-const editing = computed(() => editStore.editing)
+const editing = ref(false)
 const visible = computed({
   get: () => props.propConfig.visible,
   set: (val: boolean) => val
@@ -52,6 +49,9 @@ const width = computed(() => (props.propConfig.width))
 const modal = computed(() => (props.propConfig.modal))
 const closeOnClickModal = computed(() => (props.propConfig.closeOnClickModal))
 
+onMounted(() => {
+  editing.value = route.fullPath === '/editor'
+})
 
 const closedFn = (ev: KeyboardEvent) => {
   const codes = ['Escape', 'Enter', 'Space']
@@ -72,7 +72,7 @@ onUnmounted(() => stopWatch())
 
 const closeModal = () => {
   if (editing.value) myModal.value.close()
-  editStore.closeModal(uuid.value)
+  props.propConfig.visible = false
 }
 </script>
 

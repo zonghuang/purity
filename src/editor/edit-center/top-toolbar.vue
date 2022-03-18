@@ -28,7 +28,7 @@
         <li v-else @click="redo"><zh-svg name="redo" /></li>
       </el-tooltip>
       <el-tooltip content="保存" placement="bottom-end">
-        <li><zh-svg name="save" /></li>
+        <li @click="save"><zh-svg name="save" /></li>
       </el-tooltip>
       <el-tooltip content="上传" placement="bottom-end">
         <li><zh-svg name="upload" /></li>
@@ -55,12 +55,11 @@ import { useEditStore } from '@/store/edit'
 const editStore = useEditStore()
 const router = useRouter()
 
+const save = () => editStore.save()
 const undo = () => editStore.undo()
 const redo = () => editStore.redo()
-const preview = () => {
-  editStore.editing = false
-  router.push({ name: 'render' })
-}
+const preview = () => router.push({ name: 'render' })
+
 const publish = () => editStore.publish()
 
 </script>

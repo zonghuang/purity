@@ -4,7 +4,7 @@ export interface IElement {
   type: string
   style: any
   events: IEvent[]
-  propValue: any
+  modelValue: any
   propConfig: any
   animations?: any[]
   childrens?: IElement[]
