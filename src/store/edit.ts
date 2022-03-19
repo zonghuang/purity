@@ -37,7 +37,10 @@ export const useEditStore = defineStore({
       this.time = new Date().getTime()
       this.setComponentId(rootContainer)
       rootContainer.type = 'root'
-      this.currentPage.elements.push(rootContainer)
+
+      if (!localStorage.getItem('purity')) {
+        this.currentPage.elements.push(rootContainer)
+      }
       this.changePage(pageId)
       this.recordSnapshot()
     },
