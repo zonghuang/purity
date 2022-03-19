@@ -222,7 +222,7 @@ const insertComponent = (id: string) => {
 }
 
 const setComponentPosition = (pageX: number, pageY: number, offsetX: string, offsetY: string) => {
-  if (editStore.currentComponent.style?.position) {
+  if (editStore.currentComponent?.style?.position) {
     const left = pageX - 365 - Number(offsetX)
     const top = pageY - 64 - Number(offsetY)
     const style = { left: left + 'px', top: top + 'px' }
@@ -253,7 +253,7 @@ const componentClass = (element: IElement) => {
     'pointer-none': isPointerNone(element),
     'root-container': element.type === 'root',
     'border-none': element.type === 'modal',
-    'active': editStore.currentComponent.uuid === element.uuid
+    'active': editStore.currentComponent?.uuid === element.uuid
   }
 }
 const isPointerNone = (element: IElement) => {

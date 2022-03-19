@@ -32,7 +32,7 @@ import { useEditStore } from '@/store/edit'
 import { labelPositionOptions } from '@/mock-data'
 
 const editStore = useEditStore()
-const propConfig = computed(() => editStore.currentComponent.propConfig)
+const propConfig = computed(() => editStore.currentComponent?.propConfig)
 </script>
 
 <style scoped>

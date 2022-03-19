@@ -238,17 +238,17 @@ import {
 } from '@/mock-data'
 
 const editStore = useEditStore()
-const style = computed(() => editStore.currentComponent.style)
+const style = computed(() => editStore.currentComponent?.style)
 
 const activeNames = ref('boxmodel')
 const styleGroups: any = reactive([])
 const trbl = computed({
   get: () => {
     return {
-      top: editStore.currentComponent.style.top,
-      right: editStore.currentComponent.style.right,
-      bottom: editStore.currentComponent.style.bottom,
-      left: editStore.currentComponent.style.left
+      top: editStore.currentComponent?.style.top,
+      right: editStore.currentComponent?.style.right,
+      bottom: editStore.currentComponent?.style.bottom,
+      left: editStore.currentComponent?.style.left
     }
   },
   set: (val: any) => val
@@ -256,10 +256,10 @@ const trbl = computed({
 const mtrbl = computed({
   get: () => {
     return {
-      top: editStore.currentComponent.style.marginTop,
-      right: editStore.currentComponent.style.marginRight,
-      bottom: editStore.currentComponent.style.marginBottom,
-      left: editStore.currentComponent.style.marginLeft
+      top: editStore.currentComponent?.style.marginTop,
+      right: editStore.currentComponent?.style.marginRight,
+      bottom: editStore.currentComponent?.style.marginBottom,
+      left: editStore.currentComponent?.style.marginLeft
     }
   },
   set: (val: any) => val
@@ -267,10 +267,10 @@ const mtrbl = computed({
 const ptrbl = computed({
   get: () => {
     return {
-      top: editStore.currentComponent.style.paddingTop,
-      right: editStore.currentComponent.style.paddingRight,
-      bottom: editStore.currentComponent.style.paddingBottom,
-      left: editStore.currentComponent.style.paddingLeft
+      top: editStore.currentComponent?.style.paddingTop,
+      right: editStore.currentComponent?.style.paddingRight,
+      bottom: editStore.currentComponent?.style.paddingBottom,
+      left: editStore.currentComponent?.style.paddingLeft
     }
   },
   set: (val: any) => val
@@ -324,9 +324,9 @@ const removeStyleGroup = (index: number) => {
   width: 100%;
 }
 
-.style-config {
+// .style-config {
 
-}
+// }
 
 :deep(.el-collapse-item__header) {
   padding-left: 10px;

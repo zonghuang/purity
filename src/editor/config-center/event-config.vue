@@ -1,6 +1,6 @@
 <template>
   <div class="event-config">
-    <div v-if="!events?.length && editStore.currentComponent.events">
+    <div v-if="!events?.length && editStore.currentComponent?.events">
       <el-button type="text" @click="addEvent(events, true)">添加事件</el-button>
     </div>
 
@@ -91,7 +91,7 @@ import { useEditStore } from '@/store/edit'
 const editStore = useEditStore()
 
 const events = computed({
-  get: () => editStore.currentComponent.events,
+  get: () => editStore.currentComponent?.events || [],
   set: (val: IEvent[]) => val
 })
 

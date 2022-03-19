@@ -24,7 +24,7 @@ const editStore = useEditStore()
 const refresh = ref(true)
 const defaultProps = { label: 'name', children: 'childrens' }
 const trees = computed(() => editStore.currentPage.elements)
-const currentNodeKey = computed(() => editStore.currentComponent.uuid)
+const currentNodeKey = computed(() => editStore.currentComponent?.uuid)
 
 const stopWatch = watch(currentNodeKey, () => {
   refresh.value = false

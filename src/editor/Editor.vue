@@ -56,7 +56,7 @@ const pages = computed(() => editStore.pages)
 const currentPageId = computed(() => editStore.currentPage.id)
 const elements = computed(() => editStore.currentPage.elements)
 const isOverlay = computed(() => {
-  return editStore.currentPage?.elements?.some(item => {
+  return editStore.currentPage.elements?.some(item => {
     if (item.propConfig.visible) {
       return true
     }

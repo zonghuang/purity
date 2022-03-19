@@ -6,11 +6,11 @@
       </el-tooltip>
       
       <el-tooltip content="iPad" placement="bottom-end">
-        <li><zh-svg name="ipad" /></li>
+        <li @click="changePlatform"><zh-svg name="ipad" /></li>
       </el-tooltip>
       
       <el-tooltip content="iPhone" placement="bottom-end">
-        <li><zh-svg name="iphone" /></li>
+        <li @click="changePlatform"><zh-svg name="iphone" /></li>
       </el-tooltip>
     </ul>
 
@@ -31,10 +31,10 @@
         <li @click="save"><zh-svg name="save" /></li>
       </el-tooltip>
       <el-tooltip content="上传" placement="bottom-end">
-        <li><zh-svg name="upload" /></li>
+        <li @click="unload"><zh-svg name="upload" /></li>
       </el-tooltip>
       <el-tooltip content="下载" placement="bottom-end">
-        <li><zh-svg name="download" /></li>
+        <li @click="download"><zh-svg name="download" /></li>
       </el-tooltip>    
     </ul>
 
@@ -55,12 +55,28 @@ import { useEditStore } from '@/store/edit'
 const editStore = useEditStore()
 const router = useRouter()
 
-const save = () => editStore.save()
+const changePlatform = () => {
+  ElMessage('此功能正在开发中...')
+}
+const unload = () => {
+  ElMessage('此功能正在开发中...')
+}
+const download = () => {
+  ElMessage('此功能正在开发中...')
+}
+
+const save = () => { 
+  editStore.save()
+  ElMessage({ type: 'success', message: '保存成功' })
+}
 const undo = () => editStore.undo()
 const redo = () => editStore.redo()
 const preview = () => router.push({ name: 'render' })
 
-const publish = () => editStore.publish()
+const publish = () => {
+  editStore.publish()
+  ElMessage('此功能正在开发中...')
+}
 
 </script>
 

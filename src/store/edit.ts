@@ -3,7 +3,8 @@ import { IElement, IPage, ISnapshot, ITarget } from "@/interface-type";
 import { componentsConfig, pages, snapshot } from '@/mock-data'
 
 function getPages(id: string) {
-  return pages
+  const storage = localStorage.getItem('purity')
+  return storage ? JSON.parse(storage) : pages
 }
 
 export const useEditStore = defineStore({
@@ -12,7 +13,7 @@ export const useEditStore = defineStore({
     time: 0,
     pages,
     currentPage: {} as IPage,
-    currentComponent: {} as IElement,
+    currentComponent: {} as IElement | null,
 
     snapshot: snapshot,
     snapshotStore: [snapshot]
@@ -41,7 +42,7 @@ export const useEditStore = defineStore({
       this.recordSnapshot()
     },
 
-    // 新建页、删除页、保存页、选择页
+    // 新建页、复制页、删除页、保存页、选择页
     createPage() {
       const num = this.pages.length + 1
       const id = 'p' + num
@@ -54,13 +55,23 @@ export const useEditStore = defineStore({
       this.snapshotStore.push({ id, index: -1, List: [] })
       this.changePage(id)
     },
+    copyPage(pageId: string) {
+      const page = pages.find(item => item.id === pageId)
+      const currentPage = _.cloneDeep(toRaw(page) as IPage)
+      const num = this.pages.length + 1
+      currentPage.id = 'p' + num
+      currentPage.name += '复制'
+      this.pages.push(currentPage)
+      this.snapshotStore.push({ id: currentPage.id, index: -1, List: [] })
+    },
     deletePage(pageId: string) {
       const index = this.pages.findIndex(item => item.id === pageId)
+      const currentPage = index === 0 ? this.pages[index + 1] : this.pages[index - 1]
+      this.currentPage = currentPage
+      this.snapshot = this.snapshotStore.find(item => item.id === currentPage.id) as ISnapshot
       this.pages.splice(index, 1)
-      const currentPage = index === 0 ? this.pages[index] : this.pages[index - 1]
-      this.changePage(currentPage.id)
     },
-    savePage() {
+    savePage() {      
       const index = this.pages.findIndex(item => item.id === this.currentPage.id)
       if (index === -1) {
         this.pages.splice(this.pages.length - 1, 0, this.currentPage)
@@ -94,7 +105,7 @@ export const useEditStore = defineStore({
 
     // 在目标组件前面插入当前组件
     insertBefore(targetId: string) {
-      if (this.currentComponent.type === 'modal') {
+      if (this.currentComponent?.type === 'modal') {
         this.insertModal()
         return
       }
@@ -105,7 +116,7 @@ export const useEditStore = defineStore({
 
     // 在目标组件后面插入当前组件
     insertAfter(targetId: string) {
-      if (this.currentComponent.type === 'modal') {
+      if (this.currentComponent?.type === 'modal') {
         this.insertModal()
         return
       }
@@ -116,7 +127,7 @@ export const useEditStore = defineStore({
 
     // 在目标组件插入子组件
     insertChild(targetId: string) {
-      if (this.currentComponent.type === 'modal') {
+      if (this.currentComponent?.type === 'modal') {
         this.insertModal()
         return
       }
@@ -126,6 +137,7 @@ export const useEditStore = defineStore({
     },
 
     insertModal() {
+      if (!this.currentComponent?.uuid) return
       this.currentPage.elements.push(this.currentComponent)
       const { uuid, propConfig: { title } } = this.currentComponent
       this.currentPage.modalList.push({ id: uuid, name: title })
@@ -149,6 +161,25 @@ export const useEditStore = defineStore({
       this.currentComponent = target?.config
     },
 
+    // 剪切组件
+    cutComponent(targetId: string) {
+      this.deleteComponent(targetId)
+      this.saveSnapshot()
+    },
+
+    // 粘贴组件
+    pasteComponent(component: IElement) {
+      if (!this.currentComponent) return
+      this.time = new Date().getTime()
+      this.setComponentId(component)
+      const containers = ['root', 'container', 'modal', 'form']
+      const type = this.currentComponent.type
+      const insertSeat = containers.includes(type) ? 'inside' : 'next'
+      const targetId = this.currentComponent.uuid
+      this.currentComponent = component
+      insertSeat === 'inside' ? this.insertChild(targetId) : this.insertAfter(targetId)
+    },
+
     // 删除组件
     deleteComponent(targetId: string) {
       const target = this.findTarget(this.currentPage.elements, targetId)
@@ -157,7 +188,7 @@ export const useEditStore = defineStore({
 
     // 设置组件样式
     setComponentStyle(style: any) {
-      Object.assign(this.currentComponent.style, style)
+      Object.assign(this.currentComponent?.style, style)
     },
 
     // 打开模态框
@@ -239,7 +270,12 @@ export const useEditStore = defineStore({
     publish() {},
 
 
-  }
+  },
+
+  // 开启数据缓存
+  // persist: {
+  //   enabled: true
+  // }
 })
 
 if (import.meta.hot) {
