@@ -1,17 +1,15 @@
 <template>
-  <div
-    class="form-item zh-input"
-    :class="{ 'zh-input-inline': labelPosition === 'left' || labelPosition === 'right' }" >
-    <label
-      class="form-label"
-      :class="{ 'label-position-top': labelPosition === 'top',
-                'label-position-right': labelPosition === 'right'
-              }"
-      :for="propConfig.field">
-      {{ propConfig.label }} <abbr title="required">*</abbr>
+  <div :class="componentClass">
+    <label :class="lableClass" :for="propConfig.field">
+      {{ propConfig.label }} <abbr v-if="required" title="required">*</abbr>
     </label>
     <div class="form-content">
-      <el-input :name="propConfig.field" v-model="modelValue" :placeholder="propConfig.placeholder" />
+      <el-input
+        v-model="value"
+        @input="updateValue"
+        :name="propConfig.field"
+        :placeholder="propConfig.placeholder"
+      />
       <div class="invalid">{{ validTips }}</div>
     </div>
   </div>
@@ -22,12 +20,38 @@ const props = defineProps<{
   modelValue: string
   propConfig: any
 }>()
+const emit = defineEmits(['update'])
 
-const labelWidth = computed(() => (props.propConfig.labelWidth))
+const value = ref(props.modelValue)
+const required = computed(() => props.propConfig.required)
+const labelWidth = computed(() => props.propConfig.labelWidth)
 const labelPosition = computed(() => props.propConfig.labelPosition)
+const validTips = ''  // 校验规则 rules 后续完善
 
-// 校验规则 rules 后续完善
-const validTips = ''
+const componentClass = computed(() => {
+  const arr = ['form-item', 'zh-input']
+  if (['left', 'right'].includes(labelPosition.value)) 
+    arr.push('zh-input-inline')
+  return arr
+})
+
+const lableClass = computed(() => {
+  const arr = ['form-label']
+  if (labelPosition.value === 'top') 
+    arr.push('label-position-top')
+  if (labelPosition.value === 'right') 
+    arr.push('label-position-right')
+  return arr
+})
+
+const stopWatch = watch(() => props.modelValue, (newValue) => {
+  value.value = newValue
+})
+onUnmounted(() => stopWatch())
+
+const updateValue = () => {
+  emit('update', value.value)
+}
 </script>
 
 <style scoped lang="less">

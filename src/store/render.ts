@@ -1,4 +1,4 @@
-import { IElement, IPage } from "@/interface-type";
+import { IElement, IPage, ITarget } from "@/interface-type";
 import { pages } from '@/mock-data'
 import { useEditStore } from "./edit";
 
@@ -36,6 +36,18 @@ export const useRenderStore = defineStore({
           return true
         }
       })
+    },
+
+    // 查找目标组件的索引、配置、父组件
+    findTarget(elements: IElement[], targetId: string, target?: ITarget) {
+      for (let i = 0; i < elements.length; i++) {
+        if (target) break
+        if (elements[i].uuid === targetId) 
+          return { index: i, config: elements[i], parent: elements }
+        if (!target && elements[i].childrens) 
+          target = this.findTarget(elements[i].childrens!, targetId, target)
+      }
+      return target
     },
 
   }

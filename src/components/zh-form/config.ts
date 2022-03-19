@@ -2,7 +2,7 @@ export default {
   uuid: '',
   name: 'zh-form',
   type: 'form',
-  style: {},
+  style: { height: '100px' },
   events: [],
   modelValue: '',
   propConfig: {},

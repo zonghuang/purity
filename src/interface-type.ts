@@ -61,6 +61,7 @@ export interface IEvent {
   api?: string
   method?: string
   params?: [{ key?: string, value?: string, keyValue?: string, type?: string }] | []
+  resDataToComp: string
   thenEvents?: IEvent[]
 }
 export interface IOptions {

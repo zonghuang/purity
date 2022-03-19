@@ -480,6 +480,9 @@ export const userActionOptions = [
   { label: '双击', value: 'dbclick' },
   { label: '触摸', value: 'touch' },
   { label: '滚动', value: 'scroll' },
+  { label: '更新', value: 'update' },
+  { label: '挂载', value: 'mount' },
+  { label: '销毁', value: 'unmount' },
 ]
 
 // 事件选项

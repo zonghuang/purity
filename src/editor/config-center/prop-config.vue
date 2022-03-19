@@ -20,6 +20,12 @@
       <el-form-item label="字段名称">
         <el-input v-model="propConfig.field" placeholder="请输入"></el-input>
       </el-form-item>
+      <el-form-item label="默认值" v-if="editStore.currentComponent">
+        <el-input v-model="editStore.currentComponent.modelValue" placeholder="请输入"></el-input>
+      </el-form-item>
+      <el-form-item label="必填">
+        <el-switch v-model="propConfig.required" />
+      </el-form-item>
       <el-form-item label="占位符文本">
         <el-input v-model="propConfig.placeholder" placeholder="请输入"></el-input>
       </el-form-item>

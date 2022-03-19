@@ -189,6 +189,19 @@
             </div>
           </div>
         </div>
+        <div v-if="eventGroup.command === 'request'" class="form-item form-item-column">
+          <label class="form-label form-label-spec">响应的数据赋值给哪个组件?</label>
+          <div class="form-content">
+            <el-select v-model="eventGroup.resDataToComp" @change="handleChange" placeholder="请选择值" clearable>
+              <el-option
+                v-for="item in keyValueOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
       </fieldset>
     </form>
   </div>
@@ -302,8 +315,13 @@ abbr {
       line-height: 32px;
     }
 
+    .form-label-spec {
+      width: unset;
+    }
+
     .form-content {
       flex: 1;
+      width: 100%;
 
       .tips {
         font-size: 12px;

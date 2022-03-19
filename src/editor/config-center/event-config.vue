@@ -108,7 +108,7 @@ const addEvent = (events: IEvent[], isFirst?: boolean) => {
       command: '',
       modalId: '',
       link: '', aTarget: '',
-      api: '', method: '', params: [],
+      api: '', method: '', params: [], resDataToComp: '',
       thenEvents: []
     })
   } else {
@@ -117,7 +117,7 @@ const addEvent = (events: IEvent[], isFirst?: boolean) => {
       command: '',
       modalId: '',
       link: '', aTarget: '',
-      api: '', method: '', params: [],
+      api: '', method: '', params: [], resDataToComp: '',
       thenEvents: []
     })
   }
@@ -130,7 +130,7 @@ const addThenEvent = (eventConfig: IEvent) => {
     command: '',
     modalId: '',
     link: '', aTarget: '',
-    api: '', method: '', params: [],
+    api: '', method: '', params: [], resDataToComp: '',
     thenEvents: []
   })
 }

@@ -1,30 +1,39 @@
 <template>
   <div class="zh-form">
     <slot></slot>
-
-    <el-button @click="onSubmit">按钮</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
+import { IElement } from '@/interface-type';
 
 const props = defineProps<{
-  modelValue: string
+  modelValue: any
   propConfig: any
   childrens?: any
 }>()
+const emit = defineEmits(['update', 'mount'])
 
-const formData: any = reactive({})
+const formData: any = reactive({a: 1})
+const childValue = computed(() => {    
+  const data: any = {}
+  props.childrens.forEach((item: IElement) => {
+    data[item.propConfig.field] = item.modelValue
+  })
+  return data;
+})
 
-const onSubmit = () => {
-  console.log(props.childrens);
-  props.childrens[0].propConfig.placeholder = '哈哈哈'
-  console.log('onSubmit', formData)
-}
+onMounted(() => {
+  emit('mount')
+
+  // 模拟请求到数据，赋值给 formData
+  // formData.value = { lastname: 'zonghaung', firstname: 'li' }
+  // emit('update', formData.value)
+})
+
+const stopWatch = watch(childValue, () => {
+  const newValue = Object.assign(toRaw(formData), childValue.value)
+  emit('update', newValue)
+})
+onUnmounted(() => stopWatch())
 </script>
-
-<style scoped>
-.zh-form {
-  height: 100px;
-}
-</style>
