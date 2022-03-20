@@ -1,12 +1,12 @@
 export default {
   uuid: '',
-  name: 'zh-select',
-  type: 'select',
+  name: 'zh-date-picker',
+  type: 'datepicker',
   style: {},
   events: [],
   modelValue: '',
   propConfig: {
-    label: '下拉选择',
+    label: '日期选择器',
     field: '',
     placeholder: '请选择',
     labelWidth: '100px',

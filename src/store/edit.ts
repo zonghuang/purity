@@ -175,7 +175,7 @@ export const useEditStore = defineStore({
       if (!this.currentComponent) return
       this.time = new Date().getTime()
       this.setComponentId(component)
-      const containers = ['root', 'container', 'modal', 'form']
+      const containers = ['root', 'container', 'modal', 'form', 'table']
       const type = this.currentComponent.type
       const insertSeat = containers.includes(type) ? 'inside' : 'next'
       const targetId = this.currentComponent.uuid

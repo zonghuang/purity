@@ -1,6 +1,6 @@
 <template>
   <div class="zh-button">
-    <el-button :type="propConfig.type" @click="handleClick">{{ modelValue }}</el-button>
+    <el-button :type="propConfig.type" @click="handleClick">{{ propConfig.label }}</el-button>
   </div>
 </template>
 

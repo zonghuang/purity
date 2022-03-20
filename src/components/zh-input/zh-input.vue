@@ -31,7 +31,7 @@ const validTips = ''  // 校验规则 rules 后续完善
 const componentClass = computed(() => {
   const arr = ['form-item', 'zh-input']
   if (['left', 'right'].includes(labelPosition.value)) 
-    arr.push('zh-input-inline')
+    arr.push('zh-form-item-inline')
   return arr
 })
 
@@ -63,7 +63,7 @@ abbr {
   width: 100%;
 }
 
-.zh-input-inline {
+.zh-form-item-inline {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -72,6 +72,8 @@ abbr {
 .form-label {
   display: inline-block;
   width: v-bind(labelWidth);
+  color: #606266;
+  font-size: 14px;
 }
 
 .form-content {

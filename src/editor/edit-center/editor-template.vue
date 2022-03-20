@@ -51,7 +51,7 @@ const props = defineProps<{
   elements: IElement[]
 }>()
 
-const containers = ['root', 'container', 'modal', 'form']
+const containers = ['root', 'container', 'modal', 'form', 'table']
 const elementOffset = reactive({ offsetX: 0, offsetY: 0 })
 const line = reactive({ direction: '', slotPosition: '', style: {} })
 const draggedElement = reactive({ id: '' })

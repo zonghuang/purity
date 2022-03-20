@@ -47,8 +47,8 @@ export default {
           type: 'button',
           style: { display: 'inline-block' },
           events: [],
-          modelValue: '取 消',
-          propConfig: {},
+          modelValue: '',
+          propConfig: { label: '取 消' },
           animations: []
         },
         {
@@ -57,8 +57,8 @@ export default {
           type: 'button',
           style: { display: 'inline-block' },
           events: [],
-          modelValue: '确 认',
-          propConfig: { type: 'primary' },
+          modelValue: '',
+          propConfig: { type: 'primary', label: '确 认' },
           animations: []
         }
       ]

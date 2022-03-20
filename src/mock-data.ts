@@ -246,6 +246,7 @@ export const componentLibs: ILib[] = [
           { label: '按钮', name: 'zh-button', icon: '' },
           { label: '单行输入框', name: 'zh-input', icon: '' },
           { label: '下拉选择器', name: 'zh-select', icon: '' },
+          { label: '日期选择', name: 'zh-date-picker', icon: '' },
           { label: '表单', name: 'zh-form', icon: '' },
           { label: '表格', name: 'zh-table', icon: '' },
           { label: '模态框', name: 'zh-modal', icon: '' }
@@ -598,4 +599,9 @@ export const labelPositionOptions = [
   { label: '顶部对齐', value: 'top' },
   { label: '向左对齐', value: 'left' },
   { label: '向右对齐', value: 'right' },
+]
+
+export const fixedOptiosn = [
+  { label: '左边固定', value: 'left' },
+  { label: '右边固定', value: 'right' },
 ]

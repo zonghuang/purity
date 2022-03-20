@@ -75,6 +75,10 @@
                   </el-option>
                 </el-select>
               </el-form-item>
+              <el-form-item label="间距">
+                <el-input v-model="style.rowGap" placeholder="请输入行间距" :style="{ width: '145px', marginRight: '10px' }"></el-input>
+                <el-input v-model="style.columnGap" placeholder="请输入列间距" :style="{ width: '145px' }"></el-input>
+            </el-form-item>
             </template>
 
             <el-form-item label="定位">

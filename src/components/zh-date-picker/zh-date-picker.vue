@@ -4,18 +4,12 @@
       {{ propConfig.label }} <abbr v-if="required" title="required">*</abbr>
     </label>
     <div class="form-content">
-      <el-select
+      <el-date-picker
         v-model="value"
-        @change="updateValue"
+        @change="updateValue" type="date"
         :name="propConfig.field"
-        :placeholder="propConfig.placeholder">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
+        :placeholder="propConfig.placeholder"
+      />
       <div class="invalid">{{ validTips }}</div>
     </div>
   </div>
@@ -23,7 +17,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  modelValue: string
+  modelValue: any
   propConfig: any
 }>()
 const emit = defineEmits(['update'])
@@ -36,7 +30,7 @@ const options = computed(() => props.propConfig.options)
 const validTips = ''  // 校验规则 rules 后续完善
 
 const componentClass = computed(() => {
-  const arr = ['form-item', 'zh-select']
+  const arr = ['form-item', 'zh-date-picker']
   if (['left', 'right'].includes(labelPosition.value)) 
     arr.push('zh-form-item-inline')
   return arr
@@ -66,11 +60,11 @@ abbr {
   color: #f56c6c;
 }
 
-.zh-select {
+.zh-date-picker {
   width: 100%;
 }
 
-.el-select {
+:deep(.el-date-editor) {
   width: 100%;
 }
 
