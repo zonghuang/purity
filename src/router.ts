@@ -20,7 +20,7 @@ const routes: RouteRecordRaw[] = [
 
 const router = createRouter({
   routes,
-  history: createWebHistory(process.env.VUE_APP_ROUTER)
+  history: createWebHistory()
 })
 
 export default router
