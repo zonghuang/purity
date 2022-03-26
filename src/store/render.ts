@@ -6,7 +6,8 @@ export const useRenderStore = defineStore({
   id: 'render',
   state: () => ({
     pages,
-    currentPage: {} as IPage
+    currentPage: {} as IPage,
+    tempData: {} as any
   }),
   getters: {
 
@@ -39,7 +40,7 @@ export const useRenderStore = defineStore({
     },
 
     // 查找目标组件的索引、配置、父组件
-    findTarget(elements: IElement[], targetId: string, target?: ITarget) {
+    findTarget(elements: IElement[], targetId: string = '', target?: ITarget) {
       for (let i = 0; i < elements.length; i++) {
         if (target) break
         if (elements[i].uuid === targetId) 

@@ -1,6 +1,6 @@
 <template>
   <div class="event-config">
-    <div v-if="!events?.length && editStore.currentComponent?.events">
+    <div class="event-none" v-if="!events?.length && editStore.currentComponent?.events">
       <el-button type="text" @click="addEvent(events, true)">添加事件</el-button>
     </div>
 
@@ -87,8 +87,21 @@
 <script setup lang="ts">
 import { IEvent } from '@/interface-type';
 import { useEditStore } from '@/store/edit'
+import _ from 'lodash';
 
 const editStore = useEditStore()
+
+const event: IEvent = {
+  trigger: [{ logical: '', conditions: [] }],
+  command: '',
+  modalId: '',
+  link: '', aTarget: '',
+  api: '', method: '', params: [], singleAssignment: true, valueToComps: [],
+  assignmentType: '', sourceToTarget: [],
+  valueToComp: '',
+  resetComponent: '',
+  thenEvents: []
+}
 
 const events = computed({
   get: () => editStore.currentComponent?.events || [],
@@ -101,38 +114,16 @@ const handleChange = (eventGroup: IEvent, eventConfig: IEvent) => {
 
 const addEvent = (events: IEvent[], isFirst?: boolean) => {
   if (!events) return
-  if (isFirst) {
-    events.push({
-      userAction: 'click',
-      trigger: [{ logical: '', conditions: [] }],
-      command: '',
-      modalId: '',
-      link: '', aTarget: '',
-      api: '', method: '', params: [], resDataToComp: '',
-      thenEvents: []
-    })
-  } else {
-    events.push({
-      trigger: [{ logical: '', conditions: [] }],
-      command: '',
-      modalId: '',
-      link: '', aTarget: '',
-      api: '', method: '', params: [], resDataToComp: '',
-      thenEvents: []
-    })
-  }
+  const item = _.cloneDeep(event)
+  if (isFirst) item.userAction = 'click'
+  if (editStore.currentComponent?.type === 'table') item.bindCode = ''
+  events.push(item)
 }
 
 const addThenEvent = (eventConfig: IEvent) => {
-  // @ts-ignore
-  eventConfig.thenEvents.push({
-    trigger: [{ logical: '', conditions: [] }],
-    command: '',
-    modalId: '',
-    link: '', aTarget: '',
-    api: '', method: '', params: [], resDataToComp: '',
-    thenEvents: []
-  })
+  if (!eventConfig.thenEvents) return
+  const item = _.cloneDeep(event)
+  eventConfig.thenEvents.push(item)
 }
 
 const removeEvent = (events: IEvent[], index: number) => {
@@ -143,6 +134,10 @@ const removeEvent = (events: IEvent[], index: number) => {
 <style scoped lang="less">
 .event-config {
   padding: 0 10px;
+}
+
+.event-none {
+  padding: 8px 0;
 }
 
 .second-level,

@@ -47,6 +47,10 @@ const props = defineProps<{
 const emit = defineEmits(['update:modelValue', 'change'])
 
 const trbl = reactive({ ...props.modelValue })
+
+const stopWatch = watch(props, (newValue) => Object.assign(trbl, newValue.modelValue))
+onUnmounted(() => stopWatch())
+
 const handleChange = () => { 
   emit('update:modelValue', trbl)
   emit('change', trbl)

@@ -10,7 +10,7 @@
       :before-close="closeModal"
     >
       <div class="modal-container">
-        {{ uuid }}: This is a message
+        <!-- {{ uuid }}: This is a message -->
         <slot></slot>
       </div>
     </el-dialog>
@@ -26,7 +26,7 @@
       </div>
 
       <div class="modal-container">
-        {{ uuid }}: This is a message
+        <!-- {{ uuid }}: This is a message -->
         <slot></slot>
       </div>
     </dialog>
@@ -54,7 +54,8 @@ onMounted(() => {
 })
 
 const closedFn = (ev: KeyboardEvent) => {
-  const codes = ['Escape', 'Enter', 'Space']
+  // const codes = ['Escape', 'Enter', 'Space']
+  const codes = ['Escape']
   if (codes.includes(ev.code)) closeModal()
 }
 
@@ -137,9 +138,5 @@ const closeModal = () => {
       color: #409eff;
     }
   }
-}
-
-.modal-container {
-
 }
 </style>

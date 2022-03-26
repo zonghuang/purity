@@ -1,5 +1,9 @@
+import { IPage } from '@/interface-type';
 <template>
   <div class="lib">
+    <div>临时测试</div>
+    <el-button type="text" @click="handleExample1">示例1</el-button>
+
     <el-collapse v-model="activeNames" @change="handleChange">
       <el-collapse-item
         v-for="category in libs"
@@ -27,7 +31,20 @@
 </template>
 
 <script setup lang="ts">
+import { IPage } from '@/interface-type';
 import { componentLibs } from '@/mock-data'
+import { appData } from '@/mock/app-manage';
+import { useEditStore } from '@/store/edit';
+
+const editStore = useEditStore()
+
+const mackAppData: any = reactive(appData)
+const handleExample1 = () => {
+  editStore.currentPage.elements = toRaw(mackAppData).elements
+  editStore.currentPage.modalList = toRaw(mackAppData).modalList
+}
+
+
 
 const libs = ref(componentLibs)
 

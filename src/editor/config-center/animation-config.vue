@@ -9,5 +9,9 @@
 </script>
 
 <style scoped>
-
+.animation-config {
+  padding: 16px 10px;
+  font-size: 14px;
+  color: #606266;
+}
 </style>

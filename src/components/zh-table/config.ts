@@ -4,9 +4,9 @@ export default {
   type: 'table',
   style: {},
   events: [],
-  modelValue: '',
+  modelValue: [],
   propConfig: {
-    title: '表格数据',
+    label: '表格数据',
     showBorder: false,
     // height: '',
     // maxHeight: '',

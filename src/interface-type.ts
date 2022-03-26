@@ -51,8 +51,16 @@ export interface ITarget {
   parent: any
 }
 
+interface IEventParams {
+  key?: string
+  value?: string
+  keyValue?: string
+  type?: string
+}
+
 export interface IEvent {
   userAction?: string
+  bindCode?: string
   trigger?: [{ logical: string, conditions: any[] }]
   command?: string
   modalId?: string
@@ -60,8 +68,13 @@ export interface IEvent {
   aTarget?: string
   api?: string
   method?: string
-  params?: [{ key?: string, value?: string, keyValue?: string, type?: string }] | []
-  resDataToComp: string
+  params?: IEventParams[]
+  singleAssignment?: boolean
+  valueToComps?: any[]
+  assignmentType?: string
+  sourceToTarget?: any[]
+  valueToComp?: string
+  resetComponent?: string
   thenEvents?: IEvent[]
 }
 export interface IOptions {

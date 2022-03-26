@@ -5,7 +5,9 @@ export default {
   style: { height: '100px' },
   events: [],
   modelValue: '',
-  propConfig: {},
+  propConfig: {
+    label: '表单'
+  },
   animations: [],
   childrens: []
 }

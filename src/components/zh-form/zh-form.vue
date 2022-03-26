@@ -6,29 +6,35 @@
 
 <script setup lang="ts">
 import { IElement } from '@/interface-type';
+import { useRenderStore } from '@/store/render';
+import { validValueComponents } from '@/mock-data';
 
 const props = defineProps<{
+  uuid: string
   modelValue: any
   propConfig: any
   childrens?: any
 }>()
-const emit = defineEmits(['update', 'mount'])
+const emit = defineEmits(['update', 'mount', 'action'])
+const renderStore = useRenderStore()
 
-const formData: any = reactive({a: 1})
-const childValue = computed(() => {    
+const originData = reactive({})
+const formData = { ...props.modelValue }
+const childValue = computed(() => {
   const data: any = {}
   props.childrens.forEach((item: IElement) => {
-    data[item.propConfig.field] = item.modelValue
+    if (validValueComponents.includes(item.type))
+      data[item.propConfig.field] = item.modelValue
   })
   return data;
 })
 
 onMounted(() => {
-  emit('mount')
+  emit('action', { userAction: 'mount' })
+  Object.assign(originData, childValue.value)
 
-  // 模拟请求到数据，赋值给 formData
-  // formData.value = { lastname: 'zonghaung', firstname: 'li' }
-  // emit('update', formData.value)
+  if (!renderStore.tempData[props.uuid]) renderStore.tempData[props.uuid] = {}
+  Object.assign(renderStore.tempData[props.uuid], { originData })
 })
 
 const stopWatch = watch(childValue, () => {

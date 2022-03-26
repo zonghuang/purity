@@ -249,7 +249,8 @@ export const componentLibs: ILib[] = [
           { label: '日期选择', name: 'zh-date-picker', icon: '' },
           { label: '表单', name: 'zh-form', icon: '' },
           { label: '表格', name: 'zh-table', icon: '' },
-          { label: '模态框', name: 'zh-modal', icon: '' }
+          { label: '模态框', name: 'zh-modal', icon: '' },
+          { label: '分页', name: 'zh-pagination', icon: '' },
         ]
       }
     ]
@@ -481,9 +482,9 @@ export const userActionOptions = [
   { label: '双击', value: 'dbclick' },
   { label: '触摸', value: 'touch' },
   { label: '滚动', value: 'scroll' },
-  { label: '更新', value: 'update' },
-  { label: '挂载', value: 'mount' },
-  { label: '销毁', value: 'unmount' },
+  { label: '更新值', value: 'update' },
+  { label: '组件挂载', value: 'mount' },
+  { label: '组件销毁', value: 'unmount' },
 ]
 
 // 事件选项
@@ -492,6 +493,8 @@ export const eventOptions = [
   { label: '关闭弹窗', value: 'closeModal' },
   { label: '跳转链接', value: 'link' },
   { label: '请求数据', value: 'request' },
+  { label: '赋值给组件', value: 'setValue' },
+  { label: '重置组件值', value: 'resetValue' },
 ]
 
 // 请求方式
@@ -504,8 +507,7 @@ export const methodOptions = [
   { label: 'patch', value: 'PATCH' },
 ]
 
-export const categorys = [
-  { label: 'Element Plus', value: 'elementplus' },
+export const styleCategorys = [
   { label: '布局', value: 'placement' },
   { label: '盒模型', value: 'boxmodel' },
   { label: '文字', value: 'font' },
@@ -601,7 +603,42 @@ export const labelPositionOptions = [
   { label: '向右对齐', value: 'right' },
 ]
 
-export const fixedOptiosn = [
-  { label: '左边固定', value: 'left' },
-  { label: '右边固定', value: 'right' },
+export const frontFixedOptions = [
+  { label: '多选列固定', value: 1 },
+  { label: '前两列固定', value: 2 },
+  { label: '前三列固定', value: 3 },
+]
+
+export const endFixedOptions = [
+  { label: '操作列固定', value: 1 },
+  { label: '后两列固定', value: 2 },
+  { label: '后三列固定', value: 3 },
+]
+
+export const buttonTypeOptions = [
+  { label: 'primary', value: 'primary' },
+  { label: 'success', value: 'success' },
+  { label: 'info', value: 'info' },
+  { label: 'warning', value: 'warning' },
+  { label: 'danger', value: 'danger' },
+]
+
+
+export const validValueComponents = [
+  'form', 'input', 'textarea', 'number', 'select', 'cascader',
+  'datepicker', 'timeselect', 'timepicker',
+  'switch', 'radio', 'checkbox', 'slider', 'rate', 'color', 'range',
+  'upload', 'tree',
+  'table'
+]
+
+export const assignmentTypeOptions = [
+  { label: '直接赋值', value: '1' },
+  { label: '合并成对象赋值', value: '2' },
+  { label: '合并成数组赋值', value: '3' },
+]
+
+export const singleAssignmentOptions = [
+  { label: '赋值给单个组件', value: true },
+  { label: '赋值给多个组件', value: false },
 ]

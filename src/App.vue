@@ -1,6 +1,5 @@
 <template>
   <router-view></router-view>
-  <!-- <Editor></Editor> -->
 </template>
 
 <script setup lang="ts">
@@ -27,5 +26,9 @@
 //   -webkit-box-sizing: border-box;
 //      -moz-box-sizing: border-box;
 //           box-sizing: border-box;
+// }
+
+// body {
+//   background: #f5f5f5;
 // }
 </style>

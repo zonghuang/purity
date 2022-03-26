@@ -51,7 +51,7 @@ import { useEditStore } from '@/store/edit'
 
 const editStore = useEditStore()
 const activeLib = ref('lib')
-const activeConfig = ref('style')
+const activeConfig = ref('prop')
 const pages = computed(() => editStore.pages)
 const currentPageId = computed(() => editStore.currentPage.id)
 const elements = computed(() => editStore.currentPage.elements)
@@ -110,6 +110,7 @@ function handleClick(event: any) {
   flex: 1;
   margin: 0 8px;
   height: 100%;
+  width: 600px; // 解决编辑时表格宽度溢出问题（真实宽度不止 600px，这里相当于限制了画布的最小宽度为 600px）
   overflow: scroll;
   
   &::-webkit-scrollbar {

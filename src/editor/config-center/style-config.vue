@@ -2,16 +2,12 @@
   <div v-if="style" class="style-config">
     <el-collapse v-model="activeNames" @change="handleChange">
       <el-collapse-item
-        v-for="category in categorys"
+        v-for="category in styleCategorys"
         :key="category.value"
         :title="category.label"
         :name="category.value"
       >
-        <div v-if="category.value === 'elementplus'">
-          
-        </div>
-
-        <div v-else-if="category.value === 'placement'">
+        <div v-if="category.value === 'placement'">
           <el-form :model="style" label-position="top" label-width="120px">
             <el-form-item label="display">
               <el-select v-model="style.display" placeholder="Select">
@@ -229,7 +225,7 @@
 import { IStyle } from '@/interface-type';
 import { useEditStore } from '@/store/edit'
 import {
-  categorys,
+  styleCategorys,
   floatOptions,
   clearOptions,
   positions,
@@ -249,10 +245,10 @@ const styleGroups: any = reactive([])
 const trbl = computed({
   get: () => {
     return {
-      top: editStore.currentComponent?.style.top,
-      right: editStore.currentComponent?.style.right,
-      bottom: editStore.currentComponent?.style.bottom,
-      left: editStore.currentComponent?.style.left
+      top: style.value.top,
+      right: style.value.right,
+      bottom: style.value.bottom,
+      left: style.value.left
     }
   },
   set: (val: any) => val
@@ -260,10 +256,10 @@ const trbl = computed({
 const mtrbl = computed({
   get: () => {
     return {
-      top: editStore.currentComponent?.style.marginTop,
-      right: editStore.currentComponent?.style.marginRight,
-      bottom: editStore.currentComponent?.style.marginBottom,
-      left: editStore.currentComponent?.style.marginLeft
+      top: style.value.marginTop,
+      right: style.value.marginRight,
+      bottom: style.value.marginBottom,
+      left: style.value.marginLeft
     }
   },
   set: (val: any) => val
@@ -271,10 +267,10 @@ const mtrbl = computed({
 const ptrbl = computed({
   get: () => {
     return {
-      top: editStore.currentComponent?.style.paddingTop,
-      right: editStore.currentComponent?.style.paddingRight,
-      bottom: editStore.currentComponent?.style.paddingBottom,
-      left: editStore.currentComponent?.style.paddingLeft
+      top: style.value.paddingTop,
+      right: style.value.paddingRight,
+      bottom: style.value.paddingBottom,
+      left: style.value.paddingLeft
     }
   },
   set: (val: any) => val

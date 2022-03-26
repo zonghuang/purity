@@ -1,17 +1,15 @@
 <template>
   <div class="zh-table">
-    <!-- 临时的，到时候会用具名插槽或动态插槽插入表格的行/列，这样每个表格的每列都可以配置 -->
-    <h4>{{ title }}</h4>
+    <!-- <h4 v-if="label">{{ label }}</h4> -->
     <el-table
       :data="tableData"
       :border="showBorder"
       :height="height"
       :max-height="maxHeight"
       :stripe="showStripe"
-      :row-class-name="tableRowClassName"
-      @header-click="thClick"
-      @header-contextmenu="thContextmenu">
-      <el-table-column v-if="showSelection" type="selection" width="55" />
+      @selection-change="selectionChange"
+    >
+      <el-table-column v-if="showSelection" type="selection" width="55" :fixed="selectionColumnFixed" />
       <el-table-column 
         v-for="item in columns"
         :prop="item.field"
@@ -19,7 +17,7 @@
         :width="item.width"
         :fixed="item.fixed"
       />
-      <el-table-column v-if="showOperations" label="操作" width="120">
+      <el-table-column v-if="showOperations" label="操作" width="180" :align="align" :fixed="operationsColumnFixed">
         <template #default="scope">
           <el-button
             v-for="item in operations"
@@ -35,6 +33,7 @@
 </template>
 
 <script setup lang="ts">
+import { useRenderStore } from '@/store/render';
 
 const props = defineProps<{
   uuid: string
@@ -42,55 +41,39 @@ const props = defineProps<{
   propConfig: any
 }>()
 const emit = defineEmits(['action'])
+const renderStore = useRenderStore()
 
-const title = computed(() => props.propConfig.label)
+const label = computed(() => props.propConfig.label)
+const primaryKey = computed(() => props.propConfig.primaryKey)
 const showBorder = computed(() => props.propConfig.showBorder)
-const height = computed(() => props.propConfig.height)
-const maxHeight = computed(() => props.propConfig.maxHeight)
+const height = computed(() => props.propConfig.height) || undefined
+const maxHeight = computed(() => props.propConfig.maxHeight) || undefined
 const showSelection = computed(() => props.propConfig.showSelection)
 const showStripe = computed(() => props.propConfig.showStripe)
 const showOperations = computed(() => props.propConfig.showOperations)
 const operations = computed(() => props.propConfig.operations)
+const selectionColumnFixed = computed(() => props.propConfig.selectionColumnFixed)
+const operationsColumnFixed = computed(() => props.propConfig.operationsColumnFixed)
 const columns = computed(() => props.propConfig.columns)
-// const 
+const align = computed(() => props.propConfig.align)
+const tableData = computed(() => props.modelValue)
 
-const tableData: any = reactive([
-  {name: 'zonghuang' },
-  {name: 'zonghuang' }
-])
+const selectionChange = (val: any[]) => {
+  const selectedRows = val.map(item => toRaw(item))
+  const rowsKey = val.map(item => item[primaryKey.value])
+  if (!renderStore.tempData[props.uuid]) renderStore.tempData[props.uuid] = {}
+  Object.assign(renderStore.tempData[props.uuid], { selectedRows, rowsKey})
+}
 
 const handleClick = (item: any, row: any) => {
-  console.log(item, row);
-  
-  emit('action', item.events, row)
-}
-
-const thContextmenu = (column: any, ev: MouseEvent) => {
-  ev.preventDefault()
-  ev.stopPropagation()
-  console.log(column);
-}
-
-const tableRowClassName = ({ row, rowIndex }: { row: any, rowIndex: number }) => {
-  if (rowIndex === 1) {
-    return 'warning-row'
-  } else if (rowIndex === 3) {
-    return 'success-row'
-  }
-  return ''
-}
-
-const thClick = (column: any, event: any) => {
-  console.log('column, event', column, event);
+  const currentRow = toRaw(row)
+  const rowKey = row[primaryKey.value]
+  if (!renderStore.tempData[props.uuid]) renderStore.tempData[props.uuid] = {}
+  Object.assign(renderStore.tempData[props.uuid], { currentRow, rowKey})
+  emit('action', { userAction: 'click', bind: item.code })
 }
 </script>
 
 <style scoped>
-/* :deep(.el-table .warning-row) {
-  --el-table-tr-bg-color: #fdf6ec !important;
-}
-:deep(.el-table .success-row) {
-  --el-table-tr-bg-color: #f0f9eb !important;
-} */
 
 </style>

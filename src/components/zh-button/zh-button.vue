@@ -1,6 +1,9 @@
 <template>
   <div class="zh-button">
-    <el-button :type="propConfig.type" @click="handleClick">{{ propConfig.label }}</el-button>
+    <el-button
+      :type="propConfig.type"
+      :icon="propConfig.icon"
+      @click="handleClick">{{ propConfig.label }}</el-button>
   </div>
 </template>
 
@@ -12,7 +15,7 @@ defineProps<{
 const emit = defineEmits(['action'])
 
 const handleClick = () => {
-  emit('action', 'click')
+  emit('action', { userAction: 'click' })
 }
 </script>
 
