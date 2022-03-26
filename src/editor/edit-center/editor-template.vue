@@ -57,6 +57,7 @@ const line = reactive({ direction: '', slotPosition: '', style: {} })
 const draggedElement = reactive({ id: '' })
 const targetElement = reactive({ id: '', clientWidth: 0, clientHeight: 0, type: '' })
 let insertSeat = ''
+const inline = ref(false)
 
 const click = (ev: MouseEvent, element: IElement) => {
   ev.stopPropagation()
@@ -101,7 +102,11 @@ const dragenter = (ev: DragEvent, element: IElement) => {
   const { clientWidth, clientHeight } = (ev.currentTarget as Element)
   const isContainer = containers.includes(element.type)
   const { display = '', flexDirection } = element.style
-  const isInline = display.includes('inline') || (display === 'flex' && flexDirection === 'row')
+  const parentNode = (<HTMLElement>ev.currentTarget).parentNode
+  const pnDisplay = (<HTMLElement>parentNode).style.display
+  const pnFlexDirection = (<HTMLElement>parentNode).style.flexDirection
+  inline.value = (pnDisplay === 'flex' && (!pnFlexDirection || pnFlexDirection === 'row'))
+  const isInline = display.includes('inline') || (display === 'flex' && flexDirection === 'row') || inline.value
 
   const type = isInline  && !isContainer ? 'inlineNoncontainer'
              : !isInline && !isContainer ? 'blockNoncontainer'
@@ -231,7 +236,7 @@ const setComponentPosition = (pageX: number, pageY: number, offsetX: string, off
 }
 
 const setLine = (direction: string, slotPosition: string, width: number, height: number) => {
-  const style = { width: width + 'px', height: height + 'px' }
+  const style = { width: width + 'px', height: height + 'px', position: inline.value ? 'static' : 'absolute' }
   Object.assign(line, { direction, slotPosition, style })
 }
 const hideLine = () => {
@@ -242,6 +247,7 @@ const isDraggable = (type: string) => {
   return type === 'root' || type === 'modal' ? false : true
 }
 const shellStyle = (element: IElement) => {
+  if (inline.value) return { display:  'inline-flex' }
   const { display = '' } = element.style
   return element.type === 'root'    ? { margin: 0, height: '100%' } 
        : element.type === 'modal'   ? { margin: 0, width: 0 }
