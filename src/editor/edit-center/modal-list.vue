@@ -19,6 +19,7 @@ const editStore = useEditStore()
 const modalList = computed(() => editStore.currentPage.modalList)
 
 const handleClick = (item: any) => {
+  editStore.setComponent(item.id)
   editStore.openModal(item.id)
 }
 </script>

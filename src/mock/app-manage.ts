@@ -373,7 +373,7 @@ export const appData = {
           "events": [],
           "modelValue": "",
           "propConfig": {
-              "title": "模态框",
+              "label": "模态框",
               "width": "500px",
               "visible": false,
               "modal": true,

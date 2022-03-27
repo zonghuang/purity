@@ -6,9 +6,15 @@
     <div class="form-content">
       <el-date-picker
         v-model="value"
-        @change="updateValue" type="date"
+        @change="updateValue"
+        :type="type"
         :name="propConfig.field"
         :placeholder="propConfig.placeholder"
+        :rangeSeparator="rangeSeparator"
+        :startPlaceholder="startPlaceholder"
+        :endPlaceholder="endPlaceholder"
+        :format="format"
+        :valueFormat="valueFormat"
       />
       <div class="invalid">{{ validTips }}</div>
     </div>
@@ -26,7 +32,12 @@ const value = ref(props.modelValue)
 const required = computed(() => props.propConfig.required)
 const labelWidth = computed(() => props.propConfig.labelWidth)
 const labelPosition = computed(() => props.propConfig.labelPosition)
-const options = computed(() => props.propConfig.options)
+const type = computed(() => props.propConfig.type ? 'daterange' : 'date')
+const format = computed(() => props.propConfig.format)
+const valueFormat = computed(() => props.propConfig.valueFormat)
+const rangeSeparator = computed(() => props.propConfig.rangeSeparator)
+const startPlaceholder = computed(() => props.propConfig.startPlaceholder)
+const endPlaceholder = computed(() => props.propConfig.endPlaceholder)
 const validTips = ''  // 校验规则 rules 后续完善
 
 const componentClass = computed(() => {

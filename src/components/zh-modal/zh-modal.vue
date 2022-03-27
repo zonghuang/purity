@@ -3,6 +3,7 @@
     <el-dialog
       v-if="!editing"
       :modal="modal"
+      :fullscreen="fullscreen"
       :close-on-click-modal="closeOnClickModal"
       v-model="visible"
       :title="title"
@@ -44,9 +45,10 @@ const visible = computed({
   set: (val: boolean) => val
 })
 const uuid = computed(() => (props.uuid))
-const title = computed(() => (props.propConfig.title))
+const title = computed(() => (props.propConfig.label))
 const width = computed(() => (props.propConfig.width))
 const modal = computed(() => (props.propConfig.modal))
+const fullscreen = computed(() => (props.propConfig.fullscreen))
 const closeOnClickModal = computed(() => (props.propConfig.closeOnClickModal))
 
 onMounted(() => {

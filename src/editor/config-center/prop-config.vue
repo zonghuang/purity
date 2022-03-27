@@ -26,7 +26,7 @@
     </el-form>
 
     <el-form
-      v-if="(type === 'input' || type === 'select') && propConfig"
+      v-if="(type === 'input' || type === 'select' || type === 'datepicker') && propConfig"
       :model="propConfig"
       label-position="top"
       label-width="120px"
@@ -89,6 +89,27 @@
         </div>
       </el-form-item>
 
+      <template v-if="type === 'datepicker'">
+        <el-form-item label="日期范围">
+          <el-switch v-model="propConfig.type" />
+        </el-form-item>
+        <el-form-item label="格式">
+          <el-input v-model="propConfig.format"></el-input>
+        </el-form-item>
+        <el-form-item label="绑定格式">
+          <el-input v-model="propConfig.valueFormat"></el-input>
+        </el-form-item>
+        <el-form-item label="分隔符">
+          <el-input v-model="propConfig.rangeSeparator"></el-input>
+        </el-form-item>
+        <el-form-item label="start 占位符">
+          <el-input v-model="propConfig.startPlaceholder"></el-input>
+        </el-form-item>
+        <el-form-item label="end 占位符">
+          <el-input v-model="propConfig.endPlaceholder"></el-input>
+        </el-form-item>
+      </template>
+
     </el-form>
 
     <el-form v-if="type === 'form' && propConfig" :model="propConfig" label-position="top" label-width="120px">
@@ -115,8 +136,6 @@
         </el-select>
       </el-form-item>
     </el-form>
-
-    
 
     <el-form v-if="type === 'table' && propConfig" class="table" :model="propConfig" label-position="top" label-width="120px">
       <el-form-item label="表格名称">
@@ -244,6 +263,29 @@
             <el-icon size="16px"><plus /></el-icon>
           </span>
         </div>
+      </el-form-item>
+    </el-form>
+
+    <el-form
+      v-if="type === 'modal' && propConfig"
+      :model="propConfig"
+      label-position="top"
+      label-width="120px"
+    >
+      <el-form-item label="模态名称">
+        <el-input v-model="propConfig.label" placeholder="请输入" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="模态宽度">
+        <el-input v-model="propConfig.width" placeholder="请输入" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="遮罩层">
+        <el-switch v-model="propConfig.modal"></el-switch>
+      </el-form-item>
+      <el-form-item label="点击遮罩层关闭">
+        <el-switch v-model="propConfig.closeOnClickModal"></el-switch>
+      </el-form-item>
+      <el-form-item label="全屏">
+        <el-switch v-model="propConfig.fullscreen"></el-switch>
       </el-form-item>
     </el-form>
   </div>

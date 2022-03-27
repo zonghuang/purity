@@ -49,7 +49,7 @@ const handleExample1 = () => {
 const libs = ref(componentLibs)
 
 const activeNames = ref(['test'])
-function handleChange(value: string) {
+function handleChange(value: any) {
   // console.log(value)
 }
 

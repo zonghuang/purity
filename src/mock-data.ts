@@ -513,7 +513,7 @@ export const styleCategorys = [
   { label: '文字', value: 'font' },
   { label: '文本', value: 'text' },
   { label: 'CSS3 属性', value: 'css3' },
-  { label: '高级输入', value: 'userinput' },
+  { label: '手动输入', value: 'userinput' },
 ]
 
 // 定位选项

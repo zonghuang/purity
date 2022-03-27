@@ -6,7 +6,7 @@ export default {
   events: [],
   modelValue: '',
   propConfig: {
-    title: '模态框',
+    label: '模态框',
     width: '500px',
     visible: true,
     modal: true,
