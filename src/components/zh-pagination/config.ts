@@ -7,11 +7,10 @@ export default {
   modelValue: {
     currentPage: 1,
     pageSize: 10,
-    totalCount: 0
   },
   propConfig: {
-    
-
+    total: 0,
+    field: 'pagination'
   },
   animations: []
 }

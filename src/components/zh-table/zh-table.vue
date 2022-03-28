@@ -70,7 +70,7 @@ const handleClick = (item: any, row: any) => {
   const rowKey = row[primaryKey.value]
   if (!renderStore.tempData[props.uuid]) renderStore.tempData[props.uuid] = {}
   Object.assign(renderStore.tempData[props.uuid], { currentRow, rowKey})
-  emit('action', { userAction: 'click', bind: item.code })
+  emit('action', { userAction: 'click', bindCode: item.code })
 }
 </script>
 

@@ -629,7 +629,7 @@ export const validValueComponents = [
   'datepicker', 'timeselect', 'timepicker',
   'switch', 'radio', 'checkbox', 'slider', 'rate', 'color', 'range',
   'upload', 'tree',
-  'table'
+  'table', 'pagination'
 ]
 
 export const assignmentTypeOptions = [

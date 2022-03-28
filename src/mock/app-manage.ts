@@ -1,4 +1,4 @@
-const tableData = [
+export const tableData = [
   { icon: '😄', clientId: 'app122', appType: '电商', authMethod: '国家认证', appStatus: '已上线', auditStatus: '通过', contacts: 'zonghuang' },
   { icon: '😄', clientId: 'app12as4', appType: '设计', authMethod: '世界认证', appStatus: '已上线', auditStatus: '通过', contacts: 'kobe' },
   { icon: '😄', clientId: 'app2as4', appType: '设计', authMethod: '世界认证', appStatus: '已上线', auditStatus: '通过', contacts: 'kobe' },
@@ -11,6 +11,11 @@ const tableData = [
   { icon: '😄', clientId: 'ap22as4', appType: '设计', authMethod: '世界认证', appStatus: '已上线', auditStatus: '通过', contacts: 'kobe' },
   { icon: '😄', clientId: 'app122as4', appType: '设计', authMethod: '世界认证', appStatus: '已上线', auditStatus: '通过', contacts: 'kobe' },
 ]
+
+export const resData = {
+  tableData: tableData,
+  total: 150
+}
 
 export const appData = {
   "id": "p1",
@@ -153,6 +158,7 @@ export const appData = {
                                       }
                                   ],
                                   "valueToComp": "1647830358171",
+                                  valueToComps: [],
                                   "thenEvents": []
                               }
                           ],
@@ -232,7 +238,7 @@ export const appData = {
                       "background": "#fff"
                   },
                   "events": [],
-                  "modelValue": tableData,
+                  "modelValue": [],
                   "propConfig": {
                       "title": "表格数据",
                       "showBorder": false,
@@ -358,9 +364,11 @@ export const appData = {
                   "modelValue": {
                     currentPage: 1,
                     pageSize: 10,
-                    totalCount: 100
                   },
-                  "propConfig": {},
+                  "propConfig": {
+                    total: 100,
+                    field: 'pagination'
+                  },
                   "animations": []
               }
           ]

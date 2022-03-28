@@ -18,6 +18,7 @@
 
 <script setup lang="ts">
 import { IElement, IEvent } from '@/interface-type'
+import { tableData, resData } from '@/mock/app-manage';
 import { useRenderStore } from '@/store/render'
 import qs from 'query-string'
 
@@ -29,7 +30,13 @@ const props = defineProps<{
 
 function handleUpdate(value: any, element: IElement) {
   console.log('update', value, element)
-  element.modelValue = value
+
+  if (element.type === 'pagination') {
+    element.propConfig.total = value
+  } else {
+    element.modelValue = value
+  }
+
   if (element.type === 'form' && element.childrens?.length) {
     element.childrens.forEach(item => {
       if (element.modelValue.hasOwnProperty(item.propConfig.field)) {
@@ -79,7 +86,9 @@ const handleEvents = (events: IEvent[]) => {
         console.log('正在请求数据, 访问 api: ', item.api, '请求方式: ', item.method, '请求参数: ', params);
         console.time('request')
         setTimeout(() => {
-          const responseData: any = { lastname: 'zonghaung', firstname: 'li' }
+          // const responseData = tableData
+          const responseData: any = resData
+          // const responseData: any = { lastname: 'zonghaung', firstname: 'li' }
           console.log('正在请求数据完成了，花费时间：');
           console.timeEnd('request')
           console.log('响应数据', responseData);
@@ -219,7 +228,7 @@ const getValue = (formatType: string, params: any[] = []) => {
         const componentId = value
         const target = renderStore.findTarget(renderStore.currentPage.elements, componentId)
         const v = target?.config.modelValue
-        arr.push({ key, value: v })
+        arr.push({ key, value: toRaw(v) })
         break;
       }
       case 10: {
@@ -227,7 +236,7 @@ const getValue = (formatType: string, params: any[] = []) => {
         const target = renderStore.findTarget(renderStore.currentPage.elements, componentId)
         const k = target?.config.propConfig.field
         const v = target?.config.modelValue
-        arr.push({ key: k, value: v })
+        arr.push({ key: k, value: toRaw(v) })
         break;
       }
 

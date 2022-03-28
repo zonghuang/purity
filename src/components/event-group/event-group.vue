@@ -428,7 +428,7 @@ const getKeyValueOptions = (tree: IElement[], arr: any) => {
     
     // 特殊：表格当前行、多选行、当前行主键、多选行主键
     if (item.type === 'table') {
-      const currentRow = {label: label + '当前行', value:  item.uuid + 'currentRow' }
+      const currentRow = { label: label + '当前行', value:  item.uuid + 'currentRow' }
       const selectedRows = { label: label + '多选行', value: item.uuid + 'selectedRows' }
       const currentRowKey = { label: label + '当前行主键', value: item.uuid + 'rowKey' }
       const selectedRowsKey = { label: label + '多选行主键', value: item.uuid + 'rowsKey' }

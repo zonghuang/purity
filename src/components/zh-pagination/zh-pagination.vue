@@ -7,7 +7,7 @@
       :current-page="page.currentPage"
       :pager-count="pagerCount"
       :page-size="page.pageSize"
-      :total="page.totalCount"
+      :total="total"
       :page-sizes="[10, 20, 30, 50]"
       layout="total, sizes, prev, pager, next, jumper"
       background
@@ -24,15 +24,16 @@ const emit = defineEmits(['action'])
 
 const pagerCount = 5
 const page = computed(() => props.modelValue)
+const total = computed(() => props.propConfig.total)
 
 const handlePageSize = (pageSize: number) => {
   page.value.pageSize = pageSize
-  emit('action', { userAction: 'update' })
+  emit('action', { userAction: 'click' })
 }
 
 const handleCurrentPage = (currentPage: number) => {
   page.value.currentPage = currentPage
-  emit('action', { userAction: 'update' })
+  emit('action', { userAction: 'click' })
 }
 
 </script>

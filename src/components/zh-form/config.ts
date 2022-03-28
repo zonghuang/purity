@@ -4,7 +4,7 @@ export default {
   type: 'form',
   style: { height: '100px' },
   events: [],
-  modelValue: '',
+  modelValue: {},
   propConfig: {
     label: '表单'
   },

@@ -119,6 +119,9 @@
       <el-form-item label="别名">
         <el-input v-model="propConfig.alias" placeholder="请输入"></el-input>
       </el-form-item>
+      <el-form-item label="字段名称">
+        <el-input v-model="propConfig.field" placeholder="请输入"></el-input>
+      </el-form-item>
       <el-form-item label="表单项宽度">
         <el-input v-model="propConfig.formItemWidth" placeholder="请输入" @change="changeFormItemWidth"></el-input>
       </el-form-item>
@@ -286,6 +289,20 @@
       </el-form-item>
       <el-form-item label="全屏">
         <el-switch v-model="propConfig.fullscreen"></el-switch>
+      </el-form-item>
+    </el-form>
+
+    <el-form
+      v-if="type === 'pagination' && propConfig"
+      :model="propConfig"
+      label-position="top"
+      label-width="120px"
+    >
+      <el-form-item label="标签名称">
+        <el-input v-model="propConfig.label" placeholder="请输入" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="字段名称">
+        <el-input v-model="propConfig.field" placeholder="请输入"></el-input>
       </el-form-item>
     </el-form>
   </div>
