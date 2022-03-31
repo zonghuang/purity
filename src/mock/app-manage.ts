@@ -134,7 +134,7 @@ export const appData = {
                                           "conditions": []
                                       }
                                   ],
-                                  "command": "request",
+                                  "event": "request",
                                   "modalId": "",
                                   "link": "",
                                   "aTarget": "",
@@ -207,7 +207,7 @@ export const appData = {
                                           "conditions": []
                                       }
                                   ],
-                                  "command": "openModal",
+                                  "event": "openModal",
                                   "modalId": "1647831103726",
                                   "link": "",
                                   "aTarget": "",
@@ -433,7 +433,7 @@ export const appData = {
                                                   "conditions": []
                                               }
                                           ],
-                                          "command": "",
+                                          "event": "",
                                           "modalId": "",
                                           "link": "",
                                           "aTarget": "",
@@ -508,7 +508,7 @@ export const appData = {
                                           "conditions": []
                                       }
                                   ],
-                                  "command": "closeModal",
+                                  "event": "closeModal",
                                   "modalId": "1647831103726",
                                   "link": "",
                                   "aTarget": "",
@@ -543,7 +543,7 @@ export const appData = {
                                           "conditions": []
                                       }
                                   ],
-                                  "command": "request",
+                                  "event": "request",
                                   "modalId": "",
                                   "link": "",
                                   "aTarget": "",
@@ -572,7 +572,7 @@ export const appData = {
                                                   "conditions": []
                                               }
                                           ],
-                                          "command": "closeModal",
+                                          "event": "closeModal",
                                           "modalId": "1647831103726",
                                           "link": "",
                                           "aTarget": "",
@@ -600,12 +600,6 @@ export const appData = {
       }
   ],
   "settings": {},
-  "modalList": [
-      {
-          "id": "1647831103726",
-          "name": "模态框"
-      }
-  ]
 }
 
 

@@ -7,7 +7,7 @@ export const useRenderStore = defineStore({
   state: () => ({
     pages,
     currentPage: {} as IPage,
-    tempData: {} as any
+    cacheData: {} as any
   }),
   getters: {
 
@@ -51,6 +51,11 @@ export const useRenderStore = defineStore({
       return target
     },
 
+  },
+
+  // 开启数据缓存
+  persist: {
+    enabled: true
   }
 })
 

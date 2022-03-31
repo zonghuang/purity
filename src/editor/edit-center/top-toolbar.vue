@@ -22,7 +22,7 @@
         <li v-else @click="undo"><zh-svg name="undo" /></li>   
       </el-tooltip>
       <el-tooltip content="重做" placement="bottom-end">
-        <li v-if="editStore.snapshot.index === editStore.snapshot.List.length - 1" class="disabled">
+        <li v-if="editStore.snapshot.index === editStore.snapshot.list.length - 1" class="disabled">
           <zh-svg name="redo" :color="'#aaa'" />
         </li>
         <li v-else @click="redo"><zh-svg name="redo" /></li>

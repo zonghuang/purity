@@ -41,24 +41,22 @@ const endPlaceholder = computed(() => props.propConfig.endPlaceholder)
 const validTips = ''  // 校验规则 rules 后续完善
 
 const componentClass = computed(() => {
-  const arr = ['form-item', 'zh-date-picker']
+  const classes = ['form-item', 'zh-date-picker']
   if (['left', 'right'].includes(labelPosition.value)) 
-    arr.push('zh-form-item-inline')
-  return arr
+    classes.push('zh-form-item-inline')
+  return classes
 })
 
 const lableClass = computed(() => {
-  const arr = ['form-label']
+  const classes = ['form-label']
   if (labelPosition.value === 'top') 
-    arr.push('label-position-top')
+    classes.push('label-position-top')
   if (labelPosition.value === 'right') 
-    arr.push('label-position-right')
-  return arr
+    classes.push('label-position-right')
+  return classes
 })
 
-const stopWatch = watch(() => props.modelValue, (newValue) => {
-  value.value = newValue
-})
+const stopWatch = watch(() => props.modelValue, newValue => value.value = newValue)
 onUnmounted(() => stopWatch())
 
 const updateValue = () => {

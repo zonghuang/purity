@@ -61,15 +61,15 @@ const tableData = computed(() => props.modelValue)
 const selectionChange = (val: any[]) => {
   const selectedRows = val.map(item => toRaw(item))
   const rowsKey = val.map(item => item[primaryKey.value])
-  if (!renderStore.tempData[props.uuid]) renderStore.tempData[props.uuid] = {}
-  Object.assign(renderStore.tempData[props.uuid], { selectedRows, rowsKey})
+  if (!renderStore.cacheData[props.uuid]) renderStore.cacheData[props.uuid] = {}
+  Object.assign(renderStore.cacheData[props.uuid], { selectedRows, rowsKey, primaryKey })
 }
 
 const handleClick = (item: any, row: any) => {
   const currentRow = toRaw(row)
   const rowKey = row[primaryKey.value]
-  if (!renderStore.tempData[props.uuid]) renderStore.tempData[props.uuid] = {}
-  Object.assign(renderStore.tempData[props.uuid], { currentRow, rowKey})
+  if (!renderStore.cacheData[props.uuid]) renderStore.cacheData[props.uuid] = {}
+  Object.assign(renderStore.cacheData[props.uuid], { currentRow, rowKey, primaryKey })
   emit('action', { userAction: 'click', bindCode: item.code })
 }
 </script>

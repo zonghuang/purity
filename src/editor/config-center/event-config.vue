@@ -16,59 +16,59 @@
           @change="handleChange($event, firstEv)"
         ></event-group>
       </div>
-      <div class="then-event">
 
+      <div class="then-event">
         <div class="second-level" v-for="(secondEv, indey) in firstEv.thenEvents" :key="indey">
           <div class="evnet">
             <event-group
               :level="'second'"
               :index="indey"
               :event="secondEv"
-              @addEvent="addEvent(firstEv.thenEvents || [])"
+              @addEvent="addEvent(firstEv.thenEvents)"
               @addThenEvent="addThenEvent(secondEv)"
-              @removeEvent="removeEvent(firstEv.thenEvents || [], indey)"
+              @removeEvent="removeEvent(firstEv.thenEvents, indey)"
               @change="handleChange($event, secondEv)"
             ></event-group>
           </div>
-          <div class="then-event">
 
+          <div class="then-event">
             <div class="third-level" v-for="(thirdEv, indez) in secondEv.thenEvents">
               <div class="evnet">
                 <event-group
                   :level="'third'"
                   :index="indez"
                   :event="thirdEv"
-                  @addEvent="addEvent(secondEv.thenEvents || [])"
+                  @addEvent="addEvent(secondEv.thenEvents)"
                   @addThenEvent="addThenEvent(thirdEv)"
-                  @removeEvent="removeEvent(secondEv.thenEvents || [], indez)"
+                  @removeEvent="removeEvent(secondEv.thenEvents, indez)"
                   @change="handleChange($event, thirdEv)"
                 ></event-group>
               </div>
-              <div class="then-event">
 
+              <div class="then-event">
                 <div class="fourth-level" v-for="(fourthEv, indem) in thirdEv.thenEvents">
                   <div class="evnet">
                     <event-group
                       :level="'fourth'"
                       :index="indem" 
                       :event="fourthEv"
-                      @addEvent="addEvent(thirdEv.thenEvents || [])"
+                      @addEvent="addEvent(thirdEv.thenEvents)"
                       @addThenEvent="addThenEvent(fourthEv)"
-                      @removeEvent="removeEvent(thirdEv.thenEvents || [], indem)"
+                      @removeEvent="removeEvent(thirdEv.thenEvents, indem)"
                       @change="handleChange($event, fourthEv)"
                     ></event-group>
                   </div>
-                  <div class="then-event">
 
+                  <div class="then-event">
                     <div class="fifth-level" v-for="(fifthEv, inden) in fourthEv.thenEvents">
                       <div class="evnet">
                         <event-group
                           :level="'fifth'"
                           :index="inden"
                           :event="fifthEv"
-                          @addEvent="addEvent(fourthEv.thenEvents || [])"
+                          @addEvent="addEvent(fourthEv.thenEvents)"
                           @addThenEvent="addThenEvent(fifthEv)"
-                          @removeEvent="removeEvent(fourthEv.thenEvents || [], inden)"
+                          @removeEvent="removeEvent(fourthEv.thenEvents, inden)"
                           @change="handleChange($event, fifthEv)"
                         ></event-group>
                       </div>
@@ -85,34 +85,38 @@
 </template>
 
 <script setup lang="ts">
-import { IEvent } from '@/interface-type';
+import _ from 'lodash'
 import { useEditStore } from '@/store/edit'
-import _ from 'lodash';
+import { IEvent } from '@/interface-type'
 
 const editStore = useEditStore()
 
 const event: IEvent = {
-  trigger: [{ logical: '', conditions: [] }],
-  command: '',
+  trigger: [],
+  event: '',
   modalId: '',
-  link: '', aTarget: '',
-  api: '', method: '', params: [], singleAssignment: true, valueToComps: [],
-  assignmentType: '', sourceToTarget: [],
+  link: '',
+  aTarget: '',
+  api: '',
+  method: '',
+  params: [],
+  assignmentType: '',
   valueToComp: '',
-  resetComponent: '',
+  valueToComps: [],
+  sourceToTarget: [],
   thenEvents: []
 }
 
 const events = computed({
   get: () => editStore.currentComponent?.events || [],
-  set: (val: IEvent[]) => val
+  set: newValue => newValue
 })
 
 const handleChange = (eventGroup: IEvent, eventConfig: IEvent) => {
   Object.assign(eventConfig, toRaw(eventGroup))
 }
 
-const addEvent = (events: IEvent[], isFirst?: boolean) => {
+const addEvent = (events: IEvent[] = [], isFirst?: boolean) => {
   if (!events) return
   const item = _.cloneDeep(event)
   if (isFirst) item.userAction = 'click'
@@ -126,7 +130,7 @@ const addThenEvent = (eventConfig: IEvent) => {
   eventConfig.thenEvents.push(item)
 }
 
-const removeEvent = (events: IEvent[], index: number) => {
+const removeEvent = (events: IEvent[] = [], index: number) => {
   events.splice(index, 1)
 }
 </script>

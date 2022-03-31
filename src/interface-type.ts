@@ -10,14 +10,15 @@ export interface IElement {
   childrens?: IElement[]
 }
 
+export interface ITrbl {
+  top: string | number
+  right: string | number
+  bottom: string | number
+  left: string | number
+}
+
 export interface IStyle {
-  width?: string | number
-  height?: string | number
-  top?: string | number
-  right?: string | number
-  bottom?: string | number
-  left?: string | number
-  [key: string]: string | number | undefined
+  [key: string]: string | number
 }
 
 export interface IComponentConfig {
@@ -36,48 +37,60 @@ export interface IPage {
   name: string
   elements: IElement[]
   settings: any
-  modalList: any[]
 }
 
 export interface ISnapshot {
   id: string
   index: number
-  List: any[]
+  list: any[]
 }
 
 export interface ITarget {
   index: number
-  config: any
-  parent: any
+  config: IElement
+  parent: IElement[]
 }
 
-interface IEventParams {
-  key?: string
-  value?: string
-  keyValue?: string
-  type?: string
+export interface IEventParams {
+  key: string
+  value: string
+  type: string
+}
+
+export interface ITrigger {
+  logical: string
+  conditions: any[]
 }
 
 export interface IEvent {
   userAction?: string
   bindCode?: string
-  trigger?: [{ logical: string, conditions: any[] }]
-  command?: string
-  modalId?: string
-  link?: string
-  aTarget?: string
-  api?: string
-  method?: string
-  params?: IEventParams[]
-  singleAssignment?: boolean
-  valueToComps?: any[]
-  assignmentType?: string
-  sourceToTarget?: any[]
-  valueToComp?: string
-  resetComponent?: string
-  thenEvents?: IEvent[]
+  trigger: ITrigger[]
+  event: string
+  modalId: string
+  link: string
+  aTarget: string
+  api: string
+  method: string
+  params: IEventParams[]
+  assignmentType: string
+  valueToComp: string
+  valueToComps: any[]
+  sourceToTarget: any[]
+  thenEvents: IEvent[]
 }
+
+export interface IAction {
+  userAction: string
+  bindCode?: string
+}
+
+export interface IParamValue {
+  key: string
+  value: any
+}
+
 export interface IOptions {
   label: string
-  value: string | number | boolean
+  value: string | number
 }

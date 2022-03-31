@@ -1,6 +1,6 @@
-import _ from 'lodash';
-import { IElement, IPage, ISnapshot, ITarget } from "@/interface-type";
-import { componentsConfig, pages, snapshot } from '@/mock-data'
+import _ from 'lodash'
+import { IElement, IPage, ISnapshot, ITarget } from "@/interface-type"
+import { componentsConfig, containers, pages, snapshot } from '@/mock-data'
 
 function getPages(id: string) {
   const storage = localStorage.getItem('purity')
@@ -31,9 +31,7 @@ export const useEditStore = defineStore({
       // 临时
       const pageId = this.currentPage.id
       const rootContainer = _.cloneDeep(componentsConfig['zh-container'])
-      if (!rootContainer) {
-        return
-      }
+      if (!rootContainer) return
       this.time = new Date().getTime()
       this.setComponentId(rootContainer)
       rootContainer.type = 'root'
@@ -50,22 +48,21 @@ export const useEditStore = defineStore({
       const num = this.pages.length + 1
       const id = 'p' + num
       const name = 'page-' + num
-      const rootContainer = _.cloneDeep(componentsConfig['zh-container'])
-      this.time = new Date().getTime()
-      this.setComponentId(rootContainer)
-      rootContainer.type = 'root'
-      this.pages.push({ id, name, elements: [rootContainer], settings: {}, modalList: [] })
-      this.snapshotStore.push({ id, index: -1, List: [] })
+      this.addComponent('zh-container')
+      if (!this.currentComponent) return
+      this.currentComponent.type = 'root'
+      this.pages.push({ id, name, elements: [this.currentComponent], settings: {} })
+      this.snapshotStore.push({ id, index: -1, list: [] })
       this.changePage(id)
     },
     copyPage(pageId: string) {
-      const page = pages.find(item => item.id === pageId)
+      const page = this.pages.find(item => item.id === pageId)
       const currentPage = _.cloneDeep(toRaw(page) as IPage)
       const num = this.pages.length + 1
       currentPage.id = 'p' + num
       currentPage.name += '复制'
       this.pages.push(currentPage)
-      this.snapshotStore.push({ id: currentPage.id, index: -1, List: [] })
+      this.snapshotStore.push({ id: currentPage.id, index: -1, list: [] })
     },
     deletePage(pageId: string) {
       const index = this.pages.findIndex(item => item.id === pageId)
@@ -114,7 +111,7 @@ export const useEditStore = defineStore({
       }
 
       const target = this.findTarget(this.currentPage.elements, targetId)
-      target?.parent.splice(target.index, 0, this.currentComponent)
+      this.currentComponent && target?.parent.splice(target.index, 0, this.currentComponent)
     },
 
     // 在目标组件后面插入当前组件
@@ -125,7 +122,7 @@ export const useEditStore = defineStore({
       }
 
       const target = this.findTarget(this.currentPage.elements, targetId)
-      target?.parent.splice(target.index + 1, 0, this.currentComponent)
+      this.currentComponent && target?.parent.splice(target.index + 1, 0, this.currentComponent)
     },
 
     // 在目标组件插入子组件
@@ -136,14 +133,11 @@ export const useEditStore = defineStore({
       }
 
       const target = this.findTarget(this.currentPage.elements, targetId)
-      target?.config.childrens.push(this.currentComponent)
+      this.currentComponent && target?.config.childrens?.push(this.currentComponent)
     },
 
     insertModal() {
-      if (!this.currentComponent?.uuid) return
-      this.currentPage.elements.push(this.currentComponent)
-      const { uuid, propConfig: { title } } = this.currentComponent
-      this.currentPage.modalList.push({ id: uuid, name: title })
+      this.currentComponent && this.currentPage.elements.push(this.currentComponent)
     },
 
     // 查找目标组件的索引、配置、父组件
@@ -161,7 +155,7 @@ export const useEditStore = defineStore({
     // 设置当前组件
     setComponent(targetId: string) {
       const target = this.findTarget(this.currentPage.elements, targetId)
-      this.currentComponent = target?.config
+      target && (this.currentComponent = target.config)
     },
 
     // 剪切组件
@@ -175,7 +169,6 @@ export const useEditStore = defineStore({
       if (!this.currentComponent) return
       this.time = new Date().getTime()
       this.setComponentId(component)
-      const containers = ['root', 'container', 'modal', 'form', 'table']
       const type = this.currentComponent.type
       const insertSeat = containers.includes(type) ? 'inside' : 'next'
       const targetId = this.currentComponent.uuid
@@ -216,9 +209,9 @@ export const useEditStore = defineStore({
 
     // 记录快照
     recordSnapshot() {
-      this.snapshot.List[++this.snapshot.index] = _.cloneDeep(this.currentPage.elements)
-      if (this.snapshot.index < this.snapshot.List.length - 1) {
-        this.snapshot.List = this.snapshot.List.slice(0, this.snapshot.index + 1)
+      this.snapshot.list[++this.snapshot.index] = _.cloneDeep(this.currentPage.elements)
+      if (this.snapshot.index < this.snapshot.list.length - 1) {
+        this.snapshot.list = this.snapshot.list.slice(0, this.snapshot.index + 1)
       } 
     },
 
@@ -226,7 +219,7 @@ export const useEditStore = defineStore({
     saveSnapshot() {
       const index = this.snapshotStore.findIndex(item => item.id === this.currentPage.id)
       if (index === -1) {
-        const pageSnapshot = { id: this.currentPage.id, index: this.snapshot.index, List: this.snapshot.List }
+        const pageSnapshot = { id: this.currentPage.id, index: this.snapshot.index, list: this.snapshot.list }
         this.snapshotStore.splice(this.pages.length - 1, 0, pageSnapshot)
       } else {
         this.snapshotStore.splice(index, 1, this.snapshot)
@@ -237,28 +230,23 @@ export const useEditStore = defineStore({
     undo() {
       if (this.snapshot.index > 0) {
         this.snapshot.index--
-        const elements = _.cloneDeep(this.snapshot.List[this.snapshot.index])
+        const elements = _.cloneDeep(this.snapshot.list[this.snapshot.index])
         this.setCurrentPageElements(elements)
       }
     },
 
     // 重做
     redo() {
-      if (this.snapshot.index < this.snapshot.List.length - 1) {
+      if (this.snapshot.index < this.snapshot.list.length - 1) {
         this.snapshot.index++
-        const elements = _.cloneDeep(this.snapshot.List[this.snapshot.index])
+        const elements = _.cloneDeep(this.snapshot.list[this.snapshot.index])
         this.setCurrentPageElements(elements)
       }
     },
 
-    // 设置当前页面的 elements 和 模态框列表
-    setCurrentPageElements(elements: any) {
+    // 设置当前页面的 elements
+    setCurrentPageElements(elements: IElement[]) {
       this.currentPage.elements = elements
-      this.currentPage.modalList = elements.filter((item: IElement) => {
-        if (item.type === 'modal') {
-          return { id: item.uuid, name: item.propConfig.title }
-        } 
-      })
     },
 
     // 保存

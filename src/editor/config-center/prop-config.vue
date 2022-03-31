@@ -10,6 +10,9 @@
       <el-form-item label="按钮名称">
         <el-input v-model="propConfig.label" placeholder="请输入" clearable></el-input>
       </el-form-item>
+      <el-form-item label="别名">
+        <el-input v-model="propConfig.alias" placeholder="请输入"></el-input>
+      </el-form-item>
       <el-form-item label="类型">
         <el-select v-model="propConfig.type" placeholder="Select" clearable>
           <el-option
@@ -343,11 +346,7 @@ const addOptions = () => {
 }
 
 const addOperation = () => {
-  propConfig.value.operations?.push({
-    name: '',
-    command: '',
-    events: [],
-  })
+  propConfig.value.operations?.push({ name: '', code: '' })
 }
 
 const deleteOperation = (index: number) => {
@@ -388,7 +387,6 @@ const setColumnFixed = () => {
   if (endFixed > 0) propConfig.value.operationsColumnFixed = 'right'
   if (endFixed > 1) propConfig.value.columns[length - 1].fixed = 'right'
   if (endFixed > 2) propConfig.value.columns[length - 2].fixed = 'right'
-  
 }
 </script>
 
@@ -398,7 +396,6 @@ const setColumnFixed = () => {
   font-size: 14px;
   color: #606266;
 }
-
 
 // 临时选项样式
 .action-group {
@@ -532,8 +529,6 @@ const setColumnFixed = () => {
       justify-content: flex-start;
     }
   }
-
-
 }
 
 </style>

@@ -7,7 +7,11 @@
     @mouseleave="currentColor = color"
     aria-hidden="true"
   >
-    <use :href="symbolId" :fill="isActive ? activeColor: currentColor" :stroke="isActive ? activeColor: currentColor" />
+    <use
+      :href="symbolId"
+      :fill="isActive ? activeColor: currentColor"
+      :stroke="isActive ? activeColor: currentColor"
+    />
   </svg>
 </template>
 

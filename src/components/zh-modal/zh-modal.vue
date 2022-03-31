@@ -11,7 +11,6 @@
       :before-close="closeModal"
     >
       <div class="modal-container">
-        <!-- {{ uuid }}: This is a message -->
         <slot></slot>
       </div>
     </el-dialog>
@@ -27,7 +26,6 @@
       </div>
 
       <div class="modal-container">
-        <!-- {{ uuid }}: This is a message -->
         <slot></slot>
       </div>
     </dialog>
@@ -36,32 +34,25 @@
 
 <script setup lang="ts">
 const route = useRoute()
-const props = defineProps(['uuid', 'modelValue', 'propConfig'])
+const props = defineProps(['modelValue', 'propConfig'])
 
 const myModal = ref()
 const editing = ref(false)
 const visible = computed({
   get: () => props.propConfig.visible,
-  set: (val: boolean) => val
+  set: (newValue: boolean) => newValue
 })
-const uuid = computed(() => (props.uuid))
 const title = computed(() => (props.propConfig.label))
 const width = computed(() => (props.propConfig.width))
 const modal = computed(() => (props.propConfig.modal))
 const fullscreen = computed(() => (props.propConfig.fullscreen))
 const closeOnClickModal = computed(() => (props.propConfig.closeOnClickModal))
 
-onMounted(() => {
-  editing.value = route.fullPath === '/editor'
-})
+onMounted(() => editing.value = route.fullPath === '/editor')
 
-const closedFn = (ev: KeyboardEvent) => {
-  // const codes = ['Escape', 'Enter', 'Space']
-  const codes = ['Escape']
-  if (codes.includes(ev.code)) closeModal()
-}
+const closedFn = (ev: KeyboardEvent) => ev.code === 'Escape' && closeModal()
 
-const stopWatch = watch(visible, (newValue) => {
+const stopWatch = watch(visible, newValue => {
   if (newValue) {
     document.addEventListener('keyup', closedFn)
   } else {
@@ -70,7 +61,6 @@ const stopWatch = watch(visible, (newValue) => {
 }, {
   immediate: true
 })
-
 onUnmounted(() => stopWatch())
 
 const closeModal = () => {

@@ -39,10 +39,10 @@
 </template>
 
 <script setup lang="ts">
-import { IStyle } from '@/interface-type';
+import { ITrbl } from '@/interface-type';
 
 const props = defineProps<{
-  modelValue: IStyle
+  modelValue: ITrbl
 }>()
 const emit = defineEmits(['update:modelValue', 'change'])
 
@@ -55,34 +55,20 @@ const handleChange = () => {
   emit('update:modelValue', trbl)
   emit('change', trbl)
 }
+
+const addTop = () => addOne('top', trbl.top)
+const addRight = () => addOne('right', trbl.right)
+const addBottom = () => addOne('bottom', trbl.bottom)
+const addLeft = () => addOne('left', trbl.left)
+
+const addOne = (type: string, x: string | number = 0) => {
+  const result = parseFloat(String(x)) + 1 + 'px'
+  Object.assign(trbl, { [type]: result })
+  handleChange()
+}
+
 const reset = () => {
-  trbl.top = ''
-  trbl.right = ''
-  trbl.bottom = ''
-  trbl.left = ''
-  handleChange()
-}
-
-const addOne = (x: string | number | undefined) => {
-  if (!x) x = '0'
-  x = String(x)
-  return parseFloat(x) + 1 + 'px'
-}
-
-const addTop = () => { 
-  trbl.top = addOne(trbl.top)
-  handleChange()
-}
-const addLeft = () => {
-  trbl.left = addOne(trbl.left)
-  handleChange()
-}
-const addRight = () => { 
-  trbl.right = addOne(trbl.right)
-  handleChange()
-}
-const addBottom = () => {
-  trbl.bottom = addOne(trbl.bottom)
+  Object.assign(trbl, { top: '', right: '', bottom: '', left: '' })
   handleChange()
 }
 </script>

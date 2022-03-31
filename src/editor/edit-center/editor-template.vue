@@ -43,11 +43,11 @@
 </template>
 
 <script setup lang="ts">
-import { IElement } from '@/interface-type';
 import { useEditStore } from '@/store/edit'
+import { IElement } from '@/interface-type'
 
 const editStore = useEditStore()
-const props = defineProps<{
+defineProps<{
   elements: IElement[]
 }>()
 
@@ -89,9 +89,7 @@ const dragstart = (ev: DragEvent, element: IElement) => {
   ev.dataTransfer!.setData('text/plain', data)
 }
 
-const dragend = (ev: DragEvent) => {
-  ev.dataTransfer!.clearData()
-}
+const dragend = (ev: DragEvent) => ev.dataTransfer?.clearData()
 
 const dragenter = (ev: DragEvent, element: IElement) => {
   ev.preventDefault()
@@ -116,9 +114,7 @@ const dragenter = (ev: DragEvent, element: IElement) => {
   Object.assign(targetElement, { id, clientWidth, clientHeight, type })
 }
 
-const dragleave = () => {
-  hideLine()
-}
+const dragleave = () => hideLine()
 
 const dragover = (ev: DragEvent, element: IElement) => {
   ev.preventDefault()
@@ -135,34 +131,24 @@ const dragover = (ev: DragEvent, element: IElement) => {
   }
   switch (type) {
     case 'inlineNoncontainer': {
-      if (offsetX < (clientWidth / 2)) {
-        insertSeat = 'previous'
-        setLine('vertical', 'previous', 1, clientHeight)
-      } else {
-        insertSeat = 'next'
-        setLine('vertical', 'next', 1, clientHeight)
-      }
+      insertSeat = offsetX < (clientWidth / 2) ? 'previous' : 'next'
+      setLine('vertical', insertSeat, 1, clientHeight)
       break
     }
 
     case 'blockNoncontainer': {
-      if (offsetY < clientHeight / 2) {
-        insertSeat = 'previous'
-        setLine('horizontal', 'previous', clientWidth, 1)
-      } else {
-        insertSeat = 'next'
-        setLine('horizontal', 'next', clientWidth, 1)
-      }
+      insertSeat = offsetY < clientHeight / 2 ? 'previous' : 'next'
+      setLine('horizontal', 'next', clientWidth, 1)
       break
     }
 
     case 'inlineContainer': {
       if (offsetX < 20) {
         insertSeat = 'previous'
-        setLine('vertical', 'previous', 1, clientHeight)
+        setLine('vertical', insertSeat, 1, clientHeight)
       } else if (offsetX > clientWidth - 20) {
         insertSeat = 'next'
-        setLine('vertical', 'next', 1, clientHeight)
+        setLine('vertical', insertSeat, 1, clientHeight)
       } else {
         insertSeat = 'inside'
         hideLine()
@@ -174,10 +160,10 @@ const dragover = (ev: DragEvent, element: IElement) => {
       line.style = { width: clientWidth + 'px', height: '1px' }
       if (offsetY < 20) {
         insertSeat = 'previous'
-        setLine('horizontal', 'previous', clientWidth, 1)
+        setLine('horizontal', insertSeat, clientWidth, 1)
       } else if (offsetY > clientHeight - 20) {
         insertSeat = 'next'
-        setLine('horizontal', 'next', clientWidth, 1)
+        setLine('horizontal', insertSeat, clientWidth, 1)
       } else {
         insertSeat = 'inside'
         hideLine()

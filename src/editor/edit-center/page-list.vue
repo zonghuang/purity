@@ -28,20 +28,18 @@ const editStore = useEditStore()
 
 const contextmenu = ref('')
 const currentPageId = computed(() => editStore.currentPage.id)
-const pageList = computed(() =>
+const pageList = computed(() => 
   editStore.pages.map(page => {
     return { id: page.id, name: page.name }
   })
 )
 
-function createPage() {
+const createPage = () => {
   editStore.createPage()
   editStore.recordSnapshot()
 }
 
-function changePage(pageId: string) {
-  editStore.changePage(pageId)
-}
+const changePage = (pageId: string) => editStore.changePage(pageId)
 
 const closeContextmenu = () => contextmenu.value = ''
 const showContextmenu = (ev: MouseEvent, pageId: string) => {
@@ -68,7 +66,7 @@ const sortPage = () => {
 .page-list {
   display: flex;
   align-items: flex-end;
-  height: 42px;
+  margin-top: 15px;
   font-size: 14px;
 
   ul {
@@ -78,24 +76,12 @@ const sortPage = () => {
     margin: 0;
     padding-left: 8px;
     width: 100%;
-    height: 30px;
+    height: 40px;
     list-style: none;
     border-top: 1px solid #eee;
+    box-sizing: border-box;
 
     li {
-      position: relative;
-
-      &:after {
-        content: "";
-        position: absolute;
-        width: 1px;
-        height: 16px;
-        right: -10px;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: var(--el-border-color-base);
-      }
-
       &:hover {
         cursor: pointer;
         color: #409eff;

@@ -1,21 +1,25 @@
 <template>
   <div class="zh-pagination">
-    <el-pagination
-      small
-      @size-change="handlePageSize"
-      @current-change="handleCurrentPage"
-      :current-page="page.currentPage"
-      :pager-count="pagerCount"
-      :page-size="page.pageSize"
-      :total="total"
-      :page-sizes="[10, 20, 30, 50]"
-      layout="total, sizes, prev, pager, next, jumper"
-      background
-    ></el-pagination>
+    <el-config-provider :locale="zhCn">
+      <el-pagination
+        small
+        @size-change="handlePageSize"
+        @current-change="handleCurrentPage"
+        :current-page="page.currentPage"
+        :pager-count="pagerCount"
+        :page-size="page.pageSize"
+        :total="total"
+        :page-sizes="[10, 20, 30, 50]"
+        layout="total, sizes, prev, pager, next, jumper"
+        background
+      ></el-pagination>
+    </el-config-provider>
   </div>
 </template>
 
 <script setup lang="ts">
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+
 const props = defineProps<{
   modelValue: any
   propConfig: any
@@ -28,12 +32,12 @@ const total = computed(() => props.propConfig.total)
 
 const handlePageSize = (pageSize: number) => {
   page.value.pageSize = pageSize
-  emit('action', { userAction: 'click' })
+  emit('action', { userAction: 'update' })
 }
 
 const handleCurrentPage = (currentPage: number) => {
   page.value.currentPage = currentPage
-  emit('action', { userAction: 'click' })
+  emit('action', { userAction: 'update' })
 }
 
 </script>

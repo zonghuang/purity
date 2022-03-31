@@ -2,25 +2,30 @@
   <div class="modal-list">
     <div
       class="modal-preview"
-      :key="item.id"
+      :key="item.uuid"
       v-for="item in modalList"
       @click="handleClick(item)"
     >
       <div class="image"></div>
-      <span class="title">{{ item.name }}</span>
+      <span class="title">{{ item.propConfig.label }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { IElement } from '@/interface-type';
 import { useEditStore } from '@/store/edit'
 
 const editStore = useEditStore()
-const modalList = computed(() => editStore.currentPage.modalList)
+const modalList = computed(() => {
+  return editStore.currentPage.elements?.filter(item => {
+    if (item.type === 'modal') return item
+  })
+})
 
-const handleClick = (item: any) => {
-  editStore.setComponent(item.id)
-  editStore.openModal(item.id)
+const handleClick = (item: IElement) => {
+  editStore.setComponent(item.uuid)
+  editStore.openModal(item.uuid)
 }
 </script>
 

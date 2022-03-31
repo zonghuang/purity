@@ -222,8 +222,10 @@
 </template>
 
 <script setup lang="ts">
-import { IStyle } from '@/interface-type';
 import { useEditStore } from '@/store/edit'
+import { IStyle } from '@/interface-type';
+import type { CollapseModelValue } from 'element-plus';
+
 import {
   styleCategorys,
   floatOptions,
@@ -238,77 +240,46 @@ import {
 } from '@/mock-data'
 
 const editStore = useEditStore()
-const style = computed(() => editStore.currentComponent?.style)
 
 const activeNames = ref('boxmodel')
-const styleGroups: any = reactive([])
-const trbl = computed({
-  get: () => {
-    return {
-      top: style.value.top,
-      right: style.value.right,
-      bottom: style.value.bottom,
-      left: style.value.left
-    }
-  },
-  set: (val: any) => val
-})
-const mtrbl = computed({
-  get: () => {
-    return {
-      top: style.value.marginTop,
-      right: style.value.marginRight,
-      bottom: style.value.marginBottom,
-      left: style.value.marginLeft
-    }
-  },
-  set: (val: any) => val
-})
-const ptrbl = computed({
-  get: () => {
-    return {
-      top: style.value.paddingTop,
-      right: style.value.paddingRight,
-      bottom: style.value.paddingBottom,
-      left: style.value.paddingLeft
-    }
-  },
-  set: (val: any) => val
-})
+const styleGroups: IStyle[] = reactive([])
+const style = computed(() => editStore.currentComponent?.style)
 
-function handleChange(value: string) {
+function handleChange(value: CollapseModelValue) {
   // console.log(value)
 }
 
-const handleTrbl = (trbl: IStyle) => {
-  style.value.top = trbl.top
-  style.value.right = trbl.right
-  style.value.bottom = trbl.bottom
-  style.value.left = trbl.left
-}
-
+const trbl = computed({
+  get: () => {
+    const { top, right, bottom, left } = style.value
+    return { top, right, bottom, left }
+  },
+  set: newValue => newValue
+})
+const mtrbl = computed({
+  get: () => {
+    const { marginTop: top, marginRight: right, marginBottom: bottom, marginLeft: left } = style.value
+    return { top, right, bottom, left }
+  },
+  set: newValue => newValue
+})
+const ptrbl = computed({
+  get: () => {
+    const { paddingTop: top, paddingRight: right, paddingBottom: bottom, paddingLeft: left } = style.value
+    return { top, right, bottom, left }
+  },
+  set: newValue => newValue
+})
+const handleTrbl = (trbl: IStyle) => Object.assign(style.value, trbl)
 const handleMtrbl = (trbl: IStyle) => {
-  style.value.marginTop = trbl.top
-  style.value.marginRight = trbl.right
-  style.value.marginBottom = trbl.bottom
-  style.value.marginLeft = trbl.left
+  const { top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft } = trbl
+  Object.assign(style.value, { marginTop, marginRight, marginBottom, marginLeft })
 }
-
 const handlePtrbl = (trbl: IStyle) => {
-  style.value.paddingTop = trbl.top
-  style.value.paddingRight = trbl.right
-  style.value.paddingBottom = trbl.bottom
-  style.value.paddingLeft = trbl.left
+  const { top: paddingTop, right: paddingRight, bottom: paddingBottom, left: paddingLeft } = trbl
+  Object.assign(style.value, { paddingTop, paddingRight, paddingBottom, paddingLeft })
 }
 
-const changeStyleGroups = () => {
-  const inputStyle: any = {}
-  styleGroups.forEach((item: any) => {
-    inputStyle[item.key] = item.value
-  })
-
-  Object.assign(style.value, inputStyle)
-}
 
 const addStyleGroup = () => styleGroups.push({ key: '', value: '' })  
 const removeStyleGroup = (index: number) => {
@@ -317,16 +288,17 @@ const removeStyleGroup = (index: number) => {
   styleGroups.splice(index, 1)
   changeStyleGroups()
 }
+const changeStyleGroups = () => {
+  const inputStyle: IStyle = {}
+  styleGroups.forEach(item => inputStyle[item.key] = item.value)
+  Object.assign(style.value, inputStyle)
+}
 </script>
 
 <style scoped lang="less">
 .el-select {
   width: 100%;
 }
-
-// .style-config {
-
-// }
 
 :deep(.el-collapse-item__header) {
   padding-left: 10px;

@@ -1,236 +1,5 @@
-import { IElement, ILib, IPage, ISnapshot } from "./interface-type"
-import { componentsConfig } from "./components";
-
-// 测试无限层渲染数据
-export const loopElements: IElement[] = [
-  {
-    uuid: 's001',
-    name: 'zh-container',
-    type: 'container',
-    style: { position: 'absolute' },
-    events: [],
-    modelValue: 'page',
-    propConfig: { k: 'kk'},
-    childrens: [
-      {
-        uuid: 's002',
-        name: 'zh-input',
-        type: 'input',
-        style: { width: '200px' },
-        events: [],
-        modelValue: "zonghuang",
-        propConfig: { placeholder: '请输入' },
-        animations: [],
-        childrens: []
-      },
-      {
-        uuid: "s003",
-        name: "zh-button",
-        type: 'button',
-        style: {},
-        events: [],
-        modelValue: "提交",
-        propConfig: {},
-        animations: [],
-        childrens: [
-          {
-            uuid: "s008",
-            name: 'zh-button',
-            type: 'button',
-            style: {},
-            events: [],
-            modelValue: "嵌套按钮",
-            propConfig: { type: 'success' },
-            animations: [],
-            childrens: []
-          }
-        ]
-      },
-      {
-        uuid: "s010",
-        name: 'zh-container',
-        type: 'container',
-        style: {},
-        events: [],
-        modelValue: "容器",
-        propConfig: {},
-        animations: [],
-        childrens: [
-          {
-            uuid: "s0101",
-            name: "zh-container",
-            type: 'container',
-            style: {},
-            events: [],
-            modelValue: "子容器1",
-            propConfig: {},
-            animations: [],
-            childrens: []
-          },
-          {
-            uuid: "s0102",
-            name: "zh-container",
-            type: 'container',
-            style: {},
-            events: [],
-            modelValue: "子容器2",
-            propConfig: {},
-            animations: [],
-            childrens: [
-              {
-                uuid: "s01021",
-                name: "zh-container",
-                type: 'container',
-                style: {},
-                events: [],
-                modelValue: "孙容器1",
-                propConfig: {},
-                animations: [],
-                childrens: [
-                  {
-                    uuid: "s010211",
-                    name: "zh-container",
-                    type: 'container',
-                    style: {},
-                    events: [],
-                    modelValue: "曾孙容器1",
-                    propConfig: {},
-                    animations: [],
-                    childrens: []
-                  },
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-];
-
-export const loopElements1: IElement[] = [
-  {
-    uuid: 's001',
-    name: 'zh-container',
-    type: 'container',
-    style: { margin: 0, padding: 0, width: '100%', height: '600px', background: '#ccc', border: 'none' },
-    events: [],
-    modelValue: 'page',
-    propConfig: { k: 'kk'},
-    childrens: [
-      {
-        uuid: "s0077inlineNoncontainer",
-        name: "zh-button",
-        type: 'button',
-        style: { display: 'inline-block' },
-        events: [],
-        modelValue: "inlineNoncontainer",
-        propConfig: {}
-      },
-      {
-        uuid: "s007inlineNoncontainer",
-        name: "zh-button",
-        type: 'button',
-        style: { display: 'inline-block' },
-        events: [],
-        modelValue: "按钮-inlineNoncontainer",
-        propConfig: {}
-      },
-      {
-          uuid: "s003blockNoncontainer",
-          name: "zh-input",
-          type: 'input',
-          style: { width: '100%' },
-          events: [],
-          modelValue: "请输入-blockNoncontainer",
-          propConfig: {}
-      },
-      {
-        uuid: 's2',
-        name: 'zh-container',
-        type: 'container',
-        style: { display: 'block', position: 'relative' },
-        events: [],
-        modelValue: 'page',
-        propConfig: { k: 'kk'},
-        childrens: [
-          {
-            uuid: 's002容器inlineContainer',
-            name: 'zh-container',
-            type: 'container',
-            style: { display: 'inline-block', width: '250px', height: '150px', background: 'pink' },
-            events: [],
-            modelValue: 'page',
-            propConfig: { k: 'kk'},
-            childrens: []
-          },
-          {
-            uuid: 's0025容器inlineContainer',
-            name: 'zh-container',
-            type: 'container',
-            style: { display: 'inline-block', width: '300px', height: '150px', background: 'blue' },
-            events: [],
-            modelValue: 'page',
-            propConfig: { k: 'kk'},
-            childrens: []
-          },
-        ]
-      },
-      {
-        uuid: 's002容器inlineContainer换个风格',
-        name: 'zh-container',
-        type: 'container',
-        style: { display: 'inline-block', width: '400px', height: '150px', background: 'pink' },
-        events: [],
-        modelValue: 'page',
-        propConfig: { k: 'kk'},
-        childrens: []
-      },
-      {
-        uuid: 's0025容器inlineContainer1',
-        name: 'zh-container',
-        type: 'container',
-        style: { display: 'inline-block', width: '300px', height: '150px', background: 'blue' },
-        events: [],
-        modelValue: 'page',
-        propConfig: { k: 'kk'},
-        childrens: []
-      },
-      {
-        uuid: 's0083容器blockContainer',
-        name: 'zh-container',
-        type: 'container',
-        style: { width: '100%', height: '50px', background: '#888' },
-        events: [],
-        modelValue: 'page',
-        propConfig: { k: 'kk'},
-        childrens: []
-      },
-      {
-        uuid: 's008容器blockContainer',
-        name: 'zh-container',
-        type: 'container',
-        style: { width: '100%', height: '80px', background: '#eee' },
-        events: [],
-        modelValue: 'page',
-        propConfig: { k: 'kk'},
-        childrens: [
-          {
-            uuid: 's0083容器999',
-            name: 'zh-container',
-            type: 'container',
-            style: { width: '80%', height: '40px', background: '#888' },
-            events: [],
-            modelValue: 'page',
-            propConfig: { k: 'kk'},
-            childrens: []
-          }
-        ]
-      },
-    ]
-  }
-]
-
+import { ILib, IPage, ISnapshot } from "./interface-type"
+import { componentsConfig } from "./components"
 
 // 组件库列表
 export const componentLibs: ILib[] = [
@@ -448,7 +217,6 @@ export const pages: IPage[] = [
     name: '首页',
     elements: [],
     settings: {},
-    modalList: []
   },
   // {
   //   id: 'p2',
@@ -458,25 +226,14 @@ export const pages: IPage[] = [
   // }
 ]
 
-// 当前页数据
-export const currentPage: IPage = {
-  id: 'p1',
-  name: '首页',
-  elements: [],
-  settings: {},
-  modalList: []
-}
-
-// 当前组件
-export const currentComponent: IElement | null = null
-
 // 当前快照
 export const snapshot: ISnapshot = {
   id: 'p1',
   index: -1,
-  List: []
+  list: []
 }
 
+// 用户操作行为
 export const userActionOptions = [
   { label: '点击', value: 'click' },
   { label: '双击', value: 'dbclick' },
@@ -507,6 +264,7 @@ export const methodOptions = [
   { label: 'patch', value: 'PATCH' },
 ]
 
+// 样式分类
 export const styleCategorys = [
   { label: '布局', value: 'placement' },
   { label: '盒模型', value: 'boxmodel' },
@@ -562,6 +320,7 @@ export const displays = [
   { label: 'none', value: 'none' }
 ]
 
+// flex 方向
 export const flexDirectionOptions = [
   { label: 'row', value: 'row' },
   { label: 'column', value: 'column' },
@@ -569,11 +328,13 @@ export const flexDirectionOptions = [
   { label: 'column-reverse', value: 'column-reverse' },
 ]
 
+// flex 换行
 export const flexWrapOptions = [
   { label: 'wrap', value: 'wrap' },
   { label: 'nowrap', value: 'nowrap' }
 ]
 
+// align-items
 export const alignItemsOptions = [
   { label: 'stretch', value: 'stretch' },
   { label: 'flex-start', value: 'flex-start' },
@@ -581,6 +342,7 @@ export const alignItemsOptions = [
   { label: 'center', value: 'center' },
 ]
 
+// justify-content
 export const justifyContentOptions = [
   { label: 'stretch', value: 'stretch' },
   { label: 'flex-start', value: 'flex-start' },
@@ -590,6 +352,7 @@ export const justifyContentOptions = [
   { label: 'space-between', value: 'space-between' },
 ]
 
+// align-self
 export const alignSelfOptions = [
   { label: 'stretch', value: 'stretch' },
   { label: 'center', value: 'center' },
@@ -597,33 +360,38 @@ export const alignSelfOptions = [
   { label: 'end', value: 'end' },
 ]
 
+// 标签对齐方式
 export const labelPositionOptions = [
   { label: '顶部对齐', value: 'top' },
   { label: '向左对齐', value: 'left' },
   { label: '向右对齐', value: 'right' },
 ]
 
+// 表格前三列固定选项
 export const frontFixedOptions = [
   { label: '多选列固定', value: 1 },
   { label: '前两列固定', value: 2 },
   { label: '前三列固定', value: 3 },
 ]
 
+// 表格后三列固定选项
 export const endFixedOptions = [
   { label: '操作列固定', value: 1 },
   { label: '后两列固定', value: 2 },
   { label: '后三列固定', value: 3 },
 ]
 
+// 按钮类型
 export const buttonTypeOptions = [
   { label: 'primary', value: 'primary' },
   { label: 'success', value: 'success' },
   { label: 'info', value: 'info' },
   { label: 'warning', value: 'warning' },
   { label: 'danger', value: 'danger' },
+  { label: 'text', value: 'text' },
 ]
 
-
+// 筛选有值的组件
 export const validValueComponents = [
   'form', 'input', 'textarea', 'number', 'select', 'cascader',
   'datepicker', 'timeselect', 'timepicker',
@@ -632,13 +400,19 @@ export const validValueComponents = [
   'table', 'pagination'
 ]
 
+// 容器组件
+export const containers = ['root', 'container', 'modal', 'form', 'table']
+
+// 赋值类型
 export const assignmentTypeOptions = [
-  { label: '直接赋值', value: '1' },
-  { label: '合并成对象赋值', value: '2' },
-  { label: '合并成数组赋值', value: '3' },
+  { label: '赋给另一个组件', value: 'another' },
+  { label: '合并成对象赋值', value: 'object' },
+  { label: '合并成数组赋值', value: 'array' },
 ]
 
-export const singleAssignmentOptions = [
-  { label: '赋值给单个组件', value: true },
-  { label: '赋值给多个组件', value: false },
+// 响应数据赋值类型
+export const assignmentTypeOptions2 = [
+  { label: '赋值给单个组件', value: 'single' },
+  { label: '赋值给多个组件', value: 'multiple' },
+  { label: '赋值给组件选项', value: 'options' },
 ]

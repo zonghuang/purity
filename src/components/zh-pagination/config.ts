@@ -9,6 +9,7 @@ export default {
     pageSize: 10,
   },
   propConfig: {
+    label: '分页',
     total: 0,
     field: 'pagination'
   },

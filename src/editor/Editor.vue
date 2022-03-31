@@ -57,15 +57,13 @@ const currentPageId = computed(() => editStore.currentPage.id)
 const elements = computed(() => editStore.currentPage.elements)
 const isOverlay = computed(() => {
   return editStore.currentPage.elements?.some(item => {
-    if (item.propConfig.visible) {
-      return true
-    }
+    if (item.propConfig.visible) return true
   })
 })
 
 editStore.fetchConfig('1')
 
-function handleClick(event: any) {
+function handleClick(pane: any) {
   // console.log(event)
 }
 </script>

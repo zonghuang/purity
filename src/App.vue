@@ -14,7 +14,7 @@
 .style-config,
 .animation-config,
 .page-config {
-  height: calc(100vh - 45px);
+  max-height: calc(100vh - 45px);
   overflow-y: scroll;
 
   &::-webkit-scrollbar {

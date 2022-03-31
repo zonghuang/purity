@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { IElement, IEvent } from '@/interface-type'
+import { IElement, IEvent, IAction, IEventParams, IParamValue } from '@/interface-type'
 import { tableData, resData } from '@/mock/app-manage';
 import { useRenderStore } from '@/store/render'
 import qs from 'query-string'
@@ -33,9 +33,10 @@ function handleUpdate(value: any, element: IElement) {
 
   if (element.type === 'pagination') {
     element.propConfig.total = value
-  } else {
-    element.modelValue = value
+    return
   }
+  
+  element.modelValue = value
 
   if (element.type === 'form' && element.childrens?.length) {
     element.childrens.forEach(item => {
@@ -44,12 +45,9 @@ function handleUpdate(value: any, element: IElement) {
       }
     })
   }
-
-  const events = element.events.filter(item => item.userAction === 'update')
-  events && handleEvents(events)
 }
 
-function handleAction(ev: any, element: IElement) {
+function handleAction(ev: IAction, element: IElement) {
   console.log('action: ', ev.userAction, toRaw(element))
   const events = element.events.filter(item => item.userAction === ev.userAction)
   if (ev.bindCode) {
@@ -62,77 +60,83 @@ function handleAction(ev: any, element: IElement) {
 
 const handleEvents = (events: IEvent[]) => {
   events.forEach(item => {
-    switch (item.command) {
+    const {
+      event, modalId, link, aTarget, api, method, params,
+      assignmentType, valueToComps, sourceToTarget, valueToComp, thenEvents
+    } = item
+    switch (event) {
       case 'openModal':
-        item.modalId && renderStore.openModal(item.modalId)
-        if (item.thenEvents) handleEvents(item.thenEvents)
+        renderStore.openModal(modalId)
+        if (thenEvents?.length) handleEvents(thenEvents)
         break;
 
-      case 'openModal':
-        item.modalId && renderStore.closeModal(item.modalId)
-        if (item.thenEvents) handleEvents(item.thenEvents)
+      case 'closeModal':
+        renderStore.closeModal(modalId)
+        if (thenEvents?.length) handleEvents(thenEvents)
         break;
 
       case 'link':
-        const routeParams = getValue('object', toRaw(item.params))
-        console.log('正在跳转链接: ', item.link, '打开方式: ', item.aTarget, '携带路由参数', routeParams);
-        const link = joinRouteParams(item.link, routeParams)
-        window.open(link, item.aTarget)
-        if (item.thenEvents) handleEvents(item.thenEvents)
+        const routeParams = getValue('object', toRaw(params))
+        console.log('正在跳转链接: ', link, '打开方式: ', aTarget, '携带路由参数', routeParams)
+        const fullLink = joinRouteParams(link, routeParams)
+        window.open(fullLink, aTarget)
+        if (thenEvents?.length) handleEvents(thenEvents)
         break;
 
       case 'request':
-        const params = getValue('object', toRaw(item.params))
-        console.log('正在请求数据, 访问 api: ', item.api, '请求方式: ', item.method, '请求参数: ', params);
+        const payload = getValue('object', toRaw(item.params))
+        console.log('正在请求数据, 访问 api: ', api, '请求方式: ', method, '请求参数: ', payload)
         console.time('request')
         setTimeout(() => {
           // const responseData = tableData
           const responseData: any = resData
           // const responseData: any = { lastname: 'zonghaung', firstname: 'li' }
-          console.log('正在请求数据完成了，花费时间：');
+          console.log('正在请求数据完成了，花费时间：')
           console.timeEnd('request')
-          console.log('响应数据', responseData);
+          console.log('响应数据', responseData)
 
           // 模拟请求到数据，赋值给组件
-          if (item.singleAssignment && item.valueToComp) {
-            const target = renderStore.findTarget(renderStore.currentPage.elements, item.valueToComp)
+          if (assignmentType === 'single') {
+            const target = renderStore.findTarget(renderStore.currentPage.elements, valueToComp)
             target && handleUpdate(responseData, target.config)
-          } else if (item.valueToComps?.length) {
-            item.valueToComps.forEach(one => {
+          } else if (assignmentType === 'multiple') {
+            valueToComps?.forEach(one => {
               const target = renderStore.findTarget(renderStore.currentPage.elements, one.target)
               const value = responseData[one.source]
               target && handleUpdate(value, target.config)
             })
+          } else if (assignmentType === 'options') {
+            const target = renderStore.findTarget(renderStore.currentPage.elements, valueToComp)
+            target!.config.propConfig.options = responseData
           }
 
-          if (item.thenEvents) handleEvents(item.thenEvents)
+          if (thenEvents?.length) handleEvents(thenEvents)
         }, 150);
         break;
 
       case 'setValue':
-        if (item.assignmentType === '1') {
-          item.sourceToTarget?.forEach(one => {
+        if (assignmentType === 'another') {
+          sourceToTarget?.forEach(one => {
             const source = renderStore.findTarget(renderStore.currentPage.elements, one.source)
             const target = renderStore.findTarget(renderStore.currentPage.elements, one.target)
             const value = source?.config.modelValue
             target && handleUpdate(value, target.config)
           })
-        } else if (item.assignmentType === '2') {
-          const value = getValue('object', toRaw(item.params))
-          const target = renderStore.findTarget(renderStore.currentPage.elements, item.valueToComp)
+        } else if (assignmentType === 'object') {
+          const value = getValue('object', toRaw(params))
+          const target = renderStore.findTarget(renderStore.currentPage.elements, valueToComp)
           target && handleUpdate(value, target.config)
-        } else if (item.assignmentType === '3') {
-          const value = getValue('array', toRaw(item.params))
-          const target = renderStore.findTarget(renderStore.currentPage.elements, item.valueToComp)
+        } else if (assignmentType === 'array') {
+          const value = getValue('array', toRaw(params))
+          const target = renderStore.findTarget(renderStore.currentPage.elements, valueToComp)
           target && handleUpdate(value, target.config)
         }
         break;
 
       case 'resetValue':
-        if (item.resetComponent) {
-          const uuid = item.resetComponent
-          const target = renderStore.findTarget(renderStore.currentPage.elements, uuid)
-          const value = toRaw(renderStore.tempData[uuid]?.originData)
+        if (valueToComp) {
+          const target = renderStore.findTarget(renderStore.currentPage.elements, valueToComp)
+          const value = toRaw(renderStore.cacheData[valueToComp]?.originData)
           target && handleUpdate(value, target.config)
         }
         break;
@@ -143,12 +147,10 @@ const handleEvents = (events: IEvent[]) => {
   })
 }
 
-const getValue = (formatType: string, params: any[] = []) => {
-  const arr: any = []
-  params.forEach((item: any) => {
-    const type = item.type
-    const key = item.key
-    const value = item.value
+const getValue = (formatType: string, params: IEventParams[] = []) => {
+  const arr: IParamValue[] = []
+  params.forEach(item => {
+    const { type, key, value } = item
     
     /**
      * 路由参数
@@ -197,26 +199,28 @@ const getValue = (formatType: string, params: any[] = []) => {
 
       case 4: {
         const tableId = value.replace('currentRow', '')
-        const v = renderStore.tempData[tableId]?.currentRow
+        const v = renderStore.cacheData[tableId]?.currentRow
         arr.push({ key, value: toRaw(v) })
         break;
       }
       case 5: {
         const tableId = value.replace('selectedRows', '')
-        const v = renderStore.tempData[tableId]?.selectedRows
+        const v = renderStore.cacheData[tableId]?.selectedRows
         arr.push({ key, value: toRaw(v) })
         break;
       }
       case 6: {
         const tableId = value.replace('rowKey', '')
-        const v = renderStore.tempData[tableId]?.rowKey
-        arr.push({ key, value: toRaw(v) })
+        const v = renderStore.cacheData[tableId]?.rowKey
+        const primaryKey = renderStore.cacheData[tableId]?.primaryKey
+        arr.push({ key: key ?? primaryKey, value: toRaw(v) })
         break;
       }
       case 7: {
         const tableId = value.replace('rowsKey', '')
-        const v = renderStore.tempData[tableId]?.rowsKey
-        arr.push({ key, value: toRaw(v) })
+        const v = renderStore.cacheData[tableId]?.rowsKey
+        const primaryKey = renderStore.cacheData[tableId]?.primaryKey
+        arr.push({ key: key ?? primaryKey, value: toRaw(v) })
         break;
       }
 
@@ -232,7 +236,7 @@ const getValue = (formatType: string, params: any[] = []) => {
         break;
       }
       case 10: {
-        const componentId = item.keyValue
+        const componentId = value
         const target = renderStore.findTarget(renderStore.currentPage.elements, componentId)
         const k = target?.config.propConfig.field
         const v = target?.config.modelValue
@@ -245,13 +249,13 @@ const getValue = (formatType: string, params: any[] = []) => {
     }
   })
 
-  let result = null
+  let result: any = null
   if (formatType === 'object') {
     result = {}
-    arr.forEach((item: any) => result[item.key] = item.value)
+    arr.forEach(item => result[item.key] = item.value)
   } else if (formatType === 'array') {
     result = []
-    arr.forEach((item: any) => result.push(item.value))
+    arr.forEach(item => result.push(item.value))
   }
 
   return result
@@ -263,5 +267,4 @@ const joinRouteParams = (url: string = '', params: any) => {
   urlObj.search += urlObj.search.startsWith('?') ? '&' : '?' + routeParams
   return urlObj.href
 }
-
 </script>

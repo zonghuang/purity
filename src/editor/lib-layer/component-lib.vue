@@ -1,8 +1,10 @@
-import { IPage } from '@/interface-type';
 <template>
   <div class="lib">
-    <div>临时测试</div>
-    <el-button type="text" @click="handleExample1">示例1</el-button>
+    <div style="padding: 10px;">
+      临时测试
+      <el-button type="text" @click="handleExample1">示例1</el-button>
+    </div>
+    
 
     <el-collapse v-model="activeNames" @change="handleChange">
       <el-collapse-item
@@ -20,6 +22,7 @@ import { IPage } from '@/interface-type';
               :name="component.name"
               draggable="true"
               @dragstart="dragstart"
+              @dragend="dragend"
             >
               {{ component.label }}
             </li>
@@ -31,25 +34,23 @@ import { IPage } from '@/interface-type';
 </template>
 
 <script setup lang="ts">
-import { IPage } from '@/interface-type';
+import { useEditStore } from '@/store/edit';
+import type { CollapseModelValue } from 'element-plus';
 import { componentLibs } from '@/mock-data'
 import { appData } from '@/mock/app-manage';
-import { useEditStore } from '@/store/edit';
 
 const editStore = useEditStore()
 
+// 临时测试数据
 const mackAppData: any = reactive(appData)
 const handleExample1 = () => {
   editStore.currentPage.elements = toRaw(mackAppData).elements
-  editStore.currentPage.modalList = toRaw(mackAppData).modalList
 }
-
-
 
 const libs = ref(componentLibs)
 
 const activeNames = ref(['test'])
-function handleChange(value: any) {
+function handleChange(value: CollapseModelValue) {
   // console.log(value)
 }
 
@@ -61,9 +62,7 @@ const dragstart = (ev: DragEvent) => {
   ev.dataTransfer!.setData('text/plain', data)
 }
 
-const dragend = (ev: DragEvent) => {
-  ev.dataTransfer!.clearData()
-}
+const dragend = (ev: DragEvent) => ev.dataTransfer?.clearData()
 </script>
 
 <style scoped lang="less">
