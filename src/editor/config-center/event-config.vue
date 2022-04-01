@@ -99,6 +99,7 @@ const event: IEvent = {
   aTarget: '',
   api: '',
   method: '',
+  showLoading: false,
   params: [],
   assignmentType: '',
   valueToComp: '',

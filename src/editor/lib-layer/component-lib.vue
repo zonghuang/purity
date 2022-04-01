@@ -37,7 +37,7 @@
 import { useEditStore } from '@/store/edit';
 import type { CollapseModelValue } from 'element-plus';
 import { componentLibs } from '@/mock-data'
-import { appData } from '@/mock/app-manage';
+import { appData } from '../../../mock/app-manage';
 
 const editStore = useEditStore()
 

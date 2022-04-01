@@ -72,6 +72,7 @@ export interface IEvent {
   aTarget: string
   api: string
   method: string
+  showLoading: boolean
   params: IEventParams[]
   assignmentType: string
   valueToComp: string

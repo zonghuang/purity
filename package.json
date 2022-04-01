@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "ISC",
   "scripts": {
-    "dev": "vite --port 4200",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },

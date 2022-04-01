@@ -1,5 +1,6 @@
 import { IElement, IPage, ITarget } from "@/interface-type";
 import { pages } from '@/mock-data'
+import { getData, postData } from "@/service";
 import { useEditStore } from "./edit";
 
 export const useRenderStore = defineStore({
@@ -50,6 +51,12 @@ export const useRenderStore = defineStore({
       }
       return target
     },
+
+    // 请求数据
+    async getData(url: string, params: any, showLoading?: boolean) {
+      const data = await postData(url, params, showLoading)
+      return data
+    }
 
   },
 

@@ -17,15 +17,14 @@
 </template>
 
 <script setup lang="ts">
-import { IElement, IEvent, IAction, IEventParams, IParamValue } from '@/interface-type'
-import { tableData, resData } from '@/mock/app-manage';
-import { useRenderStore } from '@/store/render'
 import qs from 'query-string'
+import { useRenderStore } from '@/store/render'
+import { IElement, IEvent, IAction, IEventParams, IParamValue } from '@/interface-type'
 
 const route = useRoute()
 const renderStore = useRenderStore()
-const props = defineProps<{
-  elements: IElement[],
+defineProps<{
+  elements: IElement[]
 }>()
 
 function handleUpdate(value: any, element: IElement) {
@@ -59,9 +58,9 @@ function handleAction(ev: IAction, element: IElement) {
 }
 
 const handleEvents = (events: IEvent[]) => {
-  events.forEach(item => {
+  events.forEach(async item => {
     const {
-      event, modalId, link, aTarget, api, method, params,
+      event, modalId, link, aTarget, api, method, params, showLoading,
       assignmentType, valueToComps, sourceToTarget, valueToComp, thenEvents
     } = item
     switch (event) {
@@ -87,31 +86,28 @@ const handleEvents = (events: IEvent[]) => {
         const payload = getValue('object', toRaw(item.params))
         console.log('正在请求数据, 访问 api: ', api, '请求方式: ', method, '请求参数: ', payload)
         console.time('request')
-        setTimeout(() => {
-          // const responseData = tableData
-          const responseData: any = resData
-          // const responseData: any = { lastname: 'zonghaung', firstname: 'li' }
-          console.log('正在请求数据完成了，花费时间：')
-          console.timeEnd('request')
-          console.log('响应数据', responseData)
+        const responseData = await renderStore.getData(api, payload, showLoading)
+        console.log('正在请求数据完成了，花费时间：')
+        console.timeEnd('request')
+        console.log('响应数据', responseData)
 
-          // 模拟请求到数据，赋值给组件
-          if (assignmentType === 'single') {
-            const target = renderStore.findTarget(renderStore.currentPage.elements, valueToComp)
-            target && handleUpdate(responseData, target.config)
-          } else if (assignmentType === 'multiple') {
-            valueToComps?.forEach(one => {
-              const target = renderStore.findTarget(renderStore.currentPage.elements, one.target)
-              const value = responseData[one.source]
-              target && handleUpdate(value, target.config)
-            })
-          } else if (assignmentType === 'options') {
-            const target = renderStore.findTarget(renderStore.currentPage.elements, valueToComp)
-            target!.config.propConfig.options = responseData
-          }
+        // 赋值给组件
+        if (assignmentType === 'single') {
+          const target = renderStore.findTarget(renderStore.currentPage.elements, valueToComp)
+          target && handleUpdate(responseData, target.config)
+        } else if (assignmentType === 'multiple') {
+          valueToComps?.forEach(one => {
+            const target = renderStore.findTarget(renderStore.currentPage.elements, one.target)
+            // @ts-ignore
+            const value = responseData[one.source]
+            target && handleUpdate(value, target.config)
+          })
+        } else if (assignmentType === 'options') {
+          const target = renderStore.findTarget(renderStore.currentPage.elements, valueToComp)
+          target!.config.propConfig.options = responseData
+        }
 
-          if (thenEvents?.length) handleEvents(thenEvents)
-        }, 150);
+        if (thenEvents?.length) handleEvents(thenEvents)
         break;
 
       case 'setValue':

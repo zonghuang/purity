@@ -155,6 +155,12 @@
               </el-select>
             </div>
           </div>
+          <div class="form-item">
+            <label class="form-label">Loading</label>
+            <div class="form-content">
+              <el-switch v-model="eventGroup.showLoading"  @change="handleChange" />
+            </div>
+          </div>
           <!-- 请求参数 -->
           <!-- 响应式数据赋值类型 (赋值给单个组件/赋值给多个组件) -->
           <!-- 赋值给多个组件 -->
@@ -386,35 +392,49 @@ const showOtherEvent = ref(false)
 const otherEvent = ref('')
 const eventGroup = reactive({ ...props.event })
 
+// 是否展示参数选项
 const showParamsOption = computed(() => {
   const { event,  assignmentType = '' } = eventGroup
   return event === 'link'
       || event === 'request'
       || (event === 'setValue' && (assignmentType === 'object' || assignmentType === 'array'))
 })
+
+// 是否展示(赋值)目标组件选项
 const showTargetCompOption = computed(() => {
   const { event,  assignmentType = '' } = eventGroup
   return (event === 'request' && (assignmentType === 'single' || assignmentType === 'options'))
       || (event === 'setValue' && (assignmentType === 'object' || assignmentType === 'array'))
       || eventGroup.event === 'resetValue'
 })
+
+// 模态框列表
 const modalList = computed(() => {
   return editStore.currentPage.elements?.filter(item => {
     if (item.type === 'modal') return item
   })
 })
+
+// 可选组件和路由选项
 const keyValueOptions = computed(() => {
   const params = getKeyValueOptions(editStore.currentPage.elements, [])
   params.push({ label: '路由参数', value: 'routeParams' })
   return params
 })
+
+// 可选组件选项
 const componentOptions = computed(() => {
   return keyValueOptions.value.filter(item => {
     if (!isNaN(Number(item.value))) return item
   })
 })
 
-// 表格操作列按钮
+// 其他组件的事件选项
+const otherEventOptions = computed(() => {
+  return getOtherEvents(editStore.currentPage.elements, [])
+})
+
+// 表格操作列按钮选项
 const bindCodeOptions = computed(() => {
   return editStore.currentComponent?.propConfig?.operations.map((item: any) => {
     return { label: item.name, value: item.code }
@@ -428,21 +448,20 @@ const addEvent = () => emit('addEvent')
 const addThenEvent = () => emit('addThenEvent')
 const removeEvent = () => emit('removeEvent')
 const handleChange = () => emit('change', eventGroup)
-
-// 已有的其他组件的事件
-const otherEventOptions = computed(() => getOtherEvents(editStore.currentPage.elements, []))
-
-const getOtherEvents = (tree: IElement[], options: any[]) => {
-  tree.forEach(item => {
-    item.events.forEach((one, indey) => {
-      const label = (item.propConfig.alias ?? item.propConfig.label) + '事件' + indey
-      options.push({ label, value: item.uuid + '-' + indey, event: one })
-    })
-
-    if (item.childrens?.length) getOtherEvents(item.childrens, options)
+const changeEvent = () => {
+  Object.assign(eventGroup, {
+    modalId: '',
+    link: '',
+    aTarget: '',
+    api: '',
+    method: '',
+    params: [],
+    assignmentType: '',
+    valueToComp: '',
+    valueToComps: [],
+    sourceToTarget: []
   })
-  
-  return options
+  handleChange()
 }
 
 const selectOtherEvent = () => {
@@ -457,6 +476,30 @@ const addCondition = () => {
   ElMessage('此功能正在开发中...')
 }
 
+const addParam = (type: string) => eventGroup.params?.push({ key: '', value: '', type })
+const deleteParam = (index: number) => eventGroup.params?.splice(index, 1)
+
+const addSourceToTarget = () => eventGroup.sourceToTarget?.push({ source: '', target: '' })
+const deleteSourceToTarget = (index: number) => eventGroup.sourceToTarget?.splice(index, 1)
+
+const addValueToComp = () => eventGroup.valueToComps?.push({ source: '', target: '' })
+const deleteValueToComp = (index: number) => eventGroup.valueToComps?.splice(index, 1)
+
+// 获取其他组件的事件
+const getOtherEvents = (tree: IElement[], options: any[]) => {
+  tree.forEach(item => {
+    item.events.forEach((one, indey) => {
+      const label = (item.propConfig.alias ?? item.propConfig.label) + '事件' + indey
+      options.push({ label, value: item.uuid + '-' + indey, event: one })
+    })
+
+    if (item.childrens?.length) getOtherEvents(item.childrens, options)
+  })
+  
+  return options
+}
+
+// 获取可选组件选项
 const getKeyValueOptions = (tree: IElement[], options: IOptions[]) => {
   tree.forEach(item => {
     const label = item.propConfig.alias ?? item.propConfig.label
@@ -476,31 +519,6 @@ const getKeyValueOptions = (tree: IElement[], options: IOptions[]) => {
 
   return options
 }
-
-const changeEvent = () => {
-  Object.assign(eventGroup, {
-    modalId: '',
-    link: '',
-    aTarget: '',
-    api: '',
-    method: '',
-    params: [],
-    assignmentType: '',
-    valueToComp: '',
-    valueToComps: [],
-    sourceToTarget: []
-  })
-  handleChange()
-}
-
-const addParam = (type: string) => eventGroup.params?.push({ key: '', value: '', type })
-const deleteParam = (index: number) => eventGroup.params?.splice(index, 1)
-
-const addSourceToTarget = () => eventGroup.sourceToTarget?.push({ source: '', target: '' })
-const deleteSourceToTarget = (index: number) => eventGroup.sourceToTarget?.splice(index, 1)
-
-const addValueToComp = () => eventGroup.valueToComps?.push({ source: '', target: '' })
-const deleteValueToComp = (index: number) => eventGroup.valueToComps?.splice(index, 1)
 </script>
 
 <style scoped lang="less">
