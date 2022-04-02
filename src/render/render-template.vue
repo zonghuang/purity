@@ -86,7 +86,7 @@ const handleEvents = (events: IEvent[]) => {
         const payload = getValue('object', toRaw(item.params))
         console.log('正在请求数据, 访问 api: ', api, '请求方式: ', method, '请求参数: ', payload)
         console.time('request')
-        const responseData = await renderStore.getData(api, payload, showLoading)
+        const responseData = await renderStore.getData(api, method, payload, showLoading)
         console.log('正在请求数据完成了，花费时间：')
         console.timeEnd('request')
         console.log('响应数据', responseData)

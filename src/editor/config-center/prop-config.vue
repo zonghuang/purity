@@ -226,6 +226,10 @@
         </div>
       </el-form-item>
 
+      <el-form-item label="操作列宽度">
+        <el-input v-model="propConfig.operationsColumnWidth" placeholder="请输入"></el-input>
+      </el-form-item>
+
       <el-form-item label="表格列拖拽排序">
         <div class="tips">此功能正在开发中...</div>
       </el-form-item>

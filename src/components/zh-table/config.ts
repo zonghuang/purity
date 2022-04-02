@@ -13,6 +13,7 @@ export default {
     showSelection: true,
     showStripe: false,
     showOperations: true,
+    operationsColumnWidth: '150',
     operations: [],
     columns: [
       {

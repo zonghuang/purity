@@ -16,9 +16,31 @@
         :label="item.label"
         :width="item.width"
         :fixed="item.fixed"
+        :align="align"
       />
-      <el-table-column v-if="showOperations" label="操作" width="180" :align="align" :fixed="operationsColumnFixed">
-        <template #default="scope">
+      <el-table-column v-if="showOperations" label="操作" :width="operationsColumnWidth" :align="'center'" :fixed="operationsColumnFixed">
+        <template v-if="operations.length > 3" #default="scope">
+          <el-button
+            v-for="item in operations.slice(0, 2)"
+            type="text"
+            size="small"
+            @click="handleClick(item, scope.row)"
+          >
+            {{ item.name }}
+          </el-button>
+          <el-dropdown class="more-button" size="small">
+            <span class="el-dropdown-link">
+              <el-button type="text" size="small">更多</el-button>
+              <el-icon class="el-icon--right"><arrow-down /></el-icon>
+            </span>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item v-for="item in operations.slice(2)">{{ item.name }}</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </template>
+        <template v-else #default="scope">
           <el-button
             v-for="item in operations"
             type="text"
@@ -51,6 +73,7 @@ const maxHeight = computed(() => props.propConfig.maxHeight) || undefined
 const showSelection = computed(() => props.propConfig.showSelection)
 const showStripe = computed(() => props.propConfig.showStripe)
 const showOperations = computed(() => props.propConfig.showOperations)
+const operationsColumnWidth = computed(() => props.propConfig.operationsColumnWidth)
 const operations = computed(() => props.propConfig.operations)
 const selectionColumnFixed = computed(() => props.propConfig.selectionColumnFixed)
 const operationsColumnFixed = computed(() => props.propConfig.operationsColumnFixed)
@@ -74,6 +97,23 @@ const handleClick = (item: any, row: any) => {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+.more-button {
+  margin-left: 12px;
+  .el-icon--right {
+    color: #409eff;
+  }
 
+  .el-dropdown-link {
+    display: flex;
+    align-items: center;
+  }
+}
+
+:deep(.el-table__cell) {
+  .cell {
+    display: flex;
+    align-items: center;
+  }
+}
 </style>

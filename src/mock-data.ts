@@ -259,9 +259,9 @@ export const methodOptions = [
   { label: 'get', value: 'GET' },
   { label: 'post', value: 'POST' },
   { label: 'delete', value: 'DELETE' },
+  { label: 'patch', value: 'PATCH' },
   { label: 'head', value: 'HEAD' },
   { label: 'put', value: 'PUT' },
-  { label: 'patch', value: 'PATCH' },
 ]
 
 // 样式分类

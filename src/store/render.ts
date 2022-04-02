@@ -53,9 +53,17 @@ export const useRenderStore = defineStore({
     },
 
     // 请求数据
-    async getData(url: string, params: any, showLoading?: boolean) {
-      const data = await postData(url, params, showLoading)
-      return data
+    async getData(url: string, method: string, payload: any, showLoading?: boolean) {
+      const data = method === 'GET' ? await getData(url, payload, showLoading)
+                 : method === 'POST' ? await postData(url, payload, showLoading)
+                 : method === 'DELETE' ? await postData(url, payload, showLoading)
+                 : method === 'PATCH' ? await postData(url, payload, showLoading)
+                 : null
+      // return data
+      
+      // 兼容旧数据，进行数据清洗
+      const formatData = data
+      return formatData
     }
 
   },

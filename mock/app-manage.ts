@@ -238,13 +238,14 @@ export const appData = {
                       "background": "#fff"
                   },
                   "events": [],
-                  "modelValue": [],
+                  "modelValue": tableData,
                   "propConfig": {
                       "title": "表格数据",
                       "showBorder": false,
                       "showSelection": true,
                       "showStripe": false,
                       "showOperations": true,
+                      operationsColumnWidth: '150',
                       "operations": [
                           {
                               "name": "审核",
@@ -262,7 +263,7 @@ export const appData = {
                               "events": []
                           },
                           {
-                              "name": "更多",
+                              "name": "编辑",
                               "code": "",
                               "events": []
                           }
