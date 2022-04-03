@@ -4,6 +4,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Admin: typeof import('./admin/Admin.vue')['default']
     AnimationConfig: typeof import('./editor/config-center/animation-config.vue')['default']
     AsideToolbar: typeof import('./editor/edit-center/aside-toolbar.vue')['default']
     ComponentLayer: typeof import('./editor/lib-layer/component-layer.vue')['default']

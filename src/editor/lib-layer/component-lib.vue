@@ -1,11 +1,5 @@
 <template>
   <div class="lib">
-    <div style="padding: 10px;">
-      临时测试
-      <el-button type="text" @click="handleExample1">示例1</el-button>
-    </div>
-    
-
     <el-collapse v-model="activeNames" @change="handleChange">
       <el-collapse-item
         v-for="category in libs"
@@ -34,18 +28,8 @@
 </template>
 
 <script setup lang="ts">
-import { useEditStore } from '@/store/edit';
 import type { CollapseModelValue } from 'element-plus';
 import { componentLibs } from '@/mock-data'
-import { appData } from '../../../mock/app-manage';
-
-const editStore = useEditStore()
-
-// 临时测试数据
-const mackAppData: any = reactive(appData)
-const handleExample1 = () => {
-  editStore.currentPage.elements = toRaw(mackAppData).elements
-}
 
 const libs = ref(componentLibs)
 

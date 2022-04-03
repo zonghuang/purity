@@ -4,7 +4,12 @@ import { RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: 'editor'
+    redirect: 'admin'
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('./admin/Admin.vue')
   },
   {
     path: '/editor',
@@ -12,7 +17,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('./editor/Editor.vue')
   },
   {
-    path: '/render',
+    path: '/preview',
+    name: 'preview',
+    component: () => import('./render/Render.vue')
+  },
+  {
+    path: '/render/:system/:module/:page',
     name: 'render',
     component: () => import('./render/Render.vue')
   },

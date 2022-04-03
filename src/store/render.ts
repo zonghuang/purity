@@ -1,6 +1,7 @@
 import { IElement, IPage, ITarget } from "@/interface-type";
 import { pages } from '@/mock-data'
 import { getData, postData } from "@/service";
+import { getPages } from '../../mock'
 import { useEditStore } from "./edit";
 
 export const useRenderStore = defineStore({
@@ -14,10 +15,15 @@ export const useRenderStore = defineStore({
 
   },
   actions: {
-    async fetchConfig(id: string) {
-      const editStore = useEditStore()
-      const pages = editStore.pages
-      this.$patch({ pages: pages, currentPage: pages[0] })
+    async fetchConfig(params: any) {
+      if (params.page) {
+        const pages = await getPages(params)
+        this.$patch({ pages: pages, currentPage: pages[0] })
+      } else {
+        const editStore = useEditStore()
+        const pages = editStore.pages
+        this.$patch({ pages: pages, currentPage: pages[0] })
+      }
     },
 
     // 打开模态框

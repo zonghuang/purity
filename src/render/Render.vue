@@ -5,7 +5,8 @@
 <script setup lang="ts">
 import { useRenderStore } from '@/store/render';
 
+const route = useRoute()
 const renderStore = useRenderStore()
-renderStore.fetchConfig('1')
+renderStore.fetchConfig(route.params)
 const elements = computed(() => renderStore.currentPage.elements)
 </script>

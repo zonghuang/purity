@@ -4,9 +4,11 @@ class LocalCache {
   }
 
   getCache(key: string) {
-    const value = localStorage.getItem(key)
-    if (value) {
-      return JSON.parse(value)
+    try {
+      const value = localStorage.getItem(key)
+      if (value) return JSON.parse(value)
+    } catch (err) {
+      return
     }
   }
 

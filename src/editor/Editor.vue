@@ -49,7 +49,9 @@
 <script setup lang="ts">
 import { useEditStore } from '@/store/edit'
 
+const route = useRoute()
 const editStore = useEditStore()
+editStore.fetchConfig(route.query)
 const activeLib = ref('lib')
 const activeConfig = ref('prop')
 const pages = computed(() => editStore.pages)
@@ -60,8 +62,6 @@ const isOverlay = computed(() => {
     if (item.propConfig.visible) return true
   })
 })
-
-editStore.fetchConfig('1')
 
 function handleClick(pane: any) {
   // console.log(event)

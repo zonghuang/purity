@@ -35,6 +35,7 @@ export interface ILib {
 export interface IPage {
   id: string
   name: string
+  path: string
   elements: IElement[]
   settings: any
 }

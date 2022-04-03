@@ -22,6 +22,7 @@ import { useRenderStore } from '@/store/render'
 import { IElement, IEvent, IAction, IEventParams, IParamValue } from '@/interface-type'
 
 const route = useRoute()
+const router = useRouter()
 const renderStore = useRenderStore()
 defineProps<{
   elements: IElement[]
@@ -77,8 +78,18 @@ const handleEvents = (events: IEvent[]) => {
       case 'link':
         const routeParams = getValue('object', toRaw(params))
         console.log('正在跳转链接: ', link, '打开方式: ', aTarget, '携带路由参数', routeParams)
-        const fullLink = joinRouteParams(link, routeParams)
-        window.open(fullLink, aTarget)
+        if (link.charAt(0) === '/') {
+          if (aTarget === '_self') {
+            router.push({ path: link, query: routeParams })
+          } else {
+            const fullLink = joinRouteParams(window.location.host + link, routeParams)
+            window.open(fullLink, aTarget)
+          }
+        } else {
+          const fullLink = joinRouteParams(link, routeParams)
+          window.open(fullLink, aTarget)
+        }
+
         if (thenEvents?.length) handleEvents(thenEvents)
         break;
 
@@ -127,6 +138,8 @@ const handleEvents = (events: IEvent[]) => {
           const target = renderStore.findTarget(renderStore.currentPage.elements, valueToComp)
           target && handleUpdate(value, target.config)
         }
+
+        if (thenEvents?.length) handleEvents(thenEvents)
         break;
 
       case 'resetValue':
@@ -135,8 +148,10 @@ const handleEvents = (events: IEvent[]) => {
           const value = toRaw(renderStore.cacheData[valueToComp]?.originData)
           target && handleUpdate(value, target.config)
         }
+
+        if (thenEvents?.length) handleEvents(thenEvents)
         break;
-    
+
       default:
         break;
     }

@@ -215,6 +215,7 @@ export const pages: IPage[] = [
   {
     id: 'p1',
     name: '首页',
+    path: '',
     elements: [],
     settings: {},
   },

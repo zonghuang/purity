@@ -30,7 +30,8 @@ const openElLoading = () => ElLoading.service({})
 //           box-sizing: border-box;
 // }
 
-// body {
-//   background: #f5f5f5;
-// }
+body {
+  // background: #f5f5f5;
+  font-size: 14px;
+}
 </style>

@@ -49,7 +49,7 @@ export default defineConfig(({ mode }) => {
       }),
       Components({
         dts: 'src/auto-components.d.ts',
-        dirs: ['src/components', 'src/render', 'src/editor'],
+        dirs: ['src/components', 'src/render', 'src/editor', 'src/admin'],
         resolvers: [ElementPlusResolver(), VantResolver()
         ],
       }),

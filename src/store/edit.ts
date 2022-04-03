@@ -1,45 +1,54 @@
 import _ from 'lodash'
+import localCache from '@/utils/cache'
 import { IElement, IPage, ISnapshot, ITarget } from "@/interface-type"
 import { componentsConfig, containers, pages, snapshot } from '@/mock-data'
-
-function getPages(id: string) {
-  const storage = localStorage.getItem('purity')
-  return storage ? JSON.parse(storage) : pages
-}
+import { getPages } from '../../mock'
 
 export const useEditStore = defineStore({
   id: 'edit',
   state: () => ({
     time: 0,
-    pages,
+    pages: [] as IPage[],
     currentPage: {} as IPage,
     currentComponent: {} as IElement | null,
 
-    snapshot: snapshot,
-    snapshotStore: [snapshot]
+    snapshot: {} as ISnapshot,
+    snapshotStore: [] as ISnapshot[]
   }),
   getters: {
 
   },
   actions: {
-    async fetchConfig(id: string) {
-      if (this.currentPage.elements && this.currentPage.elements.length > 0) return
+    async fetchConfig(query: any) {
+      if (this.currentPage.elements) this.currentPage.elements = []
 
-      const pages = await getPages(id)
+      // 临时 start
+      const storage = localCache.getCache('purity')
+      if (!query.system && storage) {
+        const pages = storage
+        this.$patch({ pages: pages, currentPage: pages[0] })
+        this.snapshot = { id: this.currentPage.id, index: -1, list: [] }
+        this.snapshotStore = [this.snapshot]
+        this.changePage(this.currentPage.id)
+        this.recordSnapshot()
+        return
+      }
+      // 临时 end
+
+      const pages = await getPages(query)
       this.$patch({ pages: pages, currentPage: pages[0] })
+      this.snapshot = { id: this.currentPage.id, index: -1, list: [] }
+      this.snapshotStore = [this.snapshot]
 
-      // 临时
-      const pageId = this.currentPage.id
-      const rootContainer = _.cloneDeep(componentsConfig['zh-container'])
-      if (!rootContainer) return
-      this.time = new Date().getTime()
-      this.setComponentId(rootContainer)
-      rootContainer.type = 'root'
-
-      if (!localStorage.getItem('purity')) {
+      if (!this.currentPage.elements.length) {
+        const rootContainer = _.cloneDeep(componentsConfig['zh-container'])
+        this.time = new Date().getTime()
+        this.setComponentId(rootContainer)
+        rootContainer.type = 'root'
         this.currentPage.elements.push(rootContainer)
       }
-      this.changePage(pageId)
+
+      this.changePage(this.currentPage.id)
       this.recordSnapshot()
     },
 
@@ -48,10 +57,11 @@ export const useEditStore = defineStore({
       const num = this.pages.length + 1
       const id = 'p' + num
       const name = 'page-' + num
+      const route = '/' + name
       this.addComponent('zh-container')
       if (!this.currentComponent) return
       this.currentComponent.type = 'root'
-      this.pages.push({ id, name, elements: [this.currentComponent], settings: {} })
+      this.pages.push({ id, name, route, elements: [this.currentComponent], settings: {} })
       this.snapshotStore.push({ id, index: -1, list: [] })
       this.changePage(id)
     },
@@ -61,6 +71,7 @@ export const useEditStore = defineStore({
       const num = this.pages.length + 1
       currentPage.id = 'p' + num
       currentPage.name += '复制'
+      currentPage.route += '-copy'
       this.pages.push(currentPage)
       this.snapshotStore.push({ id: currentPage.id, index: -1, list: [] })
     },
@@ -95,6 +106,12 @@ export const useEditStore = defineStore({
 
     // 设置组件 uuid，以时间赋值
     setComponentId(component: IElement) {
+      // 临时
+      if (!component) {
+        ElMessage('此功能正在开发中...')
+        return
+      }
+
       component.uuid = String(++this.time)
       if (component.childrens) {
         for (let i = 0; i < component.childrens.length; i++) {
@@ -251,7 +268,7 @@ export const useEditStore = defineStore({
 
     // 保存
     save() {
-      localStorage.setItem('purity', JSON.stringify(this.pages))
+      localCache.setCache('purity', this.pages)
     },
 
     // 预览

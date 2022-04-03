@@ -1,7 +1,7 @@
 <template>
   <div class="page-list" @click="closeContextmenu">
     <ul>
-      <li @click="createPage">+</li>
+      <li v-if="isShowAdd" @click="createPage">+</li>
       <li
         :class="{ active: page.id === currentPageId }"
         :key="page.id"
@@ -24,7 +24,10 @@
 <script setup lang="ts">
 import { useEditStore } from '@/store/edit'
 
+const route = useRoute()
 const editStore = useEditStore()
+
+const isShowAdd = computed(() => !route.query.page)
 
 const contextmenu = ref('')
 const currentPageId = computed(() => editStore.currentPage.id)
