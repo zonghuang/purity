@@ -7,6 +7,15 @@
         <el-radio label="h5">H5</el-radio>
         <el-radio label="web">网站</el-radio>
       </el-radio-group>
+
+      <el-input
+        v-if="type === 'sso'"
+        v-model="token"
+        :rows="4"
+        type="textarea"
+        placeholder="请输入token (备注: 因为本系统没有接入后端, 如果要请求“统一认证登录”的数据, 则需要输入 token)"
+        @change="saveToken"
+      />
     </div>
 
     <el-table :data="tableData" style="width: 100%" class="admin-table">
@@ -56,10 +65,12 @@
 </template>
 
 <script setup lang="ts">
+import localCache from '@/utils/cache'
 import { ssoTableData } from '../../mock/admin'
 
 const router = useRouter()
 const type = ref('sso')
+const token = ref('')
 const tableData = ssoTableData
 
 const preview = (module: string, page?: string) => {
@@ -87,6 +98,14 @@ const handleClick = () => {
 
 const changeType = () => {
   console.log(type.value)
+}
+
+onMounted(() => {
+  token.value = localCache.getCache('token')
+})
+const saveToken = () => {
+  localCache.setCache('token', token.value)
+  ElMessage.success('保存成功')
 }
 </script>
 

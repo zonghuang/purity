@@ -37,19 +37,23 @@ export const useEditStore = defineStore({
 
       const pages = await getPages(query)
       this.$patch({ pages: pages, currentPage: pages[0] })
-      this.snapshot = { id: this.currentPage.id, index: -1, list: [] }
-      this.snapshotStore = [this.snapshot]
 
-      if (!this.currentPage.elements.length) {
-        const rootContainer = _.cloneDeep(componentsConfig['zh-container'])
-        this.time = new Date().getTime()
-        this.setComponentId(rootContainer)
-        rootContainer.type = 'root'
-        this.currentPage.elements.push(rootContainer)
+      this.snapshotStore = []
+      for (let i = 0; i < this.pages.length; i++) {
+        // 如果页面没有元素，则给它一个根元素
+        if (!this.pages[i].elements.length) {
+          const rootContainer = _.cloneDeep(componentsConfig['zh-container'])
+          this.time = new Date().getTime()
+          this.setComponentId(rootContainer)
+          rootContainer.type = 'root'
+          this.pages[i].elements.push(rootContainer)
+        }
+
+        // 初始化每个页面的快照
+        const snapshot = { id: this.pages[i].id, index: 0, list: [this.pages[i].elements] }
+        this.snapshotStore.push(snapshot)
       }
-
-      this.changePage(this.currentPage.id)
-      this.recordSnapshot()
+      this.snapshot = this.snapshotStore[0]
     },
 
     // 新建页、复制页、删除页、保存页、选择页
@@ -57,11 +61,11 @@ export const useEditStore = defineStore({
       const num = this.pages.length + 1
       const id = 'p' + num
       const name = 'page-' + num
-      const route = '/' + name
+      const path = '/' + name
       this.addComponent('zh-container')
       if (!this.currentComponent) return
       this.currentComponent.type = 'root'
-      this.pages.push({ id, name, route, elements: [this.currentComponent], settings: {} })
+      this.pages.push({ id, name, path, elements: [this.currentComponent], settings: {} })
       this.snapshotStore.push({ id, index: -1, list: [] })
       this.changePage(id)
     },
@@ -71,7 +75,7 @@ export const useEditStore = defineStore({
       const num = this.pages.length + 1
       currentPage.id = 'p' + num
       currentPage.name += '复制'
-      currentPage.route += '-copy'
+      currentPage.path += '-copy'
       this.pages.push(currentPage)
       this.snapshotStore.push({ id: currentPage.id, index: -1, list: [] })
     },
