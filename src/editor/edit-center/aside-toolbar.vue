@@ -66,7 +66,10 @@ const copyComponent = () => {
 const pasteComponent = () => {
   navigator.clipboard.readText()
     .then(clipText => {
-      if (!editStore.currentComponent) return
+      if (!editStore.currentComponent) {
+        ElMessage({ type: 'warning', message: '请选择粘贴的目标组件' })
+        return
+      }
       const clipComponent = JSON.parse(clipText)
       editStore.pasteComponent(clipComponent)
     })

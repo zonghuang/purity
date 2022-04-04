@@ -188,27 +188,15 @@ const drop = (ev: DragEvent, element: IElement) => {
     const [name, offsetX, offsetY] = data.split(',')
     editStore.addComponent(name)
     setComponentPosition(ev.pageX, ev.pageY, offsetX, offsetY)
-    insertComponent(id)
-    editStore.recordSnapshot()
+    editStore.insertComponent(id, insertSeat)
 
   } else {
     const [uuid, offsetX, offsetY] = data.split(',')
     if (id === uuid) return
     editStore.setComponent(uuid)
-    editStore.deleteComponent(uuid)
+    editStore.deleteComponent(uuid, false)
     setComponentPosition(ev.pageX, ev.pageY, offsetX, offsetY)
-    insertComponent(id)
-    editStore.recordSnapshot()
-  }
-}
-
-const insertComponent = (id: string) => {
-  if (insertSeat === 'previous') {
-    editStore.insertBefore(id)
-  } else if (insertSeat === 'next') {
-    editStore.insertAfter(id)
-  } else if (insertSeat === 'inside') {
-    editStore.insertChild(id)
+    editStore.insertComponent(id, insertSeat)
   }
 }
 

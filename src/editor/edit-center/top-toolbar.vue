@@ -51,6 +51,7 @@
 
 <script setup lang="ts">
 import { useEditStore } from '@/store/edit'
+import localCache  from '@/utils/cache'
 
 const editStore = useEditStore()
 const router = useRouter()
@@ -71,7 +72,10 @@ const save = () => {
 }
 const undo = () => editStore.undo()
 const redo = () => editStore.redo()
-const preview = () => router.push({ name: 'preview' })
+const preview = () => {
+  localCache.setCache('editting', true)
+  router.push({ name: 'preview' })
+}
 
 const publish = () => {
   editStore.publish()
