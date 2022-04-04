@@ -55,6 +55,7 @@ export const useEditStore = defineStore({
       this.pages.push({ id, name, path, elements: [this.currentComponent], settings: {} })
       this.snapshotStore.push({ id, index: -1, list: [] })
       this.changePage(id)
+      this.recordSnapshot()
     },
     copyPage(pageId: string) {
       const page = this.pages.find(item => item.id === pageId)
@@ -66,6 +67,7 @@ export const useEditStore = defineStore({
       this.pages.push(currentPage)
       this.snapshotStore.push({ id: currentPage.id, index: -1, list: [] })
       this.changePage(currentPage.id)
+      this.recordSnapshot()
     },
     deletePage(pageId: string) {
       const index = this.pages.findIndex(item => item.id === pageId)
