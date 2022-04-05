@@ -95,6 +95,31 @@ const handleEvents = (events: IEvent[]) => {
 
       case 'request':
         const payload = getValue('object', toRaw(item.params))
+
+        // 临时 start（为了兼容现在 sso 的分页和查询条件格式化）
+        if (payload.reportCode && payload.pagination) {
+          const { currentPage, pageSize } = payload.pagination
+          payload.pageNo = currentPage
+          payload.pageSize = pageSize
+          delete payload.pagination
+
+          // 过滤掉对象中的 '' undefined null {} []
+          const obj = { ...payload.queryParams }
+          const queryParams: any = Object.keys(obj)
+            .filter(
+              (key) =>
+                obj[key] !== '' &&
+                obj[key] !== null &&
+                obj[key] !== undefined &&
+                JSON.stringify(obj[key]) !== '{}' &&
+                JSON.stringify(obj[key]) !== '[]'
+            )
+            .reduce((acc, key) => ({ ...acc, [key]: obj[key] }), {})
+          payload.queryParams = queryParams
+        }
+        // 临时 end
+
+
         console.log('正在请求数据, 访问 api: ', api, '请求方式: ', method, '请求参数: ', payload)
         console.time('request')
         const responseData = await renderStore.getData(api, method, payload, showLoading)
@@ -109,7 +134,6 @@ const handleEvents = (events: IEvent[]) => {
         } else if (assignmentType === 'multiple') {
           valueToComps?.forEach(one => {
             const target = renderStore.findTarget(renderStore.currentPage.elements, one.target)
-            // @ts-ignore
             const value = responseData[one.source]
             target && handleUpdate(value, target.config)
           })
@@ -124,9 +148,8 @@ const handleEvents = (events: IEvent[]) => {
       case 'setValue':
         if (assignmentType === 'another') {
           sourceToTarget?.forEach(one => {
-            const source = renderStore.findTarget(renderStore.currentPage.elements, one.source)
+            const value = getRealvalue(one.source)
             const target = renderStore.findTarget(renderStore.currentPage.elements, one.target)
-            const value = source?.config.modelValue
             target && handleUpdate(value, target.config)
           })
         } else if (assignmentType === 'object') {
@@ -158,102 +181,42 @@ const handleEvents = (events: IEvent[]) => {
   })
 }
 
-const getValue = (formatType: string, params: IEventParams[] = []) => {
+const joinRouteParams = (url: string = '', params: IEventParams[] = []) => {
+  const routeParams = qs.stringify(params)
+  const urlObj = new URL(url)
+  urlObj.search += urlObj.search.startsWith('?') ? '&' : '?' + routeParams
+  return urlObj.href
+}
+
+const getValue = (formatType: string, params: any[] = []) => {
   const arr: IParamValue[] = []
   params.forEach(item => {
     const { type, key, value } = item
-    
-    /**
-     * 路由参数
-     * 1  { key: key, value: route.params[key] }
-     * 2  { key: key, value: route.params }
-     * 3  解构路由参数
-     * 
-     * 表格当前行、多选行、当前行主键、多选行主键
-     * 4  { key: key, value: currentRow }
-     * 5  { key: key, value: selectedRows }
-     * 6  { key: key, value: rowKey }
-     * 7  { key: key, value: rowsKey }
-     * 
-     * 其他情况
-     * 8  { key: key, value: value }
-     * 9  { key: key, value: component.modelValue }
-     * 10 { key: component.field, value: component.modelValue }
-     */
-    const condition = type === 'inputKey-inputRouteKey' ? 1
-                    : type === 'inputKey-selectValue' && value === 'routeParams' ? 2
-                    : type === 'select-keyValue' && value === 'routeParams' ? 3
-                    : value?.includes('currentRow') ? 4
-                    : value?.includes('selectedRows') ? 5
-                    : value?.includes('rowKey') ? 6
-                    : value?.includes('rowsKey') ? 7
-                    : type === 'input-keyValue' ? 8
-                    : type === 'inputKey-selectValue' ? 9
-                    : type === 'select-keyValue' ? 10
-                    : -1
 
-    switch (condition) {
-      case 1: {
-        arr.push({ key, value: route.params[key] })
-        break;
-      }
-      case 2: {
-        arr.push({ key, value: route.params })
-        break;
-      }
-      case 3: {
-        for (const [k, v] of Object.entries(route.params)) {
-          arr.push({ key: k, value: v })
-        }
-        break;
-      }
-
-      case 4: {
-        const tableId = value.replace('currentRow', '')
-        const v = renderStore.cacheData[tableId]?.currentRow
-        arr.push({ key, value: toRaw(v) })
-        break;
-      }
-      case 5: {
-        const tableId = value.replace('selectedRows', '')
-        const v = renderStore.cacheData[tableId]?.selectedRows
-        arr.push({ key, value: toRaw(v) })
-        break;
-      }
-      case 6: {
-        const tableId = value.replace('rowKey', '')
-        const v = renderStore.cacheData[tableId]?.rowKey
-        const primaryKey = renderStore.cacheData[tableId]?.primaryKey
-        arr.push({ key: key ?? primaryKey, value: toRaw(v) })
-        break;
-      }
-      case 7: {
-        const tableId = value.replace('rowsKey', '')
-        const v = renderStore.cacheData[tableId]?.rowsKey
-        const primaryKey = renderStore.cacheData[tableId]?.primaryKey
-        arr.push({ key: key ?? primaryKey, value: toRaw(v) })
-        break;
-      }
-
-      case 8: {
+    switch (type) {
+      case 'input-keyValue':
         arr.push({ key, value })
         break;
-      }
-      case 9: {
-        const componentId = value
-        const target = renderStore.findTarget(renderStore.currentPage.elements, componentId)
-        const v = target?.config.modelValue
-        arr.push({ key, value: toRaw(v) })
+
+      case 'inputKey-selectValue':
+        const realvalue = getRealvalue(value)
+        arr.push({ key, value: realvalue })
         break;
-      }
-      case 10: {
-        const componentId = value
-        const target = renderStore.findTarget(renderStore.currentPage.elements, componentId)
-        const k = target?.config.propConfig.field
-        const v = target?.config.modelValue
-        arr.push({ key: k, value: toRaw(v) })
+
+      case 'select-keyValue':
+        const realKey = getRealkey(value)
+        if (value === 'routeParams') {
+          for (const [k, v] of Object.entries(route.params)) {
+            arr.push({ key: k, value: v })
+          }
+        } else {
+          const realvalue = getRealvalue(value)
+          arr.push({ key: realKey, value: realvalue })
+        }
+
+      case 'inputSelect-Property':
+        
         break;
-      }
 
       default:
         break;
@@ -272,10 +235,63 @@ const getValue = (formatType: string, params: IEventParams[] = []) => {
   return result
 }
 
-const joinRouteParams = (url: string = '', params: any) => {
-  const routeParams = qs.stringify(params)
-  const urlObj = new URL(url)
-  urlObj.search += urlObj.search.startsWith('?') ? '&' : '?' + routeParams
-  return urlObj.href
+const getRealkey = (value: string = '') => {
+  if (value.includes('currentRow')) {
+    return 'currentRow'
+  }
+
+  if (value.includes('selectedRows')) {
+    return 'selectedRows'
+  }
+
+  if (value.includes('rowKey')) {
+    const tableId = value.replace('rowKey', '')
+    const target = renderStore.findTarget(renderStore.currentPage.elements, tableId)
+    return target?.config.propConfig.primaryKey
+  }
+
+  if (value.includes('rowsKey')) {
+    const tableId = value.replace('rowsKey', '')
+    const target = renderStore.findTarget(renderStore.currentPage.elements, tableId)
+    return target?.config.propConfig.primaryKey
+  }
+
+  // 以上都不成立，则是取组件的值（此时参数 value 为组件的 field）
+  const target = renderStore.findTarget(renderStore.currentPage.elements, value)
+  return target?.config.propConfig.field
+}
+
+const getRealvalue = (value: string = '') => {
+  if (value === 'routeParams') {
+    return route.params
+  }
+
+  if (value.includes('currentRow')) {
+    const tableId = value.replace('currentRow', '')
+    const currentRow = renderStore.cacheData[tableId]?.currentRow
+    return toRaw(currentRow)
+  }
+
+  if (value.includes('selectedRows')) {
+    const tableId = value.replace('selectedRows', '')
+    const selectedRows = renderStore.cacheData[tableId]?.selectedRows
+    return toRaw(selectedRows)
+  }
+
+  if (value.includes('rowKey')) {
+    const tableId = value.replace('rowKey', '')
+    const rowKey = renderStore.cacheData[tableId]?.rowKey
+    return toRaw(rowKey)
+  }
+
+  if (value.includes('rowsKey')) {
+    const tableId = value.replace('rowsKey', '')
+    const rowsKey = renderStore.cacheData[tableId]?.rowsKey
+    return toRaw(rowsKey)
+  }
+
+  // 以上都不成立，则是取组件的值（此时参数 value 为组件的 uuid）
+  const target = renderStore.findTarget(renderStore.currentPage.elements, value)
+  return toRaw(target?.config.modelValue)
 }
 </script>

@@ -10,7 +10,8 @@ export default {
     field: '',
     placeholder: '请选择',
     labelWidth: '100px',
-    labelPosition: 'right'
+    labelPosition: 'right',
+    options: []
   },
   animations: []
 }

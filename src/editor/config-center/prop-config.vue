@@ -29,7 +29,7 @@
     </el-form>
 
     <el-form
-      v-if="(type === 'input' || type === 'select' || type === 'datepicker') && propConfig"
+      v-if="(type === 'input' || type === 'select' || type === 'radio' || type === 'datepicker' || type === 'picture' || type === 'text') && propConfig"
       :model="propConfig"
       label-position="top"
       label-width="120px"
@@ -112,12 +112,11 @@
           <el-input v-model="propConfig.endPlaceholder"></el-input>
         </el-form-item>
       </template>
-
     </el-form>
 
     <el-form v-if="type === 'form' && propConfig" :model="propConfig" label-position="top" label-width="120px">
       <el-form-item label="表单名称">
-        <el-input v-model="propConfig.label" placeholder="请输入" @change="changeFormItemWidth"></el-input>
+        <el-input v-model="propConfig.label" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="别名">
         <el-input v-model="propConfig.alias" placeholder="请输入"></el-input>

@@ -3,6 +3,7 @@ import { pages } from '@/mock-data'
 import { getData, postData } from "@/service";
 import { getPages } from '../../mock'
 import { useEditStore } from "./edit";
+import { formatData } from '@/utils/format-data'
 
 export const useRenderStore = defineStore({
   id: 'render',
@@ -68,8 +69,7 @@ export const useRenderStore = defineStore({
       // return data
       
       // 兼容旧数据，进行数据清洗
-      const formatData = data
-      return formatData
+      return formatData(data, url, payload)
     }
 
   },

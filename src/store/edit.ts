@@ -20,7 +20,6 @@ export const useEditStore = defineStore({
   },
   actions: {
     async fetchConfig(query: any) {
-      if (localCache.getCache('editting')) return
       if (this.currentPage.elements) this.currentPage.elements = []
 
       // 编辑页面未划分给某个系统并且有本地缓存时，取缓存数据；反之取云端数据

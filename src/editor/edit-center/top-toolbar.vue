@@ -73,7 +73,7 @@ const save = () => {
 const undo = () => editStore.undo()
 const redo = () => editStore.redo()
 const preview = () => {
-  localCache.setCache('editting', true)
+  editStore.save()
   router.push({ name: 'preview' })
 }
 

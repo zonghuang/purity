@@ -82,7 +82,6 @@ const token = ref('')
 const tableData = ssoTableData
 
 const preview = (module: string, page?: string) => {
-  localCache.deleteCache('editting')
   const query: any = {
     system: type.value,
     module: module.replace('/', ''),
@@ -93,7 +92,6 @@ const preview = (module: string, page?: string) => {
 }
 
 const edit = (module: string, page?: string) => {
-  localCache.deleteCache('editting')
   const query: any = {
     system: type.value,
     module: module.replace('/', ''),
@@ -103,7 +101,6 @@ const edit = (module: string, page?: string) => {
 }
 
 const handleClick = () => {
-  localCache.deleteCache('editting')
   router.push({ name: 'editor' })
 }
 

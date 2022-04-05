@@ -16,8 +16,17 @@
         :label="item.label"
         :width="item.width"
         :fixed="item.fixed"
-        :align="align"
-      />
+        :align="item.align"
+        :show-overflow-tooltip="true"
+      >
+        <template #default="scope">
+          <div v-if="item.type === 'image'" :class="{ 'align-center': item.align === 'center' }">
+            <el-image style="width: 32px; height: 32px" :src="scope.row[item.field]" :fit="'cover'" />
+          </div>
+          <template v-else>{{ scope.row[item.field] }}</template>
+        </template>
+      </el-table-column>
+
       <el-table-column v-if="showOperations" label="操作" :width="operationsColumnWidth" :align="'center'" :fixed="operationsColumnFixed">
         <template v-if="operations.length > 3" #default="scope">
           <el-button
@@ -35,7 +44,11 @@
             </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item v-for="item in operations.slice(2)">{{ item.name }}</el-dropdown-item>
+                <el-dropdown-item
+                  v-for="item in operations.slice(2)"
+                  @click="handleClick(item, scope.row)">
+                  {{ item.name }}
+                </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -78,7 +91,6 @@ const operations = computed(() => props.propConfig.operations)
 const selectionColumnFixed = computed(() => props.propConfig.selectionColumnFixed)
 const operationsColumnFixed = computed(() => props.propConfig.operationsColumnFixed)
 const columns = computed(() => props.propConfig.columns)
-const align = computed(() => props.propConfig.align)
 const tableData = computed(() => props.modelValue)
 
 const selectionChange = (val: any[]) => {
@@ -110,10 +122,24 @@ const handleClick = (item: any, row: any) => {
   }
 }
 
-:deep(.el-table__cell) {
+:deep(.el-table__body) {
+  .el-table__row {
+    height: 42px;
+  }
+
+  .el-table__cell {
+    padding: 0;
+  }
+
   .cell {
+    .el-image {
+      display: block;
+    }
+  }
+
+  .align-center {
     display: flex;
-    align-items: center;
+    justify-content: center;
   }
 }
 </style>

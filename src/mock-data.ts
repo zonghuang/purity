@@ -14,12 +14,17 @@ export const componentLibs: ILib[] = [
           { label: '容器', name: 'zh-container', icon: '' },
           { label: '按钮', name: 'zh-button', icon: '' },
           { label: '单行输入框', name: 'zh-input', icon: '' },
+          { label: '单选框', name: 'zh-radio', icon: '' },
+          { label: '多选框', name: 'zh-checkbox', icon: '' },
+          { label: '开关', name: 'zh-switch', icon: '' },
           { label: '下拉选择器', name: 'zh-select', icon: '' },
           { label: '日期选择', name: 'zh-date-picker', icon: '' },
           { label: '表单', name: 'zh-form', icon: '' },
           { label: '表格', name: 'zh-table', icon: '' },
           { label: '模态框', name: 'zh-modal', icon: '' },
           { label: '分页', name: 'zh-pagination', icon: '' },
+          { label: '图片', name: 'zh-picture', icon: '' },
+          { label: '标题/段落', name: 'zh-text', icon: '' },
         ]
       }
     ]
@@ -397,7 +402,7 @@ export const validValueComponents = [
   'form', 'input', 'textarea', 'number', 'select', 'cascader',
   'datepicker', 'timeselect', 'timepicker',
   'switch', 'radio', 'checkbox', 'slider', 'rate', 'color', 'range',
-  'upload', 'tree',
+  'upload', 'tree', 'picture', 'text',
   'table', 'pagination'
 ]
 

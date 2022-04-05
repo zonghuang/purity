@@ -4,20 +4,11 @@
       {{ propConfig.label }} <abbr v-if="required" title="required">*</abbr>
     </label>
     <div class="form-content">
-      <el-select
-        v-model="value"
-        @change="updateValue"
-        :name="propConfig.field"
-        :placeholder="propConfig.placeholder"
-        clearable
-      >
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
+      <el-radio-group v-model="value" @change="updateValue">
+        <el-radio v-for="item in options" :key="item.value" :label="item.value">
+          {{item.label}} 
+        </el-radio>
+      </el-radio-group>
       <div class="invalid">{{ validTips }}</div>
     </div>
   </div>
@@ -38,7 +29,7 @@ const options = computed(() => props.propConfig.options)
 const validTips = ''  // 校验规则 rules 后续完善
 
 const componentClass = computed(() => {
-  const classes = ['form-item', 'zh-select']
+  const classes = ['form-item', 'zh-radio']
   if (labelPosition.value === 'left' || labelPosition.value === 'right') 
     classes.push('zh-form-item-inline')
   return classes
@@ -64,13 +55,13 @@ abbr {
   color: #f56c6c;
 }
 
-.zh-select {
+.zh-radio {
   width: 100%;
 }
 
-.el-select {
-  width: 100%;
-}
+// .el-radio {
+//   width: 100%;
+// }
 
 .zh-form-item-inline {
   display: flex;

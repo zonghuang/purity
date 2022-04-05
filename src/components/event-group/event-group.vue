@@ -59,7 +59,7 @@
         <div v-if="editStore.currentComponent?.type === 'table' && bindCodeOptions.length" class="form-item">
           <label class="form-label">绑定事件
             <el-tooltip content="绑定事件后，只有用户操作了绑定事件，才触发该事件" placement="bottom">
-              <span class="box-item" style="margin-right: 0; color: #888;">
+              <span class="box-item box-item-tips">
                 <el-icon size="14"><info-filled /></el-icon>
               </span>
             </el-tooltip>
@@ -546,6 +546,11 @@ const getKeyValueOptions = (tree: IElement[], options: IOptions[]) => {
   &:hover {
     color: #409eff;
   }
+}
+.box-item-tips {
+  display: inline-block;
+  margin-right: 0;
+  color: #888;
 }
 .box-item-delete {
   &:hover {

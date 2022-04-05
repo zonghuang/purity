@@ -23,6 +23,7 @@ declare module 'vue' {
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElLink: typeof import('element-plus/es')['ElLink']
     ElOption: typeof import('element-plus/es')['ElOption']
@@ -37,6 +38,7 @@ declare module 'vue' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     EventConfig: typeof import('./editor/config-center/event-config.vue')['default']
     EventGroup: typeof import('./components/event-group/event-group.vue')['default']
     LineInsertPlaceholder: typeof import('./components/line-insert-placeholder/line-insert-placeholder.vue')['default']
@@ -56,9 +58,13 @@ declare module 'vue' {
     ZhInput: typeof import('./components/zh-input/zh-input.vue')['default']
     ZhModal: typeof import('./components/zh-modal/zh-modal.vue')['default']
     ZhPagination: typeof import('./components/zh-pagination/zh-pagination.vue')['default']
+    ZhPicture: typeof import('./components/zh-picture/zh-picture.vue')['default']
+    ZhRadio: typeof import('./components/zh-radio/zh-radio.vue')['default']
     ZhSelect: typeof import('./components/zh-select/zh-select.vue')['default']
     ZhSvg: typeof import('./components/zh-svg/zh-svg.vue')['default']
     ZhTable: typeof import('./components/zh-table/zh-table.vue')['default']
+    ZhText: typeof import('./components/zh-text/zh-text.vue')['default']
+    ZhUploadImage: typeof import('./components/zh-picture/zh-upload-image.vue')['default']
   }
 }
 

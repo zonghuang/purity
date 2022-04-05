@@ -48,8 +48,6 @@ const modal = computed(() => (props.propConfig.modal))
 const fullscreen = computed(() => (props.propConfig.fullscreen))
 const closeOnClickModal = computed(() => (props.propConfig.closeOnClickModal))
 
-console.log(route)
-
 onMounted(() => editing.value = route.path === '/editor')
 
 const closedFn = (ev: KeyboardEvent) => ev.code === 'Escape' && closeModal()

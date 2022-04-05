@@ -9,6 +9,7 @@
         @input="updateValue"
         :name="propConfig.field"
         :placeholder="propConfig.placeholder"
+        clearable
       />
       <div class="invalid">{{ validTips }}</div>
     </div>

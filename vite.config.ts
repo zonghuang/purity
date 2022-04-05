@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
       port: 5200,
 
       proxy: {
-        '/lc': {
+        '/sso-server': {
           target: env.VITE_BASE_URL,
           changeOrigin: true,
         },

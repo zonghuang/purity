@@ -1,31 +1,35 @@
+<!-- 未完善的图片上传组件 -->
 <template>
   <div :class="componentClass">
     <label :class="lableClass" :for="propConfig.field">
       {{ propConfig.label }} <abbr v-if="required" title="required">*</abbr>
     </label>
     <div class="form-content">
-      <el-select
-        v-model="value"
-        @change="updateValue"
-        :name="propConfig.field"
-        :placeholder="propConfig.placeholder"
-        clearable
+      <el-upload
+        action="https://flya.kedlink.com/sso-server/api/upload"
+        :headers="headers"
+        list-type="picture-card"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :file-list="fileList"
       >
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
+        <el-icon><Plus /></el-icon>
+      </el-upload>
+
+      <el-dialog v-model="dialogVisible">
+        <img w-full :src="dialogImageUrl" alt="Preview Image" />
+      </el-dialog>
       <div class="invalid">{{ validTips }}</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { UploadProps, UploadUserFile } from 'element-plus';
+import localCache from '@/utils/cache'
+
 const props = defineProps<{
-  modelValue: any
+  modelValue: string
   propConfig: any
 }>()
 const emit = defineEmits(['update'])
@@ -34,11 +38,10 @@ const value = ref(props.modelValue)
 const required = computed(() => props.propConfig.required)
 const labelWidth = computed(() => props.propConfig.labelWidth)
 const labelPosition = computed(() => props.propConfig.labelPosition)
-const options = computed(() => props.propConfig.options)
 const validTips = ''  // 校验规则 rules 后续完善
 
 const componentClass = computed(() => {
-  const classes = ['form-item', 'zh-select']
+  const classes = ['form-item', 'zh-picture']
   if (labelPosition.value === 'left' || labelPosition.value === 'right') 
     classes.push('zh-form-item-inline')
   return classes
@@ -57,6 +60,35 @@ const stopWatch = watch(() => props.modelValue, newValue => value.value = newVal
 onUnmounted(() => stopWatch())
 
 const updateValue = () => emit('update', value.value)
+
+
+// 临时的
+const token = localCache.getCache('token')
+if (!token) ElMessage.error('token 无效')
+const headers = reactive({ 'sso-token': token })
+const dialogVisible = ref(false)
+const dialogImageUrl = ref('')
+const fileList = ref<UploadUserFile[]>([
+  {
+    name: 'github.jpeg',
+    url: 'https://lyy-public.oss-cn-shenzhen.aliyuncs.com/s1000000/20220405/1yPYearU.jpg',
+  }
+])
+
+const stopWatch1 = watch(() => fileList.value, newValue => {
+  value.value = newValue[newValue.length - 1].url!
+  emit('update', value.value)
+})
+onUnmounted(() => stopWatch1())
+
+const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
+  dialogImageUrl.value = uploadFile.url!
+  dialogVisible.value = true
+}
+
+const handleRemove = () => {
+
+}
 </script>
 
 <style scoped lang="less">
@@ -64,11 +96,7 @@ abbr {
   color: #f56c6c;
 }
 
-.zh-select {
-  width: 100%;
-}
-
-.el-select {
+.zh-picture {
   width: 100%;
 }
 
@@ -102,5 +130,17 @@ abbr {
   margin-top: 4px;
   font-size: 10px;
   color: #f56c6c;
+}
+
+:deep(.el-upload-list__item) {
+  width: 36px;
+  height: 36px;
+  .el-upload-list__item-thumbnail {
+    object-fit: cover;
+  }
+}
+:deep(.el-upload--picture-card) {
+  width: 36px;
+  height: 36px;
 }
 </style>

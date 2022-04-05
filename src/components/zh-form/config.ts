@@ -6,7 +6,10 @@ export default {
   events: [],
   modelValue: {},
   propConfig: {
-    label: '表单'
+    label: '表单',
+    formItemWidth: '',
+    labelWidth: '',
+    labelPosition: '',
   },
   animations: [],
   childrens: []
