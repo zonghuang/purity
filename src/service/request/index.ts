@@ -13,6 +13,7 @@ const zhRequest = new Request({
       console.log('request-config: ', config)
       if (!token) ElMessage.error('token 无效')
       config.headers!['sso-token'] = token
+      config.headers!['erp-token'] = token
 
       if (token) {
         config.headers!.Authorization = `Bearer ${token}`

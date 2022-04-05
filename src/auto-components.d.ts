@@ -64,7 +64,6 @@ declare module 'vue' {
     ZhSvg: typeof import('./components/zh-svg/zh-svg.vue')['default']
     ZhTable: typeof import('./components/zh-table/zh-table.vue')['default']
     ZhText: typeof import('./components/zh-text/zh-text.vue')['default']
-    ZhUploadImage: typeof import('./components/zh-picture/zh-upload-image.vue')['default']
   }
 }
 

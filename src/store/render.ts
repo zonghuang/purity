@@ -1,6 +1,6 @@
 import { IElement, IPage, ITarget } from "@/interface-type";
 import { pages } from '@/mock-data'
-import { getData, postData } from "@/service";
+import { getData, postData, deleteData, patchData } from "@/service";
 import { getPages } from '../../mock'
 import { useEditStore } from "./edit";
 import { formatData } from '@/utils/format-data'
@@ -63,8 +63,8 @@ export const useRenderStore = defineStore({
     async getData(url: string, method: string, payload: any, showLoading?: boolean) {
       const data = method === 'GET' ? await getData(url, payload, showLoading)
                  : method === 'POST' ? await postData(url, payload, showLoading)
-                 : method === 'DELETE' ? await postData(url, payload, showLoading)
-                 : method === 'PATCH' ? await postData(url, payload, showLoading)
+                 : method === 'DELETE' ? await deleteData(url, payload, showLoading)
+                 : method === 'PATCH' ? await patchData(url, payload, showLoading)
                  : null
       // return data
       
