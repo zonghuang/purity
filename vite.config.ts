@@ -21,11 +21,6 @@ export default defineConfig(({ mode }) => {
           target: env.VITE_BASE_URL,
           changeOrigin: true,
         },
-
-        '/lc': {
-          target: env.VITE_LC_BASE_URL,
-          changeOrigin: true,
-        },
       }
     },
 

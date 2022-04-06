@@ -64,7 +64,7 @@ const updateValue = () => emit('update', value.value)
 
 // 临时的
 const token = localCache.getCache('token')
-if (!token) ElMessage.error('token 无效')
+// if (!token) ElMessage.error('token 无效')
 const headers = reactive({ 'sso-token': token })
 const dialogVisible = ref(false)
 const dialogImageUrl = ref('')

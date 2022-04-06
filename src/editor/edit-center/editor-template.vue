@@ -79,6 +79,7 @@ const mousedown = (ev: MouseEvent, element: IElement) => {
 
 const dragstart = (ev: DragEvent, element: IElement) => {
   ev.stopPropagation()
+  ev.dataTransfer?.clearData()
   const id = (ev.currentTarget as Element).getAttribute('id')
   if (id !== element.uuid) return
 
@@ -89,7 +90,7 @@ const dragstart = (ev: DragEvent, element: IElement) => {
   ev.dataTransfer!.setData('text/plain', data)
 }
 
-const dragend = (ev: DragEvent) => ev.dataTransfer?.clearData()
+const dragend = (ev: DragEvent) => {}
 
 const dragenter = (ev: DragEvent, element: IElement) => {
   ev.preventDefault()

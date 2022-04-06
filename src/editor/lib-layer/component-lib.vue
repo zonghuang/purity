@@ -39,6 +39,7 @@ function handleChange(value: CollapseModelValue) {
 }
 
 const dragstart = (ev: DragEvent) => {
+  ev.dataTransfer?.clearData()
   const { currentTarget, offsetX, offsetY } = ev
   const name = (currentTarget as Element).getAttribute('name')
   const data = `${name},${offsetX},${offsetY},isNew`
@@ -46,7 +47,7 @@ const dragstart = (ev: DragEvent) => {
   ev.dataTransfer!.setData('text/plain', data)
 }
 
-const dragend = (ev: DragEvent) => ev.dataTransfer?.clearData()
+const dragend = (ev: DragEvent) => {}
 </script>
 
 <style scoped lang="less">
