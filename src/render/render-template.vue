@@ -214,8 +214,9 @@ const getValue = (formatType: string, params: any[] = []) => {
           arr.push({ key: realKey, value: realvalue })
         }
 
-      case 'inputSelect-Property':
-        
+      case 'inputKey-selectValueKey':
+        const obj = getRealvalue(value)
+        arr.push({ key, value: obj[item.valueKey] })
         break;
 
       default:

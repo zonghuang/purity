@@ -5,22 +5,22 @@
         <legend>
           {{ level }} level - 事件 {{ index + 1 }}
           <div class="add-remove-event">
-            <el-tooltip content="添加事件" placement="bottom">
+            <el-tooltip content="添加事件" placement="top">
               <span class="box-item" @click="addEvent">
                 <el-icon size="16px"><plus /></el-icon>
               </span>
             </el-tooltip>
-            <el-tooltip v-if="level !== 'fifth'" content="添加 then 事件" placement="bottom">
+            <el-tooltip v-if="level !== 'fifth'" content="添加 then 事件" placement="top">
               <span class="box-item" @click="addThenEvent">
                 <el-icon size="16px"><circle-plus /></el-icon>
               </span>
             </el-tooltip>
-            <el-tooltip v-if="level === 'first'" content="选择其他组件的事件" placement="bottom">
+            <el-tooltip v-if="level === 'first'" content="选择其他组件的事件" placement="top">
               <span class="box-item" @click="showOtherEvent = !showOtherEvent">
                 <el-icon size="16px"><zoom-in /></el-icon>
               </span>
             </el-tooltip>
-            <el-tooltip content="删除事件" placement="bottom">
+            <el-tooltip content="删除事件" placement="top">
               <span class="box-item box-item-delete" @click="removeEvent">
                 <el-icon size="16px"><delete /></el-icon>
               </span>
@@ -58,7 +58,7 @@
 
         <div v-if="editStore.currentComponent?.type === 'table' && bindCodeOptions.length" class="form-item">
           <label class="form-label">绑定事件
-            <el-tooltip content="绑定事件后，只有用户操作了绑定事件，才触发该事件" placement="bottom">
+            <el-tooltip content="绑定事件后，只有用户操作了绑定事件，才触发该事件" placement="top">
               <span class="box-item box-item-tips">
                 <el-icon size="14"><info-filled /></el-icon>
               </span>
@@ -79,7 +79,7 @@
         <div class="form-item">
           <label class="form-label">触发条件</label>
           <div class="form-content">
-            <el-tooltip content="添加条件后，只有当符合条件，才触发该事件" placement="bottom">
+            <el-tooltip content="添加条件后，只有当符合条件，才触发该事件" placement="top">
               <el-button type="text" @click="addCondition">添加条件</el-button>
             </el-tooltip>
             <span class="tips">（默认无条件触发）</span>
@@ -225,18 +225,14 @@
           </label>
           <div class="form-content">
             <div v-for="(one, i) in eventGroup.params" class="key-value-group">
-              <template v-if="one.type === 'input-keyValue' || one.type === 'inputKey-inputRouteKey'">
+              <template v-if="one.type === 'input-keyValue'">
                 <div class="key">
                   <label class="label">键</label>
-                  <el-input v-model="one.key" @change="handleChange" placeholder="请输入键"></el-input>
+                  <el-input v-model="one.key" @change="handleChange" placeholder="请输入键" />
                 </div>
                 <div class="value">
                   <label class="label">值</label>
-                  <el-input
-                  v-model="one.value"
-                  @change="handleChange"
-                  :placeholder="one.type === 'input-keyValue' ? '请输入值' : '请输入路由参数'"
-                ></el-input>
+                  <el-input v-model="one.value" @change="handleChange" placeholder="请输入值" />
                 </div>
                 <span class="delete-item" @click="deleteParam(i)">
                   <el-icon size="14px"><delete /></el-icon>
@@ -246,7 +242,7 @@
               <template v-if="one.type === 'inputKey-selectValue'">
                 <div class="key">
                   <label class="label">键</label>
-                  <el-input v-model="one.key" @change="handleChange" placeholder="请输入键"></el-input>
+                  <el-input v-model="one.key" @change="handleChange" placeholder="请输入键" />
                 </div>
                 <div class="value">
                   <label class="label">值</label>
@@ -280,27 +276,52 @@
                   <el-icon size="14px"><delete /></el-icon>
                 </span>
               </template>
+
+              <div v-if="one.type === 'inputKey-selectValueKey'" class="key-value-key">
+                <div class="key key-spec">
+                  <label class="label">键</label>
+                  <el-input v-model="one.key" @change="handleChange" placeholder="请输入键" />
+                  <span class="delete-item" @click="deleteParam(i)">
+                    <el-icon size="14px"><delete /></el-icon>
+                  </span>
+                </div>
+                <div class="value value-spec">
+                  <label class="label">值</label>
+                  <el-select v-model="one.value" @change="handleChange" placeholder="请选择对象">
+                    <el-option
+                      v-for="item in keyValueOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    ></el-option>
+                  </el-select>
+                  <div class="key">
+                    <label class="label">键</label>
+                    <el-input v-model="one.valueKey" @change="handleChange" placeholder="对象属性" />
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="params-plus">
               <label class="form-label">添加参数</label>
-              <el-tooltip content="输入键值" placement="bottom">
+              <el-tooltip content="输入键值" placement="top">
                 <span class="box-item" @click="addParam('input-keyValue')">
                   <el-icon size="16px"><edit-pen /></el-icon>
                 </span>
               </el-tooltip>
-              <el-tooltip content="输入键，选择值" placement="bottom">
+              <el-tooltip content="输入键，选择值" placement="top">
                 <span class="box-item" @click="addParam('inputKey-selectValue')">
                   <el-icon size="16px"><circle-plus /></el-icon>
                 </span>
               </el-tooltip>
-              <el-tooltip content="选择键值" placement="bottom">
+              <el-tooltip content="选择键值" placement="top">
                 <span class="box-item" @click="addParam('select-keyValue')">
                   <el-icon size="16px"><plus /></el-icon>
                 </span>
               </el-tooltip>
-              <el-tooltip content="输入键和路由键" placement="bottom">
-                <span class="box-item" @click="addParam('inputKey-inputRouteKey')">
+              <el-tooltip content="输入键，选择对象的属性" placement="top">
+                <span class="box-item" @click="addParam('inputKey-selectValueKey')">
                   <el-icon size="16px"><zoom-in /></el-icon>
                 </span>
               </el-tooltip>
@@ -624,30 +645,50 @@ abbr {
 
       .key-value-group {
         display: flex;
+        column-gap: 10px;
         margin-bottom: 15px;
 
         .label {
-          width: 22px;
           display: flex;
           align-items: center;
+          padding-right: 4px;
         }
         .label-spec {
-          width: 55px;
           display: flex;
           align-items: center;
+          width: 43px;
+          padding-right: 4px;
         }
 
         .key {
           display: flex;
-          margin-right: 10px;
           .el-input {
-            width: 100px;
+           width: 100px;
           }
         }
 
         .value {
           display: flex;
           flex: 1;
+        }
+
+        .key-value-key {
+          .key-spec {
+            margin-right: 0;
+            margin-bottom: 8px;
+
+            .el-input {
+              width: 100%;
+              padding-right: 10px;
+            }
+
+          }
+
+          .value-spec {
+            .key {
+              margin-left: 10px;
+            }
+          }
         }
       }
     }

@@ -55,6 +55,7 @@ export interface ITarget {
 export interface IEventParams {
   key: string
   value: string
+  valueKey?: string
   type: string
 }
 
