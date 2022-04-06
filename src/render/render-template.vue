@@ -220,6 +220,7 @@ const getValue = (formatType: string, params: any[] = []) => {
           const realvalue = getRealvalue(value)
           arr.push({ key: realKey, value: realvalue })
         }
+        break;
 
       case 'inputKey-selectValueKey':
         const obj = getRealvalue(value)

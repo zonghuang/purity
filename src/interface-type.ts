@@ -1,3 +1,11 @@
+export interface IPage {
+  id: string
+  name: string
+  path: string
+  elements: IElement[]
+  settings: any
+}
+
 export interface IElement {
   uuid: string
   name: string
@@ -8,6 +16,38 @@ export interface IElement {
   propConfig: any
   animations?: any[]
   childrens?: IElement[]
+}
+
+export interface IEvent {
+  userAction?: string
+  bindCode?: string
+  trigger: ITrigger[]
+  event: string
+  modalId: string
+  link: string
+  aTarget: string
+  transferMode: string
+  api: string
+  method: string
+  showLoading: boolean
+  params: IEventParams[]
+  assignmentType: string
+  valueToComp: string
+  valueToComps: any[]
+  sourceToTarget: any[]
+  thenEvents: IEvent[]
+}
+
+export interface IEventParams {
+  key: string
+  value: string
+  valueKey?: string
+  type: string
+}
+
+export interface ITrigger {
+  logical: string
+  conditions: any[]
 }
 
 export interface ITrbl {
@@ -32,14 +72,6 @@ export interface ILib {
   icon?: string
 }
 
-export interface IPage {
-  id: string
-  name: string
-  path: string
-  elements: IElement[]
-  settings: any
-}
-
 export interface ISnapshot {
   id: string
   index: number
@@ -50,38 +82,6 @@ export interface ITarget {
   index: number
   config: IElement
   parent: IElement[]
-}
-
-export interface IEventParams {
-  key: string
-  value: string
-  valueKey?: string
-  type: string
-}
-
-export interface ITrigger {
-  logical: string
-  conditions: any[]
-}
-
-export interface IEvent {
-  userAction?: string
-  bindCode?: string
-  trigger: ITrigger[]
-  event: string
-  modalId: string
-  link: string
-  aTarget: string
-  transferMode: string
-  api: string
-  method: string
-  showLoading: boolean
-  params: IEventParams[]
-  assignmentType: string
-  valueToComp: string
-  valueToComps: any[]
-  sourceToTarget: any[]
-  thenEvents: IEvent[]
 }
 
 export interface IAction {
