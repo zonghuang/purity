@@ -9,7 +9,7 @@ const refresh = ref(true)
 const route = useRoute()
 const renderStore = useRenderStore()
 renderStore.fetchConfig(route.params)
-const elements = computed(() => renderStore.currentPage.elements)
+const elements = computed(() => renderStore.currentPage?.elements)
 
 const stopWatch = watch(() => route.fullPath, async () => {
   refresh.value = false
