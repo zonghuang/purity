@@ -299,6 +299,7 @@ export const config = {
               thenEvents: [],
               userAction: "click",
               bindCode: "details",
+              transferMode: "query",
             },
           ],
           modelValue: [],

@@ -132,6 +132,15 @@
               </el-radio-group>
             </div>
           </div>
+          <div v-if="eventGroup.aTarget === '_self'" class="form-item">
+            <label class="form-label">传参方式</label>
+            <div class="form-content">
+              <el-radio-group v-model="eventGroup.transferMode" @change="handleChange">
+                <el-radio label="query">query 传参方式</el-radio>
+                <el-radio label="params">params 传参方式</el-radio>
+              </el-radio-group>
+            </div>
+          </div>
           <!-- 携带路由参数 -->
         </template>
 
@@ -439,7 +448,8 @@ const modalList = computed(() => {
 // 可选组件和路由选项
 const keyValueOptions = computed(() => {
   const params = getKeyValueOptions(editStore.currentPage.elements, [])
-  params.push({ label: '路由参数', value: 'routeParams' })
+  params.push({ label: '路由参数 (query)', value: 'routeQuery' })
+  params.push({ label: '路由参数 (params)', value: 'routeParams' })
   return params
 })
 

@@ -5,6 +5,7 @@
 </template>
 
 <script setup lang="ts">
+import _ from 'lodash';
 import { IElement } from '@/interface-type';
 import { useRenderStore } from '@/store/render';
 import { validValueComponents } from '@/mock-data';
@@ -18,9 +19,7 @@ const props = defineProps<{
 const emit = defineEmits(['update', 'mount', 'action'])
 const renderStore = useRenderStore()
 
-const originData = reactive({})
-const formData = { ...props.modelValue }
-const childValue = computed(() => {
+const formData = computed(() => {
   const data: any = {}
   props.childrens?.forEach(item => {
     if (validValueComponents.includes(item.type))
@@ -29,17 +28,15 @@ const childValue = computed(() => {
   return data
 })
 
-onMounted(() => {
+onBeforeMount(() => {
   emit('action', { userAction: 'mount' })
-  Object.assign(originData, childValue.value)
-
+})
+onMounted(() => {
   if (!renderStore.cacheData[props.uuid]) renderStore.cacheData[props.uuid] = {}
+  const originData = _.cloneDeep(formData.value)
   Object.assign(renderStore.cacheData[props.uuid], { originData })
 })
 
-const stopWatch = watch(childValue, () => {
-  const newValue = Object.assign(toRaw(formData), childValue.value)
-  emit('update', newValue)
-})
+const stopWatch = watch(formData, () => emit('update', formData.value))
 onUnmounted(() => stopWatch())
 </script>

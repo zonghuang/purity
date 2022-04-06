@@ -289,9 +289,9 @@ export const useEditStore = defineStore({
   },
 
   // 开启数据缓存
-  persist: {
-    enabled: true
-  }
+  // persist: {
+  //   enabled: true
+  // }
 })
 
 if (import.meta.hot) {

@@ -35,7 +35,7 @@ function handleUpdate(value: any, element: IElement) {
     element.propConfig.total = value
     return
   }
-  
+
   element.modelValue = value
 
   if (element.type === 'form' && element.childrens?.length) {
@@ -61,7 +61,7 @@ function handleAction(ev: IAction, element: IElement) {
 const handleEvents = (events: IEvent[]) => {
   events.forEach(async item => {
     const {
-      event, modalId, link, aTarget, api, method, params, showLoading,
+      event, modalId, link, transferMode, aTarget, api, method, params, showLoading,
       assignmentType, valueToComps, sourceToTarget, valueToComp, thenEvents
     } = item
     switch (event) {
@@ -80,7 +80,14 @@ const handleEvents = (events: IEvent[]) => {
         console.log('正在跳转链接: ', link, '打开方式: ', aTarget, '携带路由参数', routeParams)
         if (link.charAt(0) === '/') {
           if (aTarget === '_self') {
-            router.push({ path: link, query: routeParams })
+            if (transferMode === 'params') {
+              const chips = link.split('/')
+              const smp = { system: chips[2], module: chips[3], page: chips[4] }
+              Object.assign(routeParams, smp)
+              router.push({ name: 'render', params: routeParams })
+            } else {
+              router.push({ path: link, query: routeParams })
+            }
           } else {
             const fullLink = joinRouteParams(window.location.host + link, routeParams)
             window.open(fullLink, aTarget)
@@ -263,6 +270,10 @@ const getRealkey = (value: string = '') => {
 }
 
 const getRealvalue = (value: string = '') => {
+  if (value === 'routeQuery') {
+    return route.query
+  }
+
   if (value === 'routeParams') {
     return route.params
   }

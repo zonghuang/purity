@@ -72,6 +72,7 @@ export interface IEvent {
   modalId: string
   link: string
   aTarget: string
+  transferMode: string
   api: string
   method: string
   showLoading: boolean
