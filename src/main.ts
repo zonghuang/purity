@@ -5,6 +5,8 @@ import { components, elementPlustIcons } from './components'
 
 import 'virtual:svg-icons-register';
 import 'normalize.css'
+import './styles.less'
+
 
 const app = createApp(App)
 app.use(elementPlustIcons)

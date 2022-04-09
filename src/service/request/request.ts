@@ -53,7 +53,7 @@ class Request {
         this.loading = ElLoading.service({
           lock: true,
           text: 'Loading',
-          background: 'rgba(50, 50, 50, .88)'
+          background: 'rgba(33, 33, 33, .46)'
         })
       }
       return config

@@ -1,0 +1,73 @@
+/* Global Styles */
+
+// 变量
+@font-color-1: rgba(0, 0, 0, .87);
+@font-color-2: rgba(0, 0, 0, .6);
+@font-color-3: rgba(0, 0, 0, .38);
+@font-color-4: #2196f3;
+@font-color-5: #ff5252;
+// background: rgb(234, 242, 253);
+
+body {
+  font-size: 14px;
+  line-height: 1.5;
+  color: @font-color-1;
+  -webkit-font-smoothing: antialiased;
+}
+
+// 覆盖 element plus 某些样式
+.el-form-item__label {
+  color: @font-color-2;
+}
+
+.el-input__inner {
+  color: @font-color-1;
+}
+
+.el-radio__label {
+  font-weight: initial;
+  color: @font-color-1;
+}
+
+.el-select {
+  width: 100%;
+}
+
+.el-table {
+  color: @font-color-1;
+  
+  thead {
+    color: @font-color-2;
+  }
+  
+  th.el-table__cell > .cell {
+    font-weight: 500;
+  }
+}
+
+// 表单控件
+.label {
+  color: @font-color-2;
+}
+.form-label {
+  color: @font-color-2;
+}
+
+// 表格
+
+
+// 模态框
+.el-dialog__body {
+  color: @font-color-1;
+}
+
+// 文字提示
+.text-note {
+  font-size: 10px;
+  color: @font-color-3;
+}
+
+// 蒙层
+.overlay {
+  background-color: rgba(33, 33, 33, .46);
+}

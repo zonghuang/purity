@@ -81,7 +81,6 @@ const publish = () => {
   editStore.publish()
   ElMessage('此功能正在开发中...')
 }
-
 </script>
 
 <style scoped lang="less">
@@ -89,7 +88,7 @@ const publish = () => {
   display: flex;
   align-items: center;
   height: 44px;
-  box-shadow: 0 1px 1px rgba(100,100,100,.1);
+  border-bottom: 1px solid #eee;
 
   .platform {
     display: flex;

@@ -23,15 +23,4 @@ const openElLoading = () => ElLoading.service({})
     display: none;
   }
 }
-
-// * {
-//   -webkit-box-sizing: border-box;
-//      -moz-box-sizing: border-box;
-//           box-sizing: border-box;
-// }
-
-body {
-  // background: #f5f5f5;
-  font-size: 14px;
-}
 </style>

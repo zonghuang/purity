@@ -32,32 +32,28 @@ const handleClick = (item: IElement) => {
 <style scoped lang="less">
 .modal-list {
   width: 100px;
+}
 
-  .modal-preview {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    row-gap: 4px;
-    margin-bottom: 8px;
-    cursor: pointer;
+.modal-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 4px;
+  margin-bottom: 8px;
+  cursor: pointer;
+
+  &:hover {
+    color: #409eff;
+  }
+
+  .image {
+    width: 100px;
+    height: 65px;
+    border-radius: 4px;
+    border: 1px solid #eee;
 
     &:hover {
-      color: #409eff;
-    }
-
-    .image {
-      width: 100px;
-      height: 65px;
-      border-radius: 4px;
-      border: 1px solid #eee;
-
-      &:hover {
-        border: 1px solid #409eff;
-      }
-    }
-
-    .title {
-      font-size: 14px;
+      border: 1px solid #409eff;
     }
   }
 }

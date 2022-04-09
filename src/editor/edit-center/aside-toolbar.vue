@@ -106,7 +106,7 @@ const collectionComponent = () => {
 .aside-toolbar {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 20px;
   margin: 0;
   padding: 0;
   list-style: none;

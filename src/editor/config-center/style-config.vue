@@ -1,6 +1,6 @@
 <template>
   <div v-if="style" class="style-config">
-    <el-collapse v-model="activeNames" @change="handleChange">
+    <el-collapse v-model="activeName">
       <el-collapse-item
         v-for="category in styleCategorys"
         :key="category.value"
@@ -206,16 +206,15 @@
               <label class="label">值</label>
               <el-input v-model="item.value" @change="changeStyleGroups" placeholder="属性值" clearable></el-input>
             </div>
-            <span class="box-item" @click="removeStyleGroup(index)">
-              <el-icon size="18px"><delete /></el-icon>
+            <span class="icon-box icon-box-delete" @click="removeStyleGroup(index)">
+              <el-icon size="16px"><delete /></el-icon>
             </span>
           </div>
 
-          <span class="box-item" @click="addStyleGroup">
-            <el-icon size="18px"><plus /></el-icon>
+          <span class="icon-box" @click="addStyleGroup">
+            <el-icon size="16px"><plus /></el-icon>
           </span>
          </div>
-
       </el-collapse-item>
     </el-collapse>
   </div>
@@ -224,7 +223,6 @@
 <script setup lang="ts">
 import { useEditStore } from '@/store/edit'
 import { IStyle } from '@/interface-type';
-import type { CollapseModelValue } from 'element-plus';
 
 import {
   styleCategorys,
@@ -241,13 +239,9 @@ import {
 
 const editStore = useEditStore()
 
-const activeNames = ref('boxmodel')
+const activeName = ref('boxmodel')
 const styleGroups: IStyle[] = reactive([])
 const style = computed(() => editStore.currentComponent?.style)
-
-function handleChange(value: CollapseModelValue) {
-  // console.log(value)
-}
 
 const trbl = computed({
   get: () => {
@@ -280,7 +274,6 @@ const handlePtrbl = (trbl: IStyle) => {
   Object.assign(style.value, { paddingTop, paddingRight, paddingBottom, paddingLeft })
 }
 
-
 const addStyleGroup = () => styleGroups.push({ key: '', value: '' })  
 const removeStyleGroup = (index: number) => {
   const key = toRaw(styleGroups[index]).key
@@ -296,21 +289,22 @@ const changeStyleGroups = () => {
 </script>
 
 <style scoped lang="less">
-.el-select {
-  width: 100%;
-}
-
 :deep(.el-collapse-item__header) {
   padding-left: 10px;
+  color: rgba(0, 0, 0, .6);
 }
 :deep(.el-collapse-item__content) {
   padding: 10px;
 }
 
+:deep(.el-collapse) {
+  border-top: none
+}
+
 .user-input {
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 10px;
 }
 .style-group {
   display: flex;
@@ -318,18 +312,28 @@ const changeStyleGroups = () => {
   align-items: center;
   column-gap: 10px;
 
+  .label {
+    padding-right: 4px;
+  }
+
   .key, .value {
     display: flex;
     align-items: center;
-    column-gap: 10px;
   }
+}
 
-  .box-item {
-    cursor: pointer;
+.icon-box {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 
-    &:hover {
-      color: #409eff;
-    }
+  &:hover {
+    color: #409eff;
+  }
+}
+.icon-box-delete {
+  &:hover {
+    color: #ff5252;
   }
 }
 </style>

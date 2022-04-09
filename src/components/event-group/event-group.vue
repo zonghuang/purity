@@ -6,60 +6,62 @@
           {{ level }} level - 事件 {{ index + 1 }}
           <div class="add-remove-event">
             <el-tooltip content="添加事件" placement="top">
-              <span class="box-item" @click="addEvent">
+              <span class="icon-box" @click="addEvent">
                 <el-icon size="16px"><plus /></el-icon>
               </span>
             </el-tooltip>
             <el-tooltip v-if="level !== 'fifth'" content="添加 then 事件" placement="top">
-              <span class="box-item" @click="addThenEvent">
+              <span class="icon-box" @click="addThenEvent">
                 <el-icon size="16px"><circle-plus /></el-icon>
               </span>
             </el-tooltip>
             <el-tooltip v-if="level === 'first'" content="选择其他组件的事件" placement="top">
-              <span class="box-item" @click="showOtherEvent = !showOtherEvent">
+              <span class="icon-box" @click="showOtherEvent = !showOtherEvent">
                 <el-icon size="16px"><zoom-in /></el-icon>
               </span>
             </el-tooltip>
             <el-tooltip content="删除事件" placement="top">
-              <span class="box-item box-item-delete" @click="removeEvent">
+              <span class="icon-box icon-box-delete" @click="removeEvent">
                 <el-icon size="16px"><delete /></el-icon>
               </span>
             </el-tooltip>
           </div>
         </legend>
 
-        <div v-if="level === 'first' && showOtherEvent" class="form-item user-action">
-          <label class="form-label">选择已有事件</label>
-          <div class="form-content">
-            <el-select v-model="otherEvent" @change="selectOtherEvent" placeholder="请选择" clearable>
-              <el-option
-                v-for="item in otherEventOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+        <template v-if="level === 'first'">
+          <div v-if="showOtherEvent" class="form-item">
+            <label class="form-label">选择已有事件</label>
+            <div class="form-content">
+              <el-select v-model="otherEvent" @change="selectOtherEvent" placeholder="请选择" clearable>
+                <el-option
+                  v-for="item in otherEventOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </div>
           </div>
-        </div>
 
-        <div v-if="level === 'first'" class="form-item user-action">
-          <label class="form-label">用户操作<abbr title="required">*</abbr></label>
-          <div class="form-content">
-            <el-select v-model="eventGroup.userAction" @change="handleChange" placeholder="请选择操作" clearable>
-              <el-option
-                v-for="item in userActionOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+          <div class="form-item">
+            <label class="form-label">用户操作<abbr title="required">*</abbr></label>
+            <div class="form-content">
+              <el-select v-model="eventGroup.userAction" @change="handleChange" placeholder="请选择操作" clearable>
+                <el-option
+                  v-for="item in userActionOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </div>
           </div>
-        </div>
+        </template>
 
-        <div v-if="editStore.currentComponent?.type === 'table' && bindCodeOptions.length" class="form-item">
+        <div v-if="bindCodeOptions?.length" class="form-item">
           <label class="form-label">绑定事件
             <el-tooltip content="绑定事件后，只有用户操作了绑定事件，才触发该事件" placement="top">
-              <span class="box-item box-item-tips">
+              <span class="icon-box icon-box-tips">
                 <el-icon size="14"><info-filled /></el-icon>
               </span>
             </el-tooltip>
@@ -82,7 +84,7 @@
             <el-tooltip content="添加条件后，只有当符合条件，才触发该事件" placement="top">
               <el-button type="text" @click="addCondition">添加条件</el-button>
             </el-tooltip>
-            <span class="tips">（默认无条件触发）</span>
+            <span class="text-note">（默认无条件触发）</span>
           </div>
         </div>
 
@@ -100,27 +102,25 @@
           </div>
         </div>
 
-        <template v-if="eventGroup.event === 'openModal' || eventGroup.event === 'closeModal'">
-          <div class="form-item">
-            <label class="form-label">模态框<abbr title="required">*</abbr></label>
-            <div class="form-content">
-              <el-select v-model="eventGroup.modalId" @change="handleChange" placeholder="请选择模态框" clearable>
-                <el-option
-                  v-for="item in modalList"
-                  :key="item.uuid"
-                  :label="item.propConfig.label"
-                  :value="item.uuid"
-                ></el-option>
-              </el-select>
-            </div>
+        <div v-if="eventGroup.event === 'openModal' || eventGroup.event === 'closeModal'" class="form-item">
+          <label class="form-label">模态框<abbr title="required">*</abbr></label>
+          <div class="form-content">
+            <el-select v-model="eventGroup.modalId" @change="handleChange" placeholder="请选择模态框" clearable>
+              <el-option
+                v-for="item in modalList"
+                :key="item.uuid"
+                :label="item.propConfig.label"
+                :value="item.uuid"
+              ></el-option>
+            </el-select>
           </div>
-        </template>
+        </div>
 
         <template v-if="eventGroup.event === 'link'">
           <div class="form-item">
             <label class="form-label">跳转链接<abbr title="required">*</abbr></label>
             <div class="form-content">
-              <el-input v-model="eventGroup.link" @change="handleChange" placeholder="请输入链接" clearable></el-input>
+              <el-input v-model="eventGroup.link" @change="handleChange" placeholder="请输入链接" clearable />
             </div>
           </div>
           <div class="form-item">
@@ -148,7 +148,7 @@
           <div class="form-item">
             <label class="form-label">请求接口<abbr title="required">*</abbr></label>
             <div class="form-content">
-              <el-input v-model="eventGroup.api" @change="handleChange" placeholder="请输入api" clearable></el-input>
+              <el-input v-model="eventGroup.api" @change="handleChange" placeholder="请输入api" clearable />
             </div>
           </div>
           <div class="form-item">
@@ -193,11 +193,14 @@
           <!-- 一个组件的值赋给另一个组件 -->
           <div v-if="eventGroup.assignmentType === 'another'" class="form-item form-item-column">
             <div class="form-content">
-              <div class="form-content-line">
-                <label style="width: 135px;">源组件</label>
-                <label>目标组件</label>
+              <div class="option-title">
+                <label class="form-label">源组件</label>
+                <label class="form-label">目标组件</label>
+                <span class="icon-box">
+                  <el-icon size="16px"></el-icon>
+                </span>
               </div>
-              <div class="form-content-line" v-for="(one, i) in eventGroup.sourceToTarget">
+              <div class="option-group-item" v-for="(one, i) in eventGroup.sourceToTarget">
                 <el-select v-model="one.source" @change="handleChange" placeholder="请选择源组件" clearable>
                   <el-option
                     v-for="item in keyValueOptions"
@@ -214,11 +217,11 @@
                     :value="item.value"
                   ></el-option>
                 </el-select>
-                <span class="delete-item" @click="deleteSourceToTarget(i)">
-                  <el-icon size="14px"><delete /></el-icon>
+                <span class="icon-box icon-box-delete" @click="deleteSourceToTarget(i)">
+                  <el-icon size="16px"><delete /></el-icon>
                 </span>
               </div>
-              <span class="box-item" @click="addSourceToTarget">
+              <span class="icon-box" @click="addSourceToTarget">
                 <el-icon size="16px"><plus /></el-icon>
               </span>
             </div>
@@ -228,109 +231,92 @@
         </template>
 
         <!-- 携带路由参数/请求参数/源数据 -->
-        <div v-if="showParamsOption" class="form-item form-item-column">
+        <div v-if="showParamsOption" class="form-item form-item-spec">
           <label class="form-label form-label-block">
             {{ eventGroup.event === 'link' ? '携带路由参数' : eventGroup.event === 'request' ? '请求参数' : '源数据' }}
           </label>
           <div class="form-content">
-            <div v-for="(one, i) in eventGroup.params" class="key-value-group">
+            <div class="option-title">
+              <label class="form-label">键</label>
+              <label class="form-label">值</label>
+              <span class="icon-box">
+                <el-icon size="16px"></el-icon>
+              </span>
+            </div>
+            <div v-for="(one, i) in eventGroup.params" class="option-group-item">
               <template v-if="one.type === 'input-keyValue'">
-                <div class="key">
-                  <label class="label">键</label>
-                  <el-input v-model="one.key" @change="handleChange" placeholder="请输入键" />
-                </div>
-                <div class="value">
-                  <label class="label">值</label>
-                  <el-input v-model="one.value" @change="handleChange" placeholder="请输入值" />
-                </div>
-                <span class="delete-item" @click="deleteParam(i)">
-                  <el-icon size="14px"><delete /></el-icon>
+                <el-input v-model="one.key" @change="handleChange" placeholder="请输入键" />
+                <el-input v-model="one.value" @change="handleChange" placeholder="请输入值" />
+                <span class="icon-box icon-box-delete" @click="deleteParam(i)">
+                  <el-icon size="16px"><delete /></el-icon>
                 </span>
               </template>
 
               <template v-if="one.type === 'inputKey-selectValue'">
-                <div class="key">
-                  <label class="label">键</label>
-                  <el-input v-model="one.key" @change="handleChange" placeholder="请输入键" />
-                </div>
-                <div class="value">
-                  <label class="label">值</label>
-                  <el-select v-model="one.value" @change="handleChange" placeholder="请选择值">
-                    <el-option
-                      v-for="item in keyValueOptions"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    ></el-option>
-                  </el-select>
-                </div>
-                <span class="delete-item" @click="deleteParam(i)">
-                  <el-icon size="14px"><delete /></el-icon>
+                <el-input v-model="one.key" @change="handleChange" placeholder="请输入键" />
+                <el-select v-model="one.value" @change="handleChange" placeholder="请选择值">
+                  <el-option
+                    v-for="item in keyValueOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+                <span class="icon-box icon-box-delete" @click="deleteParam(i)">
+                  <el-icon size="16px"><delete /></el-icon>
                 </span>
               </template>
 
               <template v-if="one.type === 'select-keyValue'">
-                <div class="value">
-                  <label class="label-spec">键-值</label>
-                  <el-select v-model="one.value" @change="handleChange" placeholder="请选择键值">
-                    <el-option
-                      v-for="item in keyValueOptions"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    ></el-option>
-                  </el-select>
-                </div>
-                <span class="delete-item" @click="deleteParam(i)">
-                  <el-icon size="14px"><delete /></el-icon>
+                <el-select v-model="one.value" @change="handleChange" placeholder="请选择键值">
+                  <el-option
+                    v-for="item in keyValueOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+                <span class="icon-box icon-box-delete" @click="deleteParam(i)">
+                  <el-icon size="16px"><delete /></el-icon>
                 </span>
               </template>
 
-              <div v-if="one.type === 'inputKey-selectValueKey'" class="key-value-key">
-                <div class="key key-spec">
-                  <label class="label">键</label>
-                  <el-input v-model="one.key" @change="handleChange" placeholder="请输入键" />
-                  <span class="delete-item" @click="deleteParam(i)">
-                    <el-icon size="14px"><delete /></el-icon>
-                  </span>
-                </div>
-                <div class="value value-spec">
-                  <label class="label">值</label>
-                  <el-select v-model="one.value" @change="handleChange" placeholder="请选择对象">
-                    <el-option
-                      v-for="item in keyValueOptions"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    ></el-option>
-                  </el-select>
-                  <div class="key">
-                    <label class="label">键</label>
-                    <el-input v-model="one.valueKey" @change="handleChange" placeholder="对象属性" />
-                  </div>
-                </div>
-              </div>
+              <template v-if="one.type === 'inputKey-selectValueKey'" class="key-value-key">
+                <el-input v-model="one.key" @change="handleChange" placeholder="请输入键" />
+                <el-select v-model="one.value" @change="handleChange" placeholder="请选择对象">
+                  <el-option
+                    v-for="item in keyValueOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+                <el-input v-model="one.valueKey" @change="handleChange" placeholder="对象属性" />
+                <span class="icon-box icon-box-delete" @click="deleteParam(i)">
+                  <el-icon size="16px"><delete /></el-icon>
+                </span>
+              </template>
             </div>
 
             <div class="params-plus">
               <label class="form-label">添加参数</label>
               <el-tooltip content="输入键值" placement="top">
-                <span class="box-item" @click="addParam('input-keyValue')">
+                <span class="icon-box" @click="addParam('input-keyValue')">
                   <el-icon size="16px"><edit-pen /></el-icon>
                 </span>
               </el-tooltip>
               <el-tooltip content="输入键，选择值" placement="top">
-                <span class="box-item" @click="addParam('inputKey-selectValue')">
+                <span class="icon-box" @click="addParam('inputKey-selectValue')">
                   <el-icon size="16px"><circle-plus /></el-icon>
                 </span>
               </el-tooltip>
               <el-tooltip content="选择键值" placement="top">
-                <span class="box-item" @click="addParam('select-keyValue')">
+                <span class="icon-box" @click="addParam('select-keyValue')">
                   <el-icon size="16px"><plus /></el-icon>
                 </span>
               </el-tooltip>
               <el-tooltip content="输入键，选择对象的属性" placement="top">
-                <span class="box-item" @click="addParam('inputKey-selectValueKey')">
+                <span class="icon-box" @click="addParam('inputKey-selectValueKey')">
                   <el-icon size="16px"><zoom-in /></el-icon>
                 </span>
               </el-tooltip>
@@ -355,10 +341,10 @@
           </div>
 
           <!-- 赋值给多个组件 -->
-          <div v-if="eventGroup.assignmentType === 'multiple'" class="form-item form-item-column">
-            <label class="form-label form-label-spec">响应的数据解构赋值给哪些组件?</label>
-            <div class="form-content-line" v-for="(one, i) in eventGroup.valueToComps">
-              <el-input v-model="one.source" @change="handleChange" placeholder="请输入"></el-input>
+          <div v-if="eventGroup.assignmentType === 'multiple'" class="form-item form-item-spec">
+            <label class="form-label">响应的数据解构赋值给哪些组件?</label>
+            <div class="option-group-item" v-for="(one, i) in eventGroup.valueToComps">
+              <el-input v-model="one.source" @change="handleChange" placeholder="请输入" />
               <el-select v-model="one.target" @change="handleChange" placeholder="请选择组件" clearable>
                 <el-option
                   v-for="item in componentOptions"
@@ -367,19 +353,19 @@
                   :value="item.value"
                 ></el-option>
               </el-select>
-              <span class="delete-item" @click="deleteValueToComp(i)">
-                <el-icon size="14px"><delete /></el-icon>
+              <span class="icon-box icon-box-delete" @click="deleteValueToComp(i)">
+                <el-icon size="16px"><delete /></el-icon>
               </span>
             </div>
-            <span class="box-item" @click="addValueToComp">
+            <span class="icon-box" @click="addValueToComp">
               <el-icon size="16px"><plus /></el-icon>
             </span>
           </div>
         </template>
 
         <!-- 赋值给单个组件/(合并成对象赋值/合并成数组赋值)/重置组件 -->
-        <div v-if="showTargetCompOption" class="form-item form-item-column">
-          <label class="form-label form-label-spec">
+        <div v-if="showTargetCompOption" class="form-item form-item-spec">
+          <label class="form-label">
             {{ eventGroup.event === 'request' ? '响应的数据赋值给哪个组件?': eventGroup.event === 'resetValue' ? '重置组件' : '值赋值给哪个目标组件?' }}
           </label>
           <div class="form-content">
@@ -467,7 +453,7 @@ const otherEventOptions = computed(() => {
 
 // 表格操作列按钮选项
 const bindCodeOptions = computed(() => {
-  return editStore.currentComponent?.propConfig?.operations.map((item: any) => {
+  return editStore.currentComponent?.propConfig?.operations?.map((item: any) => {
     return { label: item.name, value: item.code }
   })
 })
@@ -553,166 +539,107 @@ const getKeyValueOptions = (tree: IElement[], options: IOptions[]) => {
 </script>
 
 <style scoped lang="less">
-.el-select {
-  width: 100%;
-}
-.el-radio {
-  margin-right: 15px;
+// 必填
+abbr {
+  color: #f56c6c;
 }
 
-.event-group {
-  padding: 16px 0;
-}
-
-.add-remove-event {
-  display: flex;
-}
-
-.box-item {
+// 操作按钮
+.icon-box {
   display: flex;
   align-items: center;
-  margin-right: 22px;
   cursor: pointer;
 
   &:hover {
     color: #409eff;
   }
 }
-.box-item-tips {
+.icon-box-delete {
+  &:hover {
+    color: #ff5252;
+  }
+}
+.icon-box-tips {
   display: inline-block;
   margin-right: 0;
   color: #888;
 }
-.box-item-delete {
-  &:hover {
-    color: #f56c6c;
-  }
-}
-.delete-item {
+
+// 选项组
+.option-title {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  width: 16px;
-  cursor: pointer;
+  gap: 10px;
+  width: 100%;
+  height: 32px;
   
-  &:hover {
-    color: #f56c6c;
-  }
-}
-
-abbr {
-  color: #f56c6c;
-}
-
-.form {
-  font-size: 14px;
-
-  fieldset {
-    display: flex;
-    flex-direction: column;
-    row-gap: 22px;
-    margin: 0;
-    padding: 0;
-    border: none;
-
-    legend {
-      display: flex;
-      align-items: center;
-      column-gap: 22px;
-      width: 100%;
-      height: 50px;
-    }
+  .form-label {
+    flex: 1;
   }
 
-  .form-item {
+  .icon-box {
+    visibility: hidden;
+  }
+}
+.option-group-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+// fieldset
+fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0;
+  padding: 0 0 22px 0;
+  border: none;
+
+  legend {
     display: flex;
     align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding-bottom: 18px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, .6);
+  }
+}
 
-    .form-label {
-      display: inline-block;
-      width: 90px;
-      height: 32px;
-      line-height: 32px;
-    }
+.form-item {
+  display: flex;
+  align-items: center;
 
-    .form-label-spec {
-      width: unset;
-    }
+  .form-label {
+    display: inline-block;
+    width: 90px;
+    height: 32px;
+    line-height: 32px;
+  }
 
-    .form-content {
+  .form-content {
       flex: 1;
       width: 100%;
-
-      .tips {
-        font-size: 12px;
-        color: #888;
-      }
-
-      .params-plus {
-        display: flex;
-        align-items: center;
-      }
-
-      .key-value-group {
-        display: flex;
-        column-gap: 10px;
-        margin-bottom: 15px;
-
-        .label {
-          display: flex;
-          align-items: center;
-          padding-right: 4px;
-        }
-        .label-spec {
-          display: flex;
-          align-items: center;
-          width: 43px;
-          padding-right: 4px;
-        }
-
-        .key {
-          display: flex;
-          .el-input {
-           width: 100px;
-          }
-        }
-
-        .value {
-          display: flex;
-          flex: 1;
-        }
-
-        .key-value-key {
-          .key-spec {
-            margin-right: 0;
-            margin-bottom: 8px;
-
-            .el-input {
-              width: 100%;
-              padding-right: 10px;
-            }
-
-          }
-
-          .value-spec {
-            .key {
-              margin-left: 10px;
-            }
-          }
-        }
-      }
-    }
-
-    .form-content-line {
-      display: flex;
-      column-gap: 8px;
-      margin-bottom: 10px;
-    }
   }
+}
 
-  .form-item-column {
-    flex-direction: column;
-    align-items: flex-start;
+.form-item-spec {
+  flex-direction: column;
+  align-items: flex-start;
+  .form-label {
+    width: unset;
   }
+}
+
+.params-plus {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.add-remove-event {
+  display: flex;
+  gap: 10px;
 }
 </style>

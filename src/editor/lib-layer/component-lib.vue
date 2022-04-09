@@ -1,6 +1,6 @@
 <template>
   <div class="lib">
-    <el-collapse v-model="activeNames" @change="handleChange">
+    <el-collapse v-model="activeNames">
       <el-collapse-item
         v-for="category in libs"
         :key="category.name"
@@ -8,7 +8,6 @@
         :name="category.name"
       >
         <div class="component-group" v-for="item in category.childrens" :key="item.name">
-          <!-- <label class="title">{{ item.label }}</label> -->
           <ul class="component-list">
             <li
               v-for="component in item.childrens"
@@ -16,10 +15,7 @@
               :name="component.name"
               draggable="true"
               @dragstart="dragstart"
-              @dragend="dragend"
-            >
-              {{ component.label }}
-            </li>
+            >{{ component.label }}</li>
           </ul>
         </div>
       </el-collapse-item>
@@ -28,15 +24,10 @@
 </template>
 
 <script setup lang="ts">
-import type { CollapseModelValue } from 'element-plus';
 import { componentLibs } from '@/mock-data'
 
 const libs = ref(componentLibs)
-
 const activeNames = ref(['test'])
-function handleChange(value: CollapseModelValue) {
-  // console.log(value)
-}
 
 const dragstart = (ev: DragEvent) => {
   ev.dataTransfer?.clearData()
@@ -46,11 +37,16 @@ const dragstart = (ev: DragEvent) => {
   ev.dataTransfer!.effectAllowed = 'copyMove'
   ev.dataTransfer!.setData('text/plain', data)
 }
-
-const dragend = (ev: DragEvent) => {}
 </script>
 
 <style scoped lang="less">
+:deep(.el-collapse-item__header) {
+  padding-left: 10px;
+  color: rgba(0, 0, 0, .6);
+}
+:deep(.el-collapse-item__content) {
+  padding-bottom: 10px;
+}
 .component-list {
   margin: 0;
   padding: 10px;
@@ -59,7 +55,6 @@ const dragend = (ev: DragEvent) => {}
   align-items: center;
   gap: 8px;
   list-style: none;
-  // box-shadow: 0 1px 1px rgba(100, 100, 100, .1);
 
   li {
     width: 116px;
@@ -75,12 +70,5 @@ const dragend = (ev: DragEvent) => {}
       border: 1px solid #409eff;
     }
   }
-}
-
-:deep(.el-collapse-item__header) {
-  padding-left: 10px;
-}
-:deep(.el-collapse-item__content) {
-  padding-bottom: 10px;
 }
 </style>

@@ -42,7 +42,3 @@ const clickNode = (node: IElement) => {
 
 const dragend = () => editStore.recordSnapshot()
 </script>
-
-<style scoped>
-
-</style>

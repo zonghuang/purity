@@ -1,12 +1,7 @@
 <template>
   <!-- 临时的，后面会抽离封装 -->
-  <div class="prop-config">
-    <el-form
-      v-if="type === 'button' && propConfig"
-      :model="propConfig"
-      label-position="top"
-      label-width="120px"
-    >
+  <div class="prop-config" v-if="propConfig">
+    <el-form v-if="type === 'button'" :model="propConfig" label-position="top" label-width="120px">
       <el-form-item label="按钮名称">
         <el-input v-model="propConfig.label" placeholder="请输入" clearable></el-input>
       </el-form-item>
@@ -29,7 +24,7 @@
     </el-form>
 
     <el-form
-      v-if="(type === 'input' || type === 'select' || type === 'radio' || type === 'datepicker' || type === 'picture' || type === 'text') && propConfig"
+      v-if="['input', 'select', 'radio', 'datepicker', 'picture', 'text'].includes(type)"
       :model="propConfig"
       label-position="top"
       label-width="120px"
@@ -65,31 +60,24 @@
       <el-form-item label="占位符文本">
         <el-input v-model="propConfig.placeholder" placeholder="请输入"></el-input>
       </el-form-item>
-
       <el-form-item label="选项">
-        <div v-for="(item, index) in propConfig.options" class="action-group">
-          <div class="action-name">
-            <label v-if="index === 0" class="form-label">label</label>
-            <div class="form-content">
-              <el-input v-model="item.label" placeholder="请输入"></el-input>
-            </div>
-          </div>
-          <div class="action-code">
-            <label v-if="index === 0" class="form-label">value</label>
-            <div class="form-content">
-              <el-input v-model="item.value" placeholder="请输入"></el-input>
-            </div>
-          </div>
-          <span class="action-delete" @click="deleteOptions(index)">
-              <el-icon size="16px"><delete /></el-icon>
-            </span>
-        </div>
-
-        <div style="width: 100%;">
-          <span class="add-item" @click="addOptions">
-            <el-icon size="16px"><plus /></el-icon>
+        <div class="option-title">
+          <label class="form-label">label</label>
+          <label class="form-label">value</label>
+          <span class="icon-box">
+            <el-icon size="16px"><delete /></el-icon>
           </span>
         </div>
+        <div v-for="(item, index) in propConfig.options" class="option-group-item">
+          <el-input v-model="item.label" placeholder="请输入"></el-input>
+          <el-input v-model="item.value" placeholder="请输入"></el-input>
+          <span class="icon-box icon-box-delete" @click="deleteOptions(index)">
+            <el-icon size="16px"><delete /></el-icon>
+          </span>
+        </div>
+        <span class="icon-box" @click="addOptions">
+          <el-icon size="16px"><plus /></el-icon>
+        </span>
       </el-form-item>
 
       <template v-if="type === 'datepicker'">
@@ -114,7 +102,7 @@
       </template>
     </el-form>
 
-    <el-form v-if="type === 'form' && propConfig" :model="propConfig" label-position="top" label-width="120px">
+    <el-form v-if="type === 'form'" :model="propConfig" label-position="top" label-width="120px">
       <el-form-item label="表单名称">
         <el-input v-model="propConfig.label" placeholder="请输入"></el-input>
       </el-form-item>
@@ -142,7 +130,7 @@
       </el-form-item>
     </el-form>
 
-    <el-form v-if="type === 'table' && propConfig" class="table" :model="propConfig" label-position="top" label-width="120px">
+    <el-form v-if="type === 'table'" class="table" :model="propConfig" label-position="top" label-width="120px">
       <el-form-item label="表格名称">
         <el-input v-model="propConfig.label" placeholder="请输入"></el-input>
       </el-form-item>
@@ -157,22 +145,22 @@
 
       <div class="form-item-inline">
         <div class="item-group">
-          <label>带边框表格</label>
+          <label class="label">带边框表格</label>
           <el-switch v-model="propConfig.showBorder" />
         </div>
         <div class="item-group">
-          <label>显示斑马纹</label>
+          <label class="label">显示斑马纹</label>
           <el-switch v-model="propConfig.showStripe" />
         </div>
       </div>
 
       <div class="form-item-inline">
         <div class="item-group">
-          <label>显示多选</label>
+          <label class="label">显示多选</label>
           <el-switch v-model="propConfig.showSelection" />
         </div>
         <div class="item-group">
-          <label>显示操作列</label>
+          <label class="label">显示操作列</label>
           <el-switch v-model="propConfig.showOperations" />
         </div>
       </div>
@@ -198,89 +186,79 @@
         </div>
       </el-form-item>
 
-      <el-form-item label="操作列按钮">
-        <div class="tips ">tips: 按钮事件在事件配置面板中绑定</div>
-        <div v-for="(item, index) in propConfig.operations" class="action-group">
-          <div class="action-name">
-            <label v-if="index === 0" class="form-label">名称</label>
-            <div class="form-content">
-              <el-input v-model="item.name" placeholder="请输入"></el-input>
-            </div>
+      <div class="form-item">
+        <label class="form-label">操作列按钮
+          <span class="text-note">(按钮事件在事件配置面板中绑定)</span>
+        </label>
+        <div class="form-content">
+          <div class="option-title">
+            <label class="form-label">名称</label>
+            <label class="form-label">code</label>
+            <span class="icon-box">
+              <el-icon size="16px"></el-icon>
+            </span>
           </div>
-          <div class="action-code">
-            <label v-if="index === 0" class="form-label">code</label>
-            <div class="form-content">
-              <el-input v-model="item.code" placeholder="请输入"></el-input>
-            </div>
-          </div>
-          <span class="action-delete" @click="deleteOperation(index)">
+          <div v-for="(item, index) in propConfig.operations" class="option-group-item">
+            <el-input v-model="item.name" placeholder="请输入"></el-input>
+            <el-input v-model="item.code" placeholder="请输入"></el-input>
+            <span class="icon-box icon-box-delete" @click="deleteOperation(index)">
               <el-icon size="16px"><delete /></el-icon>
             </span>
-        </div>
-
-        <div style="width: 100%;">
-          <span class="add-item" @click="addOperation">
+          </div>
+          <span class="icon-box" @click="addOperation">
             <el-icon size="16px"><plus /></el-icon>
           </span>
         </div>
-      </el-form-item>
+      </div>
 
       <el-form-item label="操作列宽度">
         <el-input v-model="propConfig.operationsColumnWidth" placeholder="请输入"></el-input>
       </el-form-item>
 
       <el-form-item label="表格列拖拽排序">
-        <div class="tips">此功能正在开发中...</div>
+        <div class="text-note">此功能正在开发中...</div>
       </el-form-item>
 
       <el-form-item label="表格列主键">
         <el-input v-model="propConfig.primaryKey" placeholder="请输入"></el-input>
       </el-form-item>
 
-      <el-form-item label="表格列">
+      <el-form-item label="表格列" class="last-form-item">
         <div v-for="(column, index) in propConfig.columns" class="column-group">
-          <div class="form-item">
+          <div class="column-group-item">
             <label class="form-label">标签名称</label>
             <div class="form-content">
               <el-input v-model="column.label" placeholder="请输入"></el-input>
             </div>
           </div>
-
-          <div class="form-item">
+          <div class="column-group-item">
             <label class="form-label">字段名称</label>
             <div class="form-content">
               <el-input v-model="column.field" placeholder="请输入"></el-input>
             </div>
           </div>
-
-          <div class="form-item">
+          <div class="column-group-item">
             <label class="form-label">宽度</label>
             <div class="form-content">
               <el-input v-model="column.width" placeholder="请输入"></el-input>
             </div>
           </div>
-
           <div class="form-operation">
             <el-button type="text" :size="'small'">更多属性配置</el-button>
-            <span class="delete-item" @click="deleteColumn(index)">
+            <span class="icon-box icon-box-delete" @click="deleteColumn(index)">
               <el-icon size="16px"><delete /></el-icon>
             </span>
           </div>
         </div>
         <div class="add-column">
-          <span class="add-item" @click="addColumn">
+          <span class="icon-box" @click="addColumn">
             <el-icon size="16px"><plus /></el-icon>
           </span>
         </div>
       </el-form-item>
     </el-form>
 
-    <el-form
-      v-if="type === 'modal' && propConfig"
-      :model="propConfig"
-      label-position="top"
-      label-width="120px"
-    >
+    <el-form v-if="type === 'modal'" :model="propConfig" label-position="top" label-width="120px">
       <el-form-item label="模态名称">
         <el-input v-model="propConfig.label" placeholder="请输入" clearable></el-input>
       </el-form-item>
@@ -298,12 +276,7 @@
       </el-form-item>
     </el-form>
 
-    <el-form
-      v-if="type === 'pagination' && propConfig"
-      :model="propConfig"
-      label-position="top"
-      label-width="120px"
-    >
+    <el-form v-if="type === 'pagination'" :model="propConfig" label-position="top" label-width="120px">
       <el-form-item label="标签名称">
         <el-input v-model="propConfig.label" placeholder="请输入" clearable></el-input>
       </el-form-item>
@@ -316,51 +289,55 @@
 
 <script setup lang="ts">
 import { useEditStore } from '@/store/edit'
-import { buttonTypeOptions, labelPositionOptions, frontFixedOptions, endFixedOptions } from '@/mock-data'
+import {
+  buttonTypeOptions,
+  labelPositionOptions,
+  frontFixedOptions,
+  endFixedOptions
+} from '@/mock-data'
 
 const editStore = useEditStore()
 const propConfig: any = computed(() => editStore.currentComponent?.propConfig)
-const type = computed(() => editStore.currentComponent?.type)
+const type = computed(() => editStore.currentComponent?.type || '')
 
+// 表单: 表单项宽度、表单项标签宽度、表单项标签对齐方式
 const changeFormItemWidth = () => {
   editStore.currentComponent?.childrens?.forEach(item => {
     item.style.width = propConfig.value.formItemWidth
   })
 }
-
 const changeLabelWidth = () => {
   editStore.currentComponent?.childrens?.forEach(item => {
     item.propConfig.labelWidth = propConfig.value.labelWidth
   })
 }
-
 const changeLabelPosition = () => {  
   editStore.currentComponent?.childrens?.forEach(item => {
     item.propConfig.labelPosition = propConfig.value.labelPosition
   })
 }
 
+// 添加选项、删除选项
+const addOptions = () => {
+  propConfig.value.options?.push({ label: '', value: '' })
+}
 const deleteOptions = (index: number) => {
   propConfig.value.options.splice(index, 1)
 }
 
-const addOptions = () => {
-  propConfig.value.options?.push({ label: '', value: '' })
-}
-
+// 添加操作列按钮、删除操作列按钮
 const addOperation = () => {
   propConfig.value.operations?.push({ name: '', code: '' })
 }
-
 const deleteOperation = (index: number) => {
   propConfig.value.operations.splice(index, 1)
 }
 
+// 添加表格列、删除表格列
 const addColumn = () => {
   propConfig.value.columns?.push({ label: '', field: '', width: '' })
   setColumnFixed()
 }
-
 const deleteColumn = (index: number) => {
   propConfig.value.columns.splice(index, 1)
   setColumnFixed()
@@ -395,47 +372,56 @@ const setColumnFixed = () => {
 
 <style scoped lang="less">
 .prop-config {
-  padding: 16px 10px;
-  font-size: 14px;
-  color: #606266;
+  max-height: calc(100vh - 72px);
+  padding: 14px 10px;
 }
 
-// 临时选项样式
-.action-group {
+.icon-box {
   display: flex;
-  align-items: flex-end;
-  margin-bottom: 10px;
-
-  .action-code {
-    margin: 0 8px;
-  }
-
-  .action-delete {
-    display: flex;
-    align-items: center;
-    height: 32px;
-    cursor: pointer;
-
-    &:hover {
-      color: #F56C6C;
-    }
-  }
-}
-.add-item {
+  align-items: center;
   cursor: pointer;
+
   &:hover {
     color: #409eff;
   }
 }
+.icon-box-delete {
+  &:hover {
+    color: #ff5252;
+  }
+}
 
+.form-item {
+  margin-bottom: 18px;
+}
 
-// 表格
-.table {
-  .tips {
-    font-size: 12px;
-    color: #888;
+.last-form-item {
+  margin-bottom: 0px;
+}
+
+.option-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 32px;
+  
+  .form-label {
+    flex: 1;
   }
 
+  .icon-box {
+    visibility: hidden;
+  }
+}
+.option-group-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+// 表格配置
+.table {
   .form-item-inline {
     display: flex;
     column-gap: 10px;
@@ -455,83 +441,39 @@ const setColumnFixed = () => {
     column-gap: 8px;
   }
 
-  .action-group {
-    display: flex;
-    align-items: flex-end;
-    margin-bottom: 10px;
-
-    .action-code {
-      margin: 0 8px;
-    }
-
-    .action-delete {
-      display: flex;
-      align-items: center;
-      height: 32px;
-      cursor: pointer;
-
-      &:hover {
-        color: #F56C6C;
-      }
-    }
-  }
-
-  .add-item, .delete-item {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-  .add-item {
-    &:hover {
-      color: #409eff;
-    }
-  }
-  .delete-item {
-    &:hover {
-      color: #F56C6C;
-    }
-  }
-
-  .add-column {
-    display: flex;
-    height: 24px;
-  }
-
   .column-group {
     width: 100%;
-    border-bottom: 1px solid #eee;
     display: flex;
     flex-direction: column;
-    row-gap: 10px;
-    padding: 8px 4px 4px 4px;
-    .form-item {
+    gap: 10px;
+    padding: 8px 0px 4px 0px;
+    border-bottom: 1px solid #eee;
+
+    .column-group-item {
       display: flex;
       align-items: center;
-      row-gap: 10px;
+      gap: 10px;
 
       .form-label {
-        display: inline-block;
         width: 90px;
-        height: 32px;
-        line-height: 32px;
       }
       .form-content {
         flex: 1;
         width: 100%;
       }
     }
-  }
 
-  .form-operation {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    height: 16px;
-    .el-button {
-      flex: 1;
-      justify-content: flex-start;
+    .form-operation {
+      display: flex;
+      .icon-box {
+        flex: 1;
+        justify-content: flex-end;
+      }
     }
   }
-}
 
+  .add-column {
+    margin-top: 8px;
+  }
+}
 </style>

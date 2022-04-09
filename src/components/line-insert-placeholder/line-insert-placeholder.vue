@@ -27,25 +27,24 @@ defineProps<{
 .line-insert-placeholder {
   display: inline-block;
   position: absolute;
-  z-index: 1;
+  z-index: 100;
 }
 
-.horizontal {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: inherit;
-  height: inherit;
-}
-
+.horizontal,
 .vertical {
   position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
   width: inherit;
   height: inherit;
+}
+
+.horizontal {
+  flex-direction: row;
+}
+
+.vertical {
+  flex-direction: column;
 }
 
 .horizontal-line {
@@ -60,39 +59,33 @@ defineProps<{
   background: rgb(8, 190, 245);
 }
 
-.triangle-left {
+.triangle-left,
+.triangle-right,
+.triangle-top,
+.triangle-bottom {
   position: absolute;
-  left: 0;
   width: 0;
   height: 0;
   border: 7px solid transparent;
+}
+
+.triangle-left {
+  left: 0;
   border-left: 7px solid rgb(8, 190, 245);
 }
 
 .triangle-right {
-  position: absolute;
   right: 0;
-  width: 0;
-  height: 0;
-  border: 7px solid transparent;
   border-right: 7px solid rgb(8, 190, 245);
 }
 
 .triangle-top {
-  position: absolute;
   top: 0;
-  width: 0;
-  height: 0;
-  border: 7px solid transparent;
   border-top: 7px solid rgb(8, 190, 245);
 }
 
 .triangle-bottom {
-  position: absolute;
   bottom: 0;
-  width: 0;
-  height: 0;
-  border: 7px solid transparent;
   border-bottom: 7px solid rgb(8, 190, 245);
 }
 </style>

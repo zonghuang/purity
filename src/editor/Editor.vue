@@ -59,12 +59,12 @@ const currentPageId = computed(() => editStore.currentPage.id)
 const elements = computed(() => editStore.currentPage.elements)
 const isOverlay = computed(() => {
   return editStore.currentPage.elements?.some(item => {
-    if (item.propConfig.visible) return true
+    if (item.type === 'modal' && item.propConfig.visible) return true
   })
 })
 
-function handleClick(pane: any) {
-  // console.log(event)
+const handleClick = (pane: any) => {
+  // console.log(pane)
 }
 </script>
 
@@ -92,14 +92,17 @@ function handleClick(pane: any) {
     .edit-area {
       flex: 1;
       display: flex;
-      padding: 20px 8px;
-      padding-bottom: 0px;
+      padding: 20px 10px;
       height: calc(100% - 152px);
     }
   }
 
   .config-center {
     width: 320px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
@@ -107,22 +110,21 @@ function handleClick(pane: any) {
   position: relative;
   flex: 1;
   margin: 0 8px;
-  height: 100%;
   width: 600px; // 解决编辑时表格宽度溢出问题（真实宽度不止 600px，这里相当于限制了画布的最小宽度为 600px）
   overflow: scroll;
   
   &::-webkit-scrollbar {
     display: none;
   }
-  // background-image: url('../assets/image/canvas.svg');
-}
-.overlay {
-  background-color: rgba(0, 0, 0, .5);
 }
 
 :deep(.el-tabs__header) {
   margin: 0;
-  box-shadow: 0 1px 1px rgba(100,100,100,.1);
+  border-bottom: 1px solid #eee;
+}
+
+:deep(.el-collapse) {
+  border-top: none
 }
 
 :deep(.el-tabs__nav) {
@@ -134,6 +136,7 @@ function handleClick(pane: any) {
   padding: 0;
   flex: 1;
   text-align: center;
+  color: rgba(0, 0, 0, .6);
 }
 :deep(.el-tabs__nav-wrap::after) {
   content: none;

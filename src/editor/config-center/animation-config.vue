@@ -10,8 +10,7 @@
 
 <style scoped>
 .animation-config {
-  padding: 16px 10px;
-  font-size: 14px;
-  color: #606266;
+  max-height: calc(100vh - 72px);
+  padding: 14px 10px;
 }
 </style>

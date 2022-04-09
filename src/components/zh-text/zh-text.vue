@@ -52,8 +52,6 @@ abbr {
 .form-label {
   display: inline-block;
   width: v-bind(labelWidth);
-  color: #606266;
-  font-size: 14px;
 }
 
 .form-content {

@@ -139,11 +139,15 @@ const removeEvent = (events: IEvent[] = [], index: number) => {
 
 <style scoped lang="less">
 .event-config {
-  padding: 0 10px;
+  max-height: calc(100vh - 72px);
+  padding: 14px 10px;
 }
 
 .event-none {
-  padding: 8px 0;
+  .el-button {
+    padding: 0;
+    height: unset;
+  }
 }
 
 .second-level,

@@ -62,6 +62,7 @@ const addBottom = () => addOne('bottom', trbl.bottom)
 const addLeft = () => addOne('left', trbl.left)
 
 const addOne = (type: string, x: string | number = 0) => {
+  if (!x) x = 0
   const result = parseFloat(String(x)) + 1 + 'px'
   Object.assign(trbl, { [type]: result })
   handleChange()
@@ -91,7 +92,7 @@ const reset = () => {
 
 .input {
   width: 80px;
-  height: 28px;
+  height: 32px;
   text-align: center;
 }
 
@@ -101,62 +102,39 @@ const reset = () => {
   width: 70px;
   height: 70px;
 }
-.reset {
+
+.reset,
+.top,
+.right,
+.bottom,
+.left {
   display: flex;
-  align-items: center;
   justify-content: center;
   color: #666;
+  cursor: pointer;
 
   &:hover {
     color: #409eff;
   }
+}
+
+.reset {
+  align-items: center;
 }
 
 .top {
-  display: flex;
   align-items: flex-end;
-  justify-content: center;
-  cursor: pointer;
-  color: #666;
-
-  &:hover {
-    color: #409eff;
-  }
 }
 
 .bottom {
-  display: flex;
   align-items: flex-start;
-  justify-content: center;
-  cursor: pointer;
-  color: #666;
-
-  &:hover {
-    color: #409eff;
-  }
 }
 
 .left {
-  display: flex;
   align-items: center;
-  justify-content: flex-end;
-  cursor: pointer;
-  color: #666;
-
-  &:hover {
-    color: #409eff;
-  }
 }
 
 .right {
-  display: flex;
   align-items: center;
-  justify-content: flex-start;
-  cursor: pointer;
-  color: #666;
-
-  &:hover {
-    color: #409eff;
-  }
 }
 </style>

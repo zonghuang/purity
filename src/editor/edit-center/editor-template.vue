@@ -45,13 +45,13 @@
 <script setup lang="ts">
 import { useEditStore } from '@/store/edit'
 import { IElement } from '@/interface-type'
+import { containers } from '@/mock-data';
 
 const editStore = useEditStore()
 defineProps<{
   elements: IElement[]
 }>()
 
-const containers = ['root', 'container', 'modal', 'form', 'table']
 const elementOffset = reactive({ offsetX: 0, offsetY: 0 })
 const line = reactive({ direction: '', slotPosition: '', style: {} })
 const draggedElement = reactive({ id: '' })
@@ -63,8 +63,6 @@ const click = (ev: MouseEvent, element: IElement) => {
   ev.stopPropagation()
   const id = (ev.currentTarget as Element).getAttribute('id')
   if (id !== element.uuid) return
-
-  // 其他操作
 }
 
 const mousedown = (ev: MouseEvent, element: IElement) => {
@@ -185,20 +183,20 @@ const drop = (ev: DragEvent, element: IElement) => {
   if (id !== element.uuid) return
 
   const data = ev.dataTransfer!.getData('text/plain')
+  const [uuidOrName, offsetX, offsetY] = data.split(',')
   if (data.includes('isNew')) {
-    const [name, offsetX, offsetY] = data.split(',')
+    const name = uuidOrName
     editStore.addComponent(name)
-    setComponentPosition(ev.pageX, ev.pageY, offsetX, offsetY)
-    editStore.insertComponent(id, insertSeat)
 
   } else {
-    const [uuid, offsetX, offsetY] = data.split(',')
+    const uuid = uuidOrName
     if (id === uuid) return
     editStore.setComponent(uuid)
     editStore.deleteComponent(uuid, false)
-    setComponentPosition(ev.pageX, ev.pageY, offsetX, offsetY)
-    editStore.insertComponent(id, insertSeat)
   }
+
+  setComponentPosition(ev.pageX, ev.pageY, offsetX, offsetY)
+  editStore.insertComponent(id, insertSeat)
 }
 
 const setComponentPosition = (pageX: number, pageY: number, offsetX: string, offsetY: string) => {
