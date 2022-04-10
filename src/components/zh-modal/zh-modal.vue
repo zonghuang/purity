@@ -17,7 +17,7 @@
 
     <!-- 编辑时，使用 Element Plus 的对话框，无法满足需求，出现各种问题。因此自定义模态框 (仅用于编辑时) -->
     <!-- 功能需日益完善，逐渐接近于 Element Plus 的对话框 -->
-    <dialog v-else ref="myModal" class="my-modal" :open="visible">
+    <dialog v-else class="my-modal" :open="visible">
       <div class="modal-header">
         <h4 class="modal-title">{{ title }}</h4>
         <span class="modal-close" @click="closeModal">
@@ -36,11 +36,10 @@
 const route = useRoute()
 const props = defineProps(['modelValue', 'propConfig'])
 
-const myModal = ref()
-const editing = ref(false)
+const editing = computed(() => route.path === '/editor')
 const visible = computed({
   get: () => props.propConfig.visible,
-  set: (newValue: boolean) => newValue
+  set: (newValue: boolean) => props.propConfig.visible = newValue
 })
 const title = computed(() => (props.propConfig.label))
 const width = computed(() => (props.propConfig.width))
@@ -48,10 +47,8 @@ const modal = computed(() => (props.propConfig.modal))
 const fullscreen = computed(() => (props.propConfig.fullscreen))
 const closeOnClickModal = computed(() => (props.propConfig.closeOnClickModal))
 
-onMounted(() => editing.value = route.path === '/editor')
-
+const closeModal = () => visible.value = false
 const closedFn = (ev: KeyboardEvent) => ev.code === 'Escape' && closeModal()
-
 const stopWatch = watch(visible, newValue => {
   if (newValue) {
     document.addEventListener('keyup', closedFn)
@@ -62,11 +59,6 @@ const stopWatch = watch(visible, newValue => {
   immediate: true
 })
 onUnmounted(() => stopWatch())
-
-const closeModal = () => {
-  if (editing.value) myModal.value.close()
-  props.propConfig.visible = false
-}
 </script>
 
 <style scoped lang="less">

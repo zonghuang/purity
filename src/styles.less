@@ -1,5 +1,14 @@
 /* Global Styles */
 
+// 历史遗留样式类 start
+.label {
+  color: @font-color-2;
+}
+.form-label {
+  color: @font-color-2;
+}
+// 历史遗留样式类 end
+
 // 变量
 @font-color-1: rgba(0, 0, 0, .87);
 @font-color-2: rgba(0, 0, 0, .6);
@@ -45,12 +54,35 @@ body {
   }
 }
 
-// 表单控件
-.label {
-  color: @font-color-2;
+// 表单项
+.form-item {
+  width: 100%;
 }
-.form-label {
-  color: @font-color-2;
+.form-item--inline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.form-item_label--top {
+  margin-bottom: 8px;
+}
+.form-item_label--right {
+  padding-right: 12px;
+  text-align: right;
+}
+.form-item_content {
+  width: 100%;
+}
+
+// 必填很校验
+abbr {
+  color: #f56c6c;
+}
+.invalid {
+  position: absolute;
+  margin-top: 4px;
+  font-size: 10px;
+  color: #f56c6c;
 }
 
 // 表格

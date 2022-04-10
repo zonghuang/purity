@@ -16,7 +16,7 @@ const props = defineProps<{
   propConfig: any
   childrens?: IElement[]
 }>()
-const emit = defineEmits(['update', 'mount', 'action'])
+const emit = defineEmits(['update:modelValue', 'mount', 'action'])
 const renderStore = useRenderStore()
 
 const formData = computed(() => {
@@ -28,15 +28,14 @@ const formData = computed(() => {
   return data
 })
 
-onBeforeMount(() => {
-  emit('action', { userAction: 'mount' })
-})
+onBeforeMount(() => emit('action', { userAction: 'mount' }))
 onMounted(() => {
   if (!renderStore.cacheData[props.uuid]) renderStore.cacheData[props.uuid] = {}
   const originData = _.cloneDeep(formData.value)
   Object.assign(renderStore.cacheData[props.uuid], { originData })
 })
 
-const stopWatch = watch(formData, () => emit('update', formData.value))
+
+const stopWatch = watch(formData, () => emit('update:modelValue', formData.value))
 onUnmounted(() => stopWatch())
 </script>
