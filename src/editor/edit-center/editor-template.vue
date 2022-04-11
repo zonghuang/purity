@@ -31,7 +31,7 @@
       :propConfig="element.propConfig"
       :childrens="element.childrens"
     >
-      <editor-template v-if="element.childrens && element.childrens.length" :elements="element.childrens" />
+      <editor-template v-if="element.childrens?.length" :elements="element.childrens" />
     </component>
 
     <line-insert-placeholder

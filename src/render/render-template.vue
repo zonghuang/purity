@@ -12,7 +12,7 @@
     @update:modelValue="handleUpdate($event, element)"
     @action="handleAction($event, element)"
   >
-    <render-template v-if="element.childrens && element.childrens.length" :elements="element.childrens" />
+    <render-template v-if="element.childrens?.length" :elements="element.childrens" />
   </component>
 </template>
 

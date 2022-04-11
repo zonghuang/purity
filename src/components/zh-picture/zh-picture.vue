@@ -32,7 +32,7 @@ import { UploadProps, UploadUserFile } from 'element-plus';
 import localCache from '@/utils/cache'
 
 const props = defineProps<{
-  modelValue: string
+  modelValue: any
   propConfig: any
 }>()
 const emit = defineEmits(['update:modelValue'])
