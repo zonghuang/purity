@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import localCache from '@/utils/cache'
 import { IElement, IPage, ISnapshot, ITarget } from "@/interface-type"
-import { componentsConfig, containers, pages, snapshot } from '@/mock-data'
+import { componentsConfig, containers } from '@/mock-data'
 import { getPages } from '../../mock'
 
 export const useEditStore = defineStore({

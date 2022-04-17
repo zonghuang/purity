@@ -72,8 +72,8 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="间距">
-                <el-input v-model="style.rowGap" placeholder="请输入行间距" :style="{ width: '145px', marginRight: '10px' }"></el-input>
-                <el-input v-model="style.columnGap" placeholder="请输入列间距" :style="{ width: '145px' }"></el-input>
+                <el-input v-model="style.rowGap" placeholder="请输入行间距" :style="{ width: '145px', marginRight: '10px' }" />
+                <el-input v-model="style.columnGap" placeholder="请输入列间距" :style="{ width: '145px' }" />
             </el-form-item>
             </template>
 
@@ -112,7 +112,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="堆叠层级">
-              <el-input v-model="style.zIndex" placeholder="请输入数字"></el-input>
+              <el-input v-model="style.zIndex" placeholder="请输入数字" />
             </el-form-item>
           </el-form>
         </div>
@@ -120,16 +120,16 @@
         <div v-else-if="category.value === 'boxmodel'">
           <el-form :model="style" label-position="top" label-width="120px">
             <el-form-item label="宽高">
-              <el-input v-model="style.width" placeholder="请输入宽度" :style="{ width: '145px', marginRight: '10px' }"></el-input>
-              <el-input v-model="style.height" placeholder="请输入高度" :style="{ width: '145px' }"></el-input>
+              <el-input v-model="style.width" placeholder="请输入宽度" :style="{ width: '145px', marginRight: '10px' }" />
+              <el-input v-model="style.height" placeholder="请输入高度" :style="{ width: '145px' }" />
             </el-form-item>
             <el-form-item label="最小宽高">
-              <el-input v-model="style.minWidth" placeholder="请输入最小宽度" :style="{ width: '145px', marginRight: '10px' }"></el-input>
-              <el-input v-model="style.minHeight" placeholder="请输入最小高度" :style="{ width: '145px' }"></el-input>
+              <el-input v-model="style.minWidth" placeholder="请输入最小宽度" :style="{ width: '145px', marginRight: '10px' }" />
+              <el-input v-model="style.minHeight" placeholder="请输入最小高度" :style="{ width: '145px' }" />
             </el-form-item>
             <el-form-item label="最大宽高">
-              <el-input v-model="style.maxWidth" placeholder="请输入最大宽度" :style="{ width: '145px', marginRight: '10px' }"></el-input>
-              <el-input v-model="style.maxHeight" placeholder="请输入最大高度" :style="{ width: '145px' }"></el-input>
+              <el-input v-model="style.maxWidth" placeholder="请输入最大宽度" :style="{ width: '145px', marginRight: '10px' }" />
+              <el-input v-model="style.maxHeight" placeholder="请输入最大高度" :style="{ width: '145px' }" />
             </el-form-item>
 
             <el-form-item label="外边距">
@@ -140,12 +140,12 @@
             </el-form-item>
 
             <el-form-item label="边框/圆角">
-              <el-input v-model="style.border" placeholder="请输入边框" :style="{ width: '145px', marginRight: '10px' }"></el-input>
-              <el-input v-model="style.borderRadius" placeholder="请输入圆角" :style="{ width: '145px' }"></el-input>
+              <el-input v-model="style.border" placeholder="请输入边框" :style="{ width: '145px', marginRight: '10px' }" />
+              <el-input v-model="style.borderRadius" placeholder="请输入圆角" :style="{ width: '145px' }" />
             </el-form-item>
 
             <el-form-item label="背景">
-              <el-input v-model="style.background" placeholder="请输入背景"></el-input>
+              <el-input v-model="style.background" placeholder="请输入背景" />
             </el-form-item>
           </el-form>
         </div>
@@ -153,16 +153,16 @@
         <div v-else-if="category.value === 'font'">
           <el-form :model="style" label-position="top" label-width="120px">
             <el-form-item label="文字字体">
-              <el-input v-model="style.fontFamily" placeholder="请输入文字字体"></el-input>
+              <el-input v-model="style.fontFamily" placeholder="请输入文字字体" />
             </el-form-item>
             <el-form-item label="文字大小">
-              <el-input v-model="style.fontSize" placeholder="请输入文字大小"></el-input>
+              <el-input v-model="style.fontSize" placeholder="请输入文字大小" />
             </el-form-item>
             <el-form-item label="文字粗细">
-              <el-input v-model="style.fontWeight" placeholder="请输入文字粗细"></el-input>
+              <el-input v-model="style.fontWeight" placeholder="请输入文字粗细" />
             </el-form-item>
             <el-form-item label="文字颜色">
-              <el-input v-model="style.color" placeholder="请输入文字颜色"></el-input>
+              <el-input v-model="style.color" placeholder="请输入文字颜色" />
             </el-form-item>
           </el-form>
         </div>
@@ -170,42 +170,43 @@
         <div v-else-if="category.value === 'text'">
           <el-form :model="style" label-position="top" label-width="120px">
             <el-form-item label="水平文字对齐方式">
-              <el-input v-model="style.textAlign" placeholder="请输入"></el-input>
+              <el-input v-model="style.textAlign" placeholder="请输入" />
             </el-form-item>
             <el-form-item label="垂直文字对齐方式">
-              <el-input v-model="style.verticalAlign" placeholder="请输入"></el-input>
+              <el-input v-model="style.verticalAlign" placeholder="请输入" />
             </el-form-item>
             <el-form-item label="text-wrap">
-              <el-input v-model="style.textWrap" placeholder="请输入"></el-input>
+              <el-input v-model="style.textWrap" placeholder="请输入" />
             </el-form-item>
             <el-form-item label="text-indent">
-              <el-input v-model="style.textIndent" placeholder="请输入"></el-input>
+              <el-input v-model="style.textIndent" placeholder="请输入" />
             </el-form-item>
             <el-form-item label="letter-spacing ">
-              <el-input v-model="style.letterSpacing " placeholder="请输入"></el-input>
+              <el-input v-model="style.letterSpacing " placeholder="请输入" />
             </el-form-item>
             <el-form-item label="word-spacing">
-              <el-input v-model="style.wordSpacing" placeholder="请输入"></el-input>
+              <el-input v-model="style.wordSpacing" placeholder="请输入" />
             </el-form-item>
             <el-form-item label="white-space">
-              <el-input v-model="style.whiteSpace" placeholder="请输入"></el-input>
+              <el-input v-model="style.whiteSpace" placeholder="请输入" />
             </el-form-item>
             <el-form-item label="text-overflow">
-              <el-input v-model="style.textOverflow" placeholder="请输入"></el-input>
+              <el-input v-model="style.textOverflow" placeholder="请输入" />
             </el-form-item>
           </el-form>
         </div>
 
          <div v-else-if="category.value === 'userinput'" class="user-input">
-          <div v-for="(item, index) in styleGroups" class="style-group">
-            <div class="key">
-              <label class="label">键</label>
-              <el-input v-model="item.key" @change="changeStyleGroups" placeholder="属性" clearable></el-input>
-            </div>
-            <div class="value">
-              <label class="label">值</label>
-              <el-input v-model="item.value" @change="changeStyleGroups" placeholder="属性值" clearable></el-input>
-            </div>
+          <div class="list-head">
+            <label class="list-head_label">键</label>
+            <label class="list-head_label">值</label>
+            <span class="icon-box">
+              <el-icon size="16px"></el-icon>
+            </span>
+          </div>
+          <div v-for="(item, index) in styleGroups" class="list-body">
+            <el-input v-model="item.key" @change="changeStyleGroups" placeholder="属性" clearable />
+            <el-input v-model="item.value" @change="changeStyleGroups" placeholder="属性值" clearable />
             <span class="icon-box icon-box-delete" @click="removeStyleGroup(index)">
               <el-icon size="16px"><delete /></el-icon>
             </span>
@@ -289,39 +290,5 @@ const changeStyleGroups = () => {
 </script>
 
 <style scoped lang="less">
-.user-input {
-  display: flex;
-  flex-direction: column;
-  row-gap: 10px;
-}
-.style-group {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  column-gap: 10px;
 
-  .label {
-    padding-right: 4px;
-  }
-
-  .key, .value {
-    display: flex;
-    align-items: center;
-  }
-}
-
-.icon-box {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-
-  &:hover {
-    color: #409eff;
-  }
-}
-.icon-box-delete {
-  &:hover {
-    color: #ff5252;
-  }
-}
 </style>

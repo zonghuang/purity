@@ -232,13 +232,6 @@ export const pages: IPage[] = [
   // }
 ]
 
-// 当前快照
-export const snapshot: ISnapshot = {
-  id: 'p1',
-  index: -1,
-  list: []
-}
-
 // 用户操作行为
 export const userActionOptions = [
   { label: '点击', value: 'click' },

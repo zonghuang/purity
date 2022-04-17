@@ -130,7 +130,7 @@
       </div>
 
       <div class="params-plus">
-        <label class="form-label">添加参数</label>
+        <label class="form-item_label" style="width: unset;">添加参数</label>
         <el-tooltip content="输入键值" placement="top">
           <span class="icon-box" @click="addParam('input')">
             <el-icon size="16px"><edit-pen /></el-icon>

@@ -11,7 +11,8 @@
               </span>
             </el-tooltip>
             <el-tooltip content="选择其他组件的事件" placement="top">
-              <span class="icon-box" @click="$event.stopPropagation(); currentIndex = index; showOtherEvent = !showOtherEvent">
+              <span class="icon-box"
+                @click="$event.stopPropagation(); currentIndex = index; showOtherEvent = !showOtherEvent">
                 <el-icon size="16px"><zoom-in /></el-icon>
               </span>
             </el-tooltip>
@@ -88,16 +89,12 @@
                 <div class="add-remove-event">
                   <el-tooltip content="添加 then 事件" placement="top">
                     <span class="icon-box" @click="addThenEvent(thirdEv)">
-                      <el-icon size="16px">
-                        <circle-plus />
-                      </el-icon>
+                      <el-icon size="16px"><circle-plus /></el-icon>
                     </span>
                   </el-tooltip>
                   <el-tooltip content="删除事件" placement="top">
                     <span class="icon-box icon-box-delete" @click="removeEvent(secondEv.thenEvents, indey)">
-                      <el-icon size="16px">
-                        <delete />
-                      </el-icon>
+                      <el-icon size="16px"><delete /></el-icon>
                     </span>
                   </el-tooltip>
                 </div>
@@ -155,7 +152,6 @@
 </template>
 
 <script setup lang="ts">
-import _ from 'lodash'
 import { useEditStore } from '@/store/edit'
 import { IElement, IEvent, IEventOption } from '@/interface-type'
 import { userActionOptions } from '@/mock-data'
@@ -196,9 +192,7 @@ const selectOtherEvent = (event: IEvent) => {
 }
 
 // 其他组件的事件选项
-const otherEventOptions = computed(() => {
-  return getOtherEvents(editStore.currentPage.elements, [])
-})
+const otherEventOptions = computed(() => getOtherEvents(editStore.currentPage.elements, []))
 
 // 获取其他组件的事件
 const getOtherEvents = (tree: IElement[], options: { label: string; value: string; event: IEvent }[]) => {

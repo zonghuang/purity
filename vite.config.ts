@@ -35,16 +35,8 @@ export default defineConfig(({ mode }) => {
       Inspect(),
       AutoImport({
         dts: 'src/auto-imports.d.ts',
-        include: [
-          /\.[tj]sx?$/,
-          /\.vue$/, /\.vue\?vue/,
-          /\.md$/,
-        ],
-        imports: [
-          'vue',
-          'vue-router',
-          'pinia',
-        ],
+        include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/,/\.md$/],
+        imports: ['vue', 'vue-router', 'pinia'],
         resolvers: [ElementPlusResolver(), VantResolver()]
       }),
       Components({
