@@ -1,9 +1,6 @@
 <template>
   <div class="zh-button">
-    <el-button
-      :type="propConfig.type"
-      :icon="propConfig.icon"
-      @click="handleClick">{{ propConfig.label }}</el-button>
+    <el-button :type="propConfig.type" :icon="propConfig.icon" @click="handleClick">{{ propConfig.label }}</el-button>
   </div>
 </template>
 
@@ -18,5 +15,4 @@ const handleClick = () => emit('action', { userAction: 'click' })
 </script>
 
 <style scoped>
-
 </style>

@@ -8,7 +8,7 @@
 import _ from 'lodash';
 import { IElement } from '@/interface-type';
 import { useRenderStore } from '@/store/render';
-import { validValueComponents } from '@/mock-data';
+import { validComponents } from '@/mock-data';
 
 const props = defineProps<{
   uuid: string
@@ -22,7 +22,7 @@ const renderStore = useRenderStore()
 const formData = computed(() => {
   const data: any = {}
   props.childrens?.forEach(item => {
-    if (validValueComponents.includes(item.type))
+    if (validComponents.includes(item.type))
       data[item.propConfig.field] = item.modelValue
   })
   return data

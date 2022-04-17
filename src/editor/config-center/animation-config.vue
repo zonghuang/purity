@@ -9,8 +9,5 @@
 </script>
 
 <style scoped>
-.animation-config {
-  max-height: calc(100vh - 72px);
-  padding: 14px 10px;
-}
+.animation-config {}
 </style>

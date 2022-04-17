@@ -289,18 +289,6 @@ const changeStyleGroups = () => {
 </script>
 
 <style scoped lang="less">
-:deep(.el-collapse-item__header) {
-  padding-left: 10px;
-  color: rgba(0, 0, 0, .6);
-}
-:deep(.el-collapse-item__content) {
-  padding: 10px;
-}
-
-:deep(.el-collapse) {
-  border-top: none
-}
-
 .user-input {
   display: flex;
   flex-direction: column;

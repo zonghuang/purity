@@ -19,8 +19,5 @@ const editStore = useEditStore()
 </script>
 
 <style scoped>
-.page-config {
-  max-height: calc(100vh - 72px);
-  padding: 14px 10px;
-}
+.page-config {}
 </style>

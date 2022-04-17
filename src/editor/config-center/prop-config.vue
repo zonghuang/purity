@@ -371,10 +371,7 @@ const setColumnFixed = () => {
 </script>
 
 <style scoped lang="less">
-.prop-config {
-  max-height: calc(100vh - 72px);
-  padding: 14px 10px;
-}
+.prop-config {}
 
 .icon-box {
   display: flex;

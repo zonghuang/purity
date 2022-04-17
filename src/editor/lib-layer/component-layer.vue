@@ -1,5 +1,5 @@
 <template>
-  <div class="lib">
+  <div class="component-layer">
     <el-tree
       v-if="refresh"
       draggable
@@ -42,3 +42,9 @@ const clickNode = (node: IElement) => {
 
 const dragend = () => editStore.recordSnapshot()
 </script>
+
+<style scoped>
+.el-tree {
+  padding: 10px 0;
+}
+</style>

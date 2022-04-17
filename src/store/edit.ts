@@ -139,7 +139,7 @@ export const useEditStore = defineStore({
         return
       }
 
-      const target = this.findTarget(this.currentPage.elements, targetId)
+      const target = this.findComponent(this.currentPage.elements, targetId)
       this.currentComponent && target?.parent.splice(target.index, 0, this.currentComponent)
     },
 
@@ -150,7 +150,7 @@ export const useEditStore = defineStore({
         return
       }
 
-      const target = this.findTarget(this.currentPage.elements, targetId)
+      const target = this.findComponent(this.currentPage.elements, targetId)
       this.currentComponent && target?.parent.splice(target.index + 1, 0, this.currentComponent)
     },
 
@@ -161,7 +161,7 @@ export const useEditStore = defineStore({
         return
       }
 
-      const target = this.findTarget(this.currentPage.elements, targetId)
+      const target = this.findComponent(this.currentPage.elements, targetId)
       this.currentComponent && target?.config.childrens?.push(this.currentComponent)
     },
 
@@ -171,20 +171,20 @@ export const useEditStore = defineStore({
     },
 
     // 查找目标组件的索引、配置、父组件
-    findTarget(elements: IElement[], targetId: string, target?: ITarget) {
+    findComponent(elements: IElement[], targetId: string, target?: ITarget) {
       for (let i = 0; i < elements.length; i++) {
         if (target) break
         if (elements[i].uuid === targetId) 
           return { index: i, config: elements[i], parent: elements }
         if (!target && elements[i].childrens) 
-          target = this.findTarget(elements[i].childrens!, targetId, target)
+          target = this.findComponent(elements[i].childrens!, targetId, target)
       }
       return target
     },
 
     // 设置当前组件
     setComponent(targetId: string) {
-      const target = this.findTarget(this.currentPage.elements, targetId)
+      const target = this.findComponent(this.currentPage.elements, targetId)
       target && (this.currentComponent = target.config)
     },
 
@@ -207,7 +207,7 @@ export const useEditStore = defineStore({
 
     // 删除组件
     deleteComponent(targetId: string, isRecord: boolean = true) {
-      const target = this.findTarget(this.currentPage.elements, targetId)
+      const target = this.findComponent(this.currentPage.elements, targetId)
       target?.parent.splice(target.index, 1)
       isRecord && this.recordSnapshot()
     },

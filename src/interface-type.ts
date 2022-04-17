@@ -21,33 +21,24 @@ export interface IElement {
 export interface IEvent {
   userAction?: string
   bindCode?: string
-  trigger: ITrigger[]
+  triggers?: any[]
   event: string
-  modalId: string
-  link: string
-  aTarget: string
-  transferMode: string
-  api: string
-  method: string
-  showLoading: boolean
-  params: IEventParams[]
-  assignmentType: string
-  valueToComp: string
-  valueToComps: any[]
-  sourceToTarget: any[]
+  option: IEventOption
   thenEvents: IEvent[]
 }
 
-export interface IEventParams {
-  key: string
-  value: string
-  valueKey?: string
-  type: string
-}
-
-export interface ITrigger {
-  logical: string
-  conditions: any[]
+export interface IEventOption {
+  modalId?: string
+  url?: string
+  window?: string
+  transferMode?: string
+  params?: { type: string; key: string; value: string; deepProp?: string }[]
+  api?: string
+  method?: string
+  loading?: boolean
+  assign?: string
+  target?: string
+  targets?: { source: string; target: string }[]
 }
 
 export interface ITrbl {
@@ -87,11 +78,6 @@ export interface ITarget {
 export interface IAction {
   userAction: string
   bindCode?: string
-}
-
-export interface IParamValue {
-  key: string
-  value: any
 }
 
 export interface IOptions {

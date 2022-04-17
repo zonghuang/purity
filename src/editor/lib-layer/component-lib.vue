@@ -1,5 +1,5 @@
 <template>
-  <div class="lib">
+  <div class="component-lib">
     <el-collapse v-model="activeNames">
       <el-collapse-item
         v-for="category in libs"
@@ -40,16 +40,9 @@ const dragstart = (ev: DragEvent) => {
 </script>
 
 <style scoped lang="less">
-:deep(.el-collapse-item__header) {
-  padding-left: 10px;
-  color: rgba(0, 0, 0, .6);
-}
-:deep(.el-collapse-item__content) {
-  padding-bottom: 10px;
-}
 .component-list {
   margin: 0;
-  padding: 10px;
+  padding: 0px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;

@@ -256,8 +256,8 @@ export const eventOptions = [
   { label: '关闭弹窗', value: 'closeModal' },
   { label: '跳转链接', value: 'link' },
   { label: '请求数据', value: 'request' },
-  { label: '赋值给组件', value: 'setValue' },
-  { label: '重置组件值', value: 'resetValue' },
+  { label: '赋值给组件', value: 'set' },
+  { label: '重置组件值', value: 'reset' },
 ]
 
 // 请求方式
@@ -398,7 +398,7 @@ export const buttonTypeOptions = [
 ]
 
 // 筛选有值的组件
-export const validValueComponents = [
+export const validComponents = [
   'form', 'input', 'textarea', 'number', 'select', 'cascader',
   'datepicker', 'timeselect', 'timepicker',
   'switch', 'radio', 'checkbox', 'slider', 'rate', 'color', 'range',
@@ -410,15 +410,9 @@ export const validValueComponents = [
 export const containers = ['root', 'container', 'modal', 'form', 'table']
 
 // 赋值类型
-export const assignmentTypeOptions = [
-  { label: '赋给另一个组件', value: 'another' },
-  { label: '合并成对象赋值', value: 'object' },
-  { label: '合并成数组赋值', value: 'array' },
-]
-
-// 响应数据赋值类型
-export const assignmentTypeOptions2 = [
-  { label: '赋值给单个组件', value: 'single' },
-  { label: '赋值给多个组件', value: 'multiple' },
-  { label: '赋值给组件选项', value: 'options' },
+export const assignOptions = [
+  { label: '赋给一个组件', value: 'component' },
+  { label: '赋给多个组件', value: 'components' },
+  { label: '赋给组件选项', value: 'componentOptions' },
+  { label: '赋给缓存数据', value: 'cacheData' },
 ]
