@@ -51,7 +51,6 @@
 
 <script setup lang="ts">
 import { useEditStore } from '@/store/edit'
-import localCache  from '@/utils/cache'
 
 const editStore = useEditStore()
 const router = useRouter()

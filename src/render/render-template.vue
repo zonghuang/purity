@@ -29,7 +29,7 @@ defineProps<{
 }>()
 
 function handleUpdate(value: any, element: IElement) {
-  console.log('update', value, element)
+  console.log('update', value, toRaw(element))
 
   if (element.type === 'pagination') {
     element.propConfig.total = value

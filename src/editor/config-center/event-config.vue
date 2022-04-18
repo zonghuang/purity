@@ -83,7 +83,7 @@
             <event-group :modelValue="secondEv" @update:modelValue="handleChange($event, secondEv)" />
 
             <!-- 第三层事件 -->
-            <div class="third-level" v-for="(thirdEv, indez) in secondEv.thenEvents" :key="indey">
+            <div class="third-level" v-for="(thirdEv, indez) in secondEv.thenEvents" :key="indez">
               <div class="event-header">
                 <div class="title">third-level 事件 {{ indez + 1 }}</div>
                 <div class="add-remove-event">
@@ -93,7 +93,7 @@
                     </span>
                   </el-tooltip>
                   <el-tooltip content="删除事件" placement="top">
-                    <span class="icon-box icon-box-delete" @click="removeEvent(secondEv.thenEvents, indey)">
+                    <span class="icon-box icon-box-delete" @click="removeEvent(secondEv.thenEvents, indez)">
                       <el-icon size="16px"><delete /></el-icon>
                     </span>
                   </el-tooltip>
@@ -102,9 +102,9 @@
               <event-group :modelValue="thirdEv" @update:modelValue="handleChange($event, thirdEv)" />
 
               <!-- 第四层事件 -->
-              <div class="fourth-level" v-for="(fourthEv, indez) in thirdEv.thenEvents" :key="indey">
+              <div class="fourth-level" v-for="(fourthEv, indem) in thirdEv.thenEvents" :key="indem">
                 <div class="event-header">
-                  <div class="title">fourth-level 事件 {{ indez + 1 }}</div>
+                  <div class="title">fourth-level 事件 {{ indem + 1 }}</div>
                   <div class="add-remove-event">
                     <el-tooltip content="添加 then 事件" placement="top">
                       <span class="icon-box" @click="addThenEvent(fourthEv)">
@@ -112,7 +112,7 @@
                       </span>
                     </el-tooltip>
                     <el-tooltip content="删除事件" placement="top">
-                      <span class="icon-box icon-box-delete" @click="removeEvent(thirdEv.thenEvents, indey)">
+                      <span class="icon-box icon-box-delete" @click="removeEvent(thirdEv.thenEvents, indem)">
                         <el-icon size="16px"><delete /></el-icon>
                       </span>
                     </el-tooltip>
@@ -121,12 +121,12 @@
                 <event-group :modelValue="fourthEv" @update:modelValue="handleChange($event, fourthEv)" />
 
                 <!-- 第五层事件 -->
-                <div class="fifth-level" v-for="(fifthEv, indez) in fourthEv.thenEvents" :key="indey">
+                <div class="fifth-level" v-for="(fifthEv, inden) in fourthEv.thenEvents" :key="inden">
                   <div class="event-header">
-                    <div class="title">fifth-level 事件 {{ indez + 1 }}</div>
+                    <div class="title">fifth-level 事件 {{ inden + 1 }}</div>
                     <div class="add-remove-event">
                       <el-tooltip content="删除事件" placement="top">
-                        <span class="icon-box icon-box-delete" @click="removeEvent(fourthEv.thenEvents, indey)">
+                        <span class="icon-box icon-box-delete" @click="removeEvent(fourthEv.thenEvents, inden)">
                           <el-icon size="16px"><delete /></el-icon>
                         </span>
                       </el-tooltip>
