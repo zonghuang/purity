@@ -103,7 +103,7 @@ export const config = {
                     },
                     {
                       userAction: "click",
-                      event: "request",
+                      event: "fetch",
                       option: {
                         api: "/sso-server/api/onl-report/queryReportData/sso_app_access_user",
                         method: "POST",
@@ -159,7 +159,7 @@ export const config = {
                   events: [
                     {
                       userAction: "click",
-                      event: "request",
+                      event: "fetch",
                       option: {
                         api: "/sso-server/api/onl-report/queryReportData/sso_app_access_user",
                         method: "POST",
@@ -318,7 +318,7 @@ export const config = {
           events: [
             {
               userAction: "update",
-              event: "request",
+              event: "fetch",
               option: {
                 api: "/sso-server/api/onl-report/queryReportData/sso_app_access_user",
                 method: "POST",
@@ -533,7 +533,7 @@ export const config = {
               events: [
                 {
                   userAction: "click",
-                  event: "request",
+                  event: "fetch",
                   option: {
                     api: "/sso-server/api/component/submit",
                     method: "POST",

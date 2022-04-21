@@ -248,7 +248,7 @@ export const eventOptions = [
   { label: '打开弹窗', value: 'openModal' },
   { label: '关闭弹窗', value: 'closeModal' },
   { label: '跳转链接', value: 'link' },
-  { label: '请求数据', value: 'request' },
+  { label: '请求数据', value: 'fetch' },
   { label: '赋值给组件', value: 'set' },
   { label: '重置组件值', value: 'reset' },
 ]

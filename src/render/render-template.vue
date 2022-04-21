@@ -98,7 +98,7 @@ const handleEvents = (events: IEvent[]) => {
         if (thenEvents?.length) handleEvents(thenEvents)
         break;
 
-      case 'request':
+      case 'fetch':
         const payload = getValue(toRaw(params))
 
         // 临时 start（为了兼容现在 sso 的分页和查询条件格式化）
@@ -125,10 +125,10 @@ const handleEvents = (events: IEvent[]) => {
         // 临时 end
 
         console.log('正在请求数据, 访问 api: ', api, '请求方式: ', method, '请求参数: ', payload)
-        console.time('request')
+        console.time('fetch')
         const responseData = await renderStore.getData(api!, method!, payload, loading)
         console.log('正在请求数据完成了，花费时间：')
-        console.timeEnd('request')
+        console.timeEnd('fetch')
         console.log('响应数据', responseData)
 
         // 赋值给组件

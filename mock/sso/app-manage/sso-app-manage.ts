@@ -139,7 +139,7 @@ export const config = {
                     },
                     {
                       userAction: "click",
-                      event: "request",
+                      event: "fetch",
                       option: {
                         api: "/sso-server/api/onl-report/queryReportData/sso_app_manage",
                         method: "POST",
@@ -195,7 +195,7 @@ export const config = {
                   events: [
                     {
                       userAction: "click",
-                      event: "request",
+                      event: "fetch",
                       option: {
                         api: "/sso-server/api/onl-report/queryReportData/sso_app_manage",
                         method: "POST",
@@ -325,7 +325,7 @@ export const config = {
             },
             {
               userAction: "click",
-              event: "request",
+              event: "fetch",
               option: {
                 api: "/sso-server/api/form-model/delFormData/sso_app",
                 method: "POST",
@@ -503,7 +503,7 @@ export const config = {
           events: [
             {
               userAction: "update",
-              event: "request",
+              event: "fetch",
               option: {
                 api: "/sso-server/api/onl-report/queryReportData/sso_app_manage",
                 method: "POST",
@@ -876,7 +876,7 @@ export const config = {
               events: [
                 {
                   userAction: "click",
-                  event: "request",
+                  event: "fetch",
                   option: {
                     api: "/sso-server/api/form-model/saveFormData/sso_app",
                     method: "POST",
@@ -1340,7 +1340,7 @@ export const config = {
               events: [
                 {
                   userAction: "click",
-                  event: "request",
+                  event: "fetch",
                   option: {
                     api: "/sso-server/api/app/changeStatus",
                     method: "POST",
@@ -1394,7 +1394,7 @@ export const config = {
               events: [
                 {
                   userAction: "click",
-                  event: "request",
+                  event: "fetch",
                   option: {
                     api: "/sso-server/api/app/changeStatus",
                     method: "POST",
@@ -1612,7 +1612,7 @@ export const config = {
               events: [
                 {
                   userAction: "click",
-                  event: "request",
+                  event: "fetch",
                   option: {
                     api: "/sso-server/api/component/submit",
                     method: "POST",
@@ -1813,7 +1813,7 @@ export const config = {
               events: [
                 {
                   userAction: "click",
-                  event: "request",
+                  event: "fetch",
                   option: {
                     api: "/sso-server/api/component/submit",
                     method: "POST",

@@ -57,7 +57,7 @@
     <!-- 携带路由参数 -->
   </template>
 
-  <template v-if="event.event === 'request'">
+  <template v-if="event.event === 'fetch'">
     <div class="form-item form-item--inline">
       <label class="form-item_label">请求接口<abbr title="required">*</abbr></label>
       <div class="form-item_content">
@@ -82,9 +82,9 @@
   </template>
 
   <!-- 携带路由参数/请求参数/源数据 -->
-  <div v-if="['link', 'request', 'set'].includes(event.event)" class="form-item">
+  <div v-if="['link', 'fetch', 'set'].includes(event.event)" class="form-item">
     <label class="form-item_label">
-      {{ event.event === 'link' ? '携带路由参数' : event.event === 'request' ? '请求参数' : '源数据' }}
+      {{ event.event === 'link' ? '携带路由参数' : event.event === 'fetch' ? '请求参数' : '源数据' }}
     </label>
     <div class="form-item_content">
       <div v-if="event.option.params?.length" class="list-head">
@@ -156,8 +156,8 @@
   </div>
 
   <!-- 赋值方式 -->
-  <div v-if="event.event === 'set' || event.event === 'request'" class="form-item form-item--inline">
-    <label class="form-item_label">{{ event.event === 'request' ? '响应数据赋值' : '赋值方式' }}</label>
+  <div v-if="event.event === 'set' || event.event === 'fetch'" class="form-item form-item--inline">
+    <label class="form-item_label">{{ event.event === 'fetch' ? '响应数据赋值' : '赋值方式' }}</label>
     <div class="form-item_content">
       <el-select v-model="event.option.assign" placeholder="请选择赋值方式" clearable>
         <el-option v-for="item in assignOptions" :key="item.value" :label="item.label" :value="item.value">
@@ -168,11 +168,11 @@
 
   <!-- 赋值给组件/重置组件 -->
   <div class="form-item"
-    v-if="['request', 'set', 'reset'].includes(event.event) && 
+    v-if="['fetch', 'set', 'reset'].includes(event.event) && 
     !['cacheData', 'components'].includes(event.option.assign)"
   >
     <label class="form-item_label">
-      {{ event.event === 'request' ? '响应的数据赋值给哪个组件?' : event.event === 'reset' ? '重置组件' : '值赋值给哪个组件?' }}
+      {{ event.event === 'fetch' ? '响应的数据赋值给哪个组件?' : event.event === 'reset' ? '重置组件' : '值赋值给哪个组件?' }}
     </label>
     <div class="form-item_content">
       <el-select v-model="event.option.target" placeholder="请选择组件" clearable>
@@ -182,7 +182,7 @@
     </div>
   </div>
 
-  <div v-if="event.event === 'request' && ['cacheData', 'components'].includes(event.option.assign)" class="form-item">
+  <div v-if="event.event === 'fetch' && ['cacheData', 'components'].includes(event.option.assign)" class="form-item">
     <div v-if="event.option.targets?.length" class="list-head">
       <label class="list-head_label">键</label>
       <label class="list-head_label">组件</label>
@@ -288,7 +288,7 @@ const changeEvent = () => {
       option = { url: '', window: '', transferMode: '', params: [] }
       break;
 
-    case 'request':
+    case 'fetch':
       option = { api: '', method: '', loading: false, params: [], assign: '', target: '', targets: [{ source: '', target: '' }] }
       break;
 
