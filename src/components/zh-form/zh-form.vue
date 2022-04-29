@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import _ from 'lodash'
+import _ from 'lodash-es'
 import { IElement } from '@/interface-type'
 import { useRenderStore } from '@/store/render'
 import { validComponents } from '@/mock-data'

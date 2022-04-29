@@ -1,4 +1,4 @@
-import _ from "lodash"
+import _ from "lodash-es"
 
 import { config } from './sso/app-manage/sso-app-manage'
 

@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from 'lodash-es'
 import localCache from '@/utils/cache'
 import { IElement, IPage, ISnapshot, ITarget } from "@/interface-type"
 import { componentsConfig, containers } from '@/mock-data'
