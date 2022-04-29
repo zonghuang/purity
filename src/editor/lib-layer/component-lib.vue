@@ -7,8 +7,8 @@
         :title="category.label"
         :name="category.name"
       >
-        <div class="component-group" v-for="item in category.childrens" :key="item.name">
-          <ul class="component-list">
+        <div class="component-group" v-for="(item, index) in category.childrens" :key="item.name">
+          <ul class="component-list" :style="{ marginBottom: index+1 === (category.childrens?.length) ? '8px' : '' }">
             <li
               v-for="component in item.childrens"
               :key="component.name"
@@ -41,8 +41,8 @@ const dragstart = (ev: DragEvent) => {
 
 <style scoped lang="less">
 .component-list {
-  margin: 0;
-  padding: 0px;
+  margin: 0 0 20px;
+  padding: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -63,5 +63,18 @@ const dragstart = (ev: DragEvent) => {
       border: 1px solid #409eff;
     }
   }
+
+
 }
+
+// .component-group {
+//   &:last-child {
+//     margin: 0;
+//   }
+// }
+
+// .component-group:last-child {
+//   margin: 0;
+// }
+
 </style>
