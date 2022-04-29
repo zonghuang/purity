@@ -16,8 +16,8 @@
 </template>
 
 <script setup lang="ts">
-import { IElement } from '@/interface-type';
-import { useEditStore } from '@/store/edit';
+import { IElement } from '@/interface-type'
+import { useEditStore } from '@/store/edit'
 
 const editStore = useEditStore()
 
@@ -26,14 +26,12 @@ const defaultProps = { label: 'name', children: 'childrens' }
 const trees = computed(() => editStore.currentPage.elements)
 const currentNodeKey = computed(() => editStore.currentComponent?.uuid)
 
-const stopWatch = watch(currentNodeKey, () => {
+watch(currentNodeKey, () => {
   refresh.value = false
   nextTick(() => refresh.value = true)
 }, {
   immediate: true
 })
-
-onUnmounted(() => stopWatch())
 
 const clickNode = (node: IElement) => {
   editStore.setComponent(node.uuid)

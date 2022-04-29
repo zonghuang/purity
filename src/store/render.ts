@@ -17,6 +17,12 @@ export const useRenderStore = defineStore({
   },
   actions: {
     async fetchConfig(params: any) {
+      // 临时的，测试打包库 Start
+      if (import.meta.env.MODE === 'lib') {
+        params = { system: 'sso', module: 'app-manage', page: 'sso-app-manage' }
+      }
+      // 临时的，测试打包库 End
+
       if (params.page) {
         const pages = await getPages(params)
         this.$patch({ pages: pages, currentPage: pages[0] })

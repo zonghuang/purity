@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { UploadProps, UploadUserFile } from 'element-plus';
+import { UploadProps, UploadUserFile } from 'element-plus'
 import localCache from '@/utils/cache'
 
 const props = defineProps<{
@@ -69,10 +69,10 @@ const fileList = ref<UploadUserFile[]>([
     url: 'https://lyy-public.oss-cn-shenzhen.aliyuncs.com/s1000000/20220405/1yPYearU.jpg',
   }
 ])
-const stopWatch1 = watch(() => fileList.value, newValue => {
+watch(() => fileList.value, newValue => {
   value.value = newValue[newValue.length - 1].url!
 })
-onUnmounted(() => stopWatch1())
+
 const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
   dialogImageUrl.value = uploadFile.url!
   dialogVisible.value = true

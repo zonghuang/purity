@@ -5,10 +5,10 @@
 </template>
 
 <script setup lang="ts">
-import _ from 'lodash';
-import { IElement } from '@/interface-type';
-import { useRenderStore } from '@/store/render';
-import { validComponents } from '@/mock-data';
+import _ from 'lodash'
+import { IElement } from '@/interface-type'
+import { useRenderStore } from '@/store/render'
+import { validComponents } from '@/mock-data'
 
 const props = defineProps<{
   uuid: string
@@ -36,6 +36,5 @@ onMounted(() => {
 })
 
 
-const stopWatch = watch(formData, () => emit('update:modelValue', formData.value))
-onUnmounted(() => stopWatch())
+watch(formData, () => emit('update:modelValue', formData.value))
 </script>

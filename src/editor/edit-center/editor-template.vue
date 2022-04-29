@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import { useEditStore } from '@/store/edit'
 import { IElement } from '@/interface-type'
-import { containers } from '@/mock-data';
+import { containers } from '@/mock-data'
 
 const editStore = useEditStore()
 defineProps<{

@@ -2,6 +2,8 @@ import type { App } from 'vue'
 import * as icons from '@element-plus/icons-vue'
 import { IComponentConfig } from '../interface-type'
 
+const mode = import.meta.env.MODE
+
 // 全量导入 Element Plus Icons
 const elementPlustIcons = {
   version: 'v1',
@@ -25,7 +27,7 @@ const allComponents = {
   }
 }
 
-// 按需导入组件（为啥按需引入打包更大？？？）
+// 按需导入组件
 const demandComponents = {
   version: 'v1',
   install: (app: App) => {
@@ -40,13 +42,15 @@ const demandComponents = {
   }
 }
 
-// 所有组件的默认配置数据
+// 所有组件的默认配置数据 (build 库的时候不用打包组件配置)
 const componentsConfig: IComponentConfig = {}
-const allConfig = import.meta.glob('./**/*.ts')
-for (const path in allConfig) {
-  allConfig[path]().then(mod => {
-    componentsConfig[path.split('/')[1]] = mod.default
-  })
+if (mode !== 'lib') {
+  const allConfig = import.meta.glob('./**/*.ts')
+  for (const path in allConfig) {
+    allConfig[path]().then(mod => {
+      componentsConfig[path.split('/')[1]] = mod.default
+    })
+  }
 }
 
 const components = import.meta.env.MODE === 'development' ? allComponents : demandComponents

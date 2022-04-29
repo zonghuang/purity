@@ -1,6 +1,15 @@
 import _ from "lodash"
 
+import { config } from './sso/app-manage/sso-app-manage'
+
 export const getPages = async (query: any) => {
+
+  // (build 库的时候不用打包)
+  const mode = import.meta.env.MODE
+  // if (mode == 'lib') return []
+  if (mode == 'lib') return [config]
+
+
   const { system, module, page } = query
 
   // system 或 module 不存在时

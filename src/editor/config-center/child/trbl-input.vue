@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { ITrbl } from '@/interface-type';
+import { ITrbl } from '@/interface-type'
 
 const props = defineProps<{
   modelValue: ITrbl
@@ -48,8 +48,7 @@ const emit = defineEmits(['update:modelValue', 'change'])
 
 const trbl = reactive({ ...props.modelValue })
 
-const stopWatch = watch(props, (newValue) => Object.assign(trbl, newValue.modelValue))
-onUnmounted(() => stopWatch())
+watch(props, (newValue) => Object.assign(trbl, newValue.modelValue))
 
 const handleChange = () => { 
   emit('update:modelValue', trbl)

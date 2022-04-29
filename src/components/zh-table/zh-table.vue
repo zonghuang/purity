@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRenderStore } from '@/store/render';
+import { useRenderStore } from '@/store/render'
 
 const props = defineProps<{
   uuid: string

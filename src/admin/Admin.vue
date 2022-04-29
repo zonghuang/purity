@@ -73,6 +73,7 @@
 </template>
 
 <script setup lang="ts">
+
 import localCache from '@/utils/cache'
 import { ssoTableData } from '../../mock/admin'
 
@@ -104,9 +105,7 @@ const handleClick = () => {
   router.push({ name: 'editor' })
 }
 
-const changeType = () => {
-  console.log(type.value)
-}
+const changeType = () => {}
 
 onMounted(() => {
   token.value = localCache.getCache('token')

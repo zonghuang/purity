@@ -20,9 +20,10 @@
 import qs from 'query-string'
 import { useRenderStore } from '@/store/render'
 import { IElement, IEvent, IAction } from '@/interface-type'
+import { _useRoute, _useRouter } from '@/hooks'
 
-const route = useRoute()
-const router = useRouter()
+const route = _useRoute()
+const router = _useRouter()
 const renderStore = useRenderStore()
 defineProps<{
   elements: IElement[]

@@ -223,7 +223,7 @@
 
 <script setup lang="ts">
 import { useEditStore } from '@/store/edit'
-import { IStyle } from '@/interface-type';
+import { IStyle } from '@/interface-type'
 
 import {
   styleCategorys,

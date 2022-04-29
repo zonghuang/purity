@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { IElement } from '@/interface-type';
+import { IElement } from '@/interface-type'
 import { useEditStore } from '@/store/edit'
 
 const editStore = useEditStore()

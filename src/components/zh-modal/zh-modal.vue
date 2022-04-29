@@ -33,7 +33,9 @@
 </template>
 
 <script setup lang="ts">
-const route = useRoute()
+import { _useRoute } from '@/hooks'
+
+const route = _useRoute()
 const props = defineProps(['modelValue', 'propConfig'])
 
 const editing = computed(() => route.path === '/editor')
@@ -49,7 +51,7 @@ const closeOnClickModal = computed(() => (props.propConfig.closeOnClickModal))
 
 const closeModal = () => visible.value = false
 const closedFn = (ev: KeyboardEvent) => ev.code === 'Escape' && closeModal()
-const stopWatch = watch(visible, newValue => {
+watch(visible, newValue => {
   if (newValue) {
     document.addEventListener('keyup', closedFn)
   } else {
@@ -58,7 +60,6 @@ const stopWatch = watch(visible, newValue => {
 }, {
   immediate: true
 })
-onUnmounted(() => stopWatch())
 </script>
 
 <style scoped lang="less">
