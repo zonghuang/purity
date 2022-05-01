@@ -63,18 +63,5 @@ const dragstart = (ev: DragEvent) => {
       border: 1px solid #409eff;
     }
   }
-
-
 }
-
-// .component-group {
-//   &:last-child {
-//     margin: 0;
-//   }
-// }
-
-// .component-group:last-child {
-//   margin: 0;
-// }
-
 </style>
