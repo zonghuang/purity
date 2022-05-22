@@ -32,12 +32,12 @@ const total = computed(() => props.propConfig.total)
 
 const handlePageSize = (pageSize: number) => {
   page.value.pageSize = pageSize
-  emit('action', { userAction: 'update' })
+  emit('action', { event: 'update' })
 }
 
 const handleCurrentPage = (currentPage: number) => {
   page.value.currentPage = currentPage
-  emit('action', { userAction: 'update' })
+  emit('action', { event: 'update' })
 }
 
 </script>

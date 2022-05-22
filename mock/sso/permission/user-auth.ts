@@ -1,7 +1,6 @@
 export const config = {
-  id: "user-auth",
-  name: "用户授权",
-  path: "/user-auth",
+  name: "user-auth",
+  title: "用户授权",
   elements: [
     {
       uuid: "1648821632532",

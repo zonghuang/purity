@@ -14,7 +14,7 @@ export const getPages = async (query: any) => {
 
   // system 或 module 不存在时
   if (!system || !module) {
-    const page = { id: 'p1', name: '首页', path: '/home', elements: [], settings: {} }
+    const page = { name: 'home', title: '首页', elements: [], settings: {} }
     const config = _.cloneDeep(page)
     return [config]
   }

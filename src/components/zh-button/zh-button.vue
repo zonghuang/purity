@@ -11,7 +11,7 @@ defineProps<{
 }>()
 const emit = defineEmits(['action'])
 
-const handleClick = () => emit('action', { userAction: 'click' })
+const handleClick = () => emit('action', { event: 'click' })
 </script>
 
 <style scoped>

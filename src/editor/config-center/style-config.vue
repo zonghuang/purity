@@ -175,9 +175,6 @@
             <el-form-item label="垂直文字对齐方式">
               <el-input v-model="style.verticalAlign" placeholder="请输入" />
             </el-form-item>
-            <el-form-item label="text-wrap">
-              <el-input v-model="style.textWrap" placeholder="请输入" />
-            </el-form-item>
             <el-form-item label="text-indent">
               <el-input v-model="style.textIndent" placeholder="请输入" />
             </el-form-item>
@@ -223,7 +220,7 @@
 
 <script setup lang="ts">
 import { useEditStore } from '@/store/edit'
-import { IStyle } from '@/interface-type'
+import { IKeyValue, IStyle } from '@/interface-type'
 
 import {
   styleCategorys,
@@ -241,26 +238,26 @@ import {
 const editStore = useEditStore()
 
 const activeName = ref('boxmodel')
-const styleGroups: IStyle[] = reactive([])
+const styleGroups: IKeyValue[] = reactive([])
 const style = computed(() => editStore.currentComponent?.style)
 
 const trbl = computed({
   get: () => {
-    const { top, right, bottom, left } = style.value
+    const { top, right, bottom, left } = style.value!
     return { top, right, bottom, left }
   },
   set: newValue => newValue
 })
 const mtrbl = computed({
   get: () => {
-    const { marginTop: top, marginRight: right, marginBottom: bottom, marginLeft: left } = style.value
+    const { marginTop: top, marginRight: right, marginBottom: bottom, marginLeft: left } = style.value!
     return { top, right, bottom, left }
   },
   set: newValue => newValue
 })
 const ptrbl = computed({
   get: () => {
-    const { paddingTop: top, paddingRight: right, paddingBottom: bottom, paddingLeft: left } = style.value
+    const { paddingTop: top, paddingRight: right, paddingBottom: bottom, paddingLeft: left } = style.value!
     return { top, right, bottom, left }
   },
   set: newValue => newValue
@@ -278,12 +275,13 @@ const handlePtrbl = (trbl: IStyle) => {
 const addStyleGroup = () => styleGroups.push({ key: '', value: '' })  
 const removeStyleGroup = (index: number) => {
   const key = toRaw(styleGroups[index]).key
-  delete style.value[key]
+  // @ts-ignore
+  delete style.value?.[key]
   styleGroups.splice(index, 1)
   changeStyleGroups()
 }
 const changeStyleGroups = () => {
-  const inputStyle: IStyle = {}
+  const inputStyle: IKeyValue = {}
   styleGroups.forEach(item => inputStyle[item.key] = item.value)
   Object.assign(style.value, inputStyle)
 }

@@ -1,7 +1,6 @@
 export const config = {
-  id: 'sso-log',
-  name: 'sso 日志',
-  path: '/sso-log',
+  name: 'sso-log',
+  title: 'sso 日志',
   elements: [],
   settings: {},
 }

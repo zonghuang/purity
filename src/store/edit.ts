@@ -35,57 +35,55 @@ export const useEditStore = defineStore({
           item.elements.push(this.addRootComponent())
         }
         
-        return { id: item.id, index: -1, list: [] }
+        return { id: item.name, index: -1, list: [] }
       })
 
       this.currentComponent = null
       this.currentPage = this.pages[0]
-      this.snapshot = this.snapshotStore.find(item => item.id === this.currentPage.id) as ISnapshot
+      this.snapshot = this.snapshotStore.find(item => item.id === this.currentPage.name) as ISnapshot
       this.recordSnapshot()
     },
 
     // 新建页、复制页、删除页、保存页、选择页
     createPage() {
       const num = this.pages.length + 1
-      const id = 'p' + num
-      const name = 'page-' + num
-      const path = '/' + name
+      const name = 'p' + num
+      const title = 'page-' + num
       this.currentComponent = this.addRootComponent()
-      this.pages.push({ id, name, path, elements: [this.currentComponent], settings: {} })
-      this.snapshotStore.push({ id, index: -1, list: [] })
-      this.changePage(id)
+      this.pages.push({ system: '', module: '', name, title, elements: [this.currentComponent], settings: {} })
+      this.snapshotStore.push({ id: name, index: -1, list: [] })
+      this.changePage(name)
       this.recordSnapshot()
     },
-    copyPage(pageId: string) {
-      const page = this.pages.find(item => item.id === pageId)
+    copyPage(pageName: string) {
+      const page = this.pages.find(item => item.name === pageName)
       const currentPage = _.cloneDeep(toRaw(page) as IPage)
       const num = this.pages.length + 1
-      currentPage.id = 'p' + num
-      currentPage.name += '复制'
-      currentPage.path += '-copy'
+      currentPage.name = 'p' + num
+      currentPage.title += '复制'
       this.pages.push(currentPage)
-      this.snapshotStore.push({ id: currentPage.id, index: -1, list: [] })
-      this.changePage(currentPage.id)
+      this.snapshotStore.push({ id: currentPage.name, index: -1, list: [] })
+      this.changePage(currentPage.name)
       this.recordSnapshot()
     },
-    deletePage(pageId: string) {
-      const index = this.pages.findIndex(item => item.id === pageId)
-      const indey = this.snapshotStore.findIndex(item => item.id === pageId)
+    deletePage(pageName: string) {
+      const index = this.pages.findIndex(item => item.name === pageName)
+      const indey = this.snapshotStore.findIndex(item => item.id === pageName)
       const currentPage = index === 0 ? this.pages[1] : this.pages[index - 1]
       this.currentPage = currentPage
-      this.snapshot = this.snapshotStore.find(item => item.id === currentPage.id) as ISnapshot
+      this.snapshot = this.snapshotStore.find(item => item.id === currentPage.name) as ISnapshot
       this.pages.splice(index, 1)
       this.snapshotStore.splice(indey, 1)
     },
     savePage() {      
-      const index = this.pages.findIndex(item => item.id === this.currentPage.id)
+      const index = this.pages.findIndex(item => item.name === this.currentPage.name)
       this.pages.splice(index, 1, this.currentPage)
     },
-    changePage(pageId: string) {
+    changePage(pageName: string) {
       this.savePage()
       this.saveSnapshot()
-      this.currentPage = this.pages.find(item => item.id === pageId) as IPage
-      this.snapshot = this.snapshotStore.find(item => item.id === pageId) as ISnapshot
+      this.currentPage = this.pages.find(item => item.name === pageName) as IPage
+      this.snapshot = this.snapshotStore.find(item => item.id === pageName) as ISnapshot
     },
 
     // 新增根组件
@@ -247,7 +245,7 @@ export const useEditStore = defineStore({
 
     // 保存快照
     saveSnapshot() {
-      const index = this.snapshotStore.findIndex(item => item.id === this.currentPage.id)
+      const index = this.snapshotStore.findIndex(item => item.id === this.currentPage.name)
       this.snapshotStore.splice(index, 1, this.snapshot)
     },
 

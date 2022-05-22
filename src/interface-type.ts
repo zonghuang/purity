@@ -1,7 +1,13 @@
+import CSS from 'csstype'
+
+export interface IStyle extends CSS.Properties, CSS.PropertiesHyphen {}
+
 export interface IPage {
-  id: string
+  readonly _id?: string
+  system: string
+  module: string
   name: string
-  path: string
+  title: string
   elements: IElement[]
   settings: any
 }
@@ -10,7 +16,7 @@ export interface IElement {
   uuid: string
   name: string
   type: string
-  style: any
+  style: IStyle
   events: IEvent[]
   modelValue: any
   propConfig: any
@@ -18,37 +24,43 @@ export interface IElement {
   childrens?: IElement[]
 }
 
+// 'openModal' | 'closeModal' | 'link' | 'fetch' | 'set' | 'reset' | ''
 export interface IEvent {
-  userAction?: string
+  event?: 'click' | 'dbclick' | 'touch' | 'scroll' | 'update' | 'mount' | 'unmount' | ''
   bindCode?: string
   triggers?: any[]
-  event: string
+  action: string
   option: IEventOption
   thenEvents: IEvent[]
 }
 
 export interface IEventOption {
-  modalId?: string
   url?: string
-  window?: string
-  transferMode?: string
-  params?: { type: string; key: string; value: string; deepProp?: string }[]
-  api?: string
-  method?: string
+  tab?: '_self' | '_blank' | ''
+  mode?: 'query' | 'params' | ''
+  method?: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'HEAD' | 'PUT' | ''
   loading?: boolean
-  assign?: string
+  params?: IEventParam[]
+  assign?: 'component' | 'componentOptions' | 'components' | 'cacheData' | ''
   target?: string
-  targets?: { source: string; target: string }[]
+  targets?: { target: string; source: string }[]
+}
+
+export interface IEventParam {
+  type: string
+  key: string
+  value: string
+  path?: string
 }
 
 export interface ITrbl {
-  top: string | number
-  right: string | number
-  bottom: string | number
-  left: string | number
+  top?: string | number
+  right?: string | number
+  bottom?: string | number
+  left?: string | number
 }
 
-export interface IStyle {
+export interface IKeyValue {
   [key: string]: string | number
 }
 
@@ -76,7 +88,7 @@ export interface ITarget {
 }
 
 export interface IAction {
-  userAction: string
+  event: string
   bindCode?: string
 }
 

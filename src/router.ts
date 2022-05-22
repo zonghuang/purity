@@ -10,6 +10,7 @@ const routes: RouteRecordRaw[] = [
     path: '/admin',
     name: 'admin',
     component: () => import('./admin/Admin.vue')
+    // component: () => import('./admin/AdminTest.vue')
   },
   {
     path: '/editor',

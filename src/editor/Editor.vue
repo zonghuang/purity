@@ -1,5 +1,5 @@
 <template>
-  <div class="editor" v-for="page in pages" :key="page.id" v-show="page.id === currentPageId">
+  <div class="editor" v-for="page in pages" :key="page.name" v-show="page.name === currentPageName">
     <aside class="lib-layer">
       <el-tabs v-model="activeLib" @tab-click="handleClick">
         <el-tab-pane label="组件" name="lib">
@@ -55,7 +55,7 @@ editStore.fetchConfig(route.query)
 const activeLib = ref('lib')
 const activeConfig = ref('prop')
 const pages = computed(() => editStore.pages)
-const currentPageId = computed(() => editStore.currentPage.id)
+const currentPageName = computed(() => editStore.currentPage.name)
 const elements = computed(() => editStore.currentPage.elements)
 const isOverlay = computed(() => {
   return editStore.currentPage.elements?.some(item => {

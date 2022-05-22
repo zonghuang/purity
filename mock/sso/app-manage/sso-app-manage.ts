@@ -1,7 +1,6 @@
 export const config = {
-  id: "sso-app-manage",
-  name: "应用管理",
-  path: "/sso-app-manage",
+  name: "sso-app-manage",
+  title: "应用管理",
   elements: [
     {
       uuid: "1648821632532",

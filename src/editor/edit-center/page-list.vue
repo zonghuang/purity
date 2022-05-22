@@ -2,16 +2,16 @@
   <div class="page-list" @click="closeContextmenu">
     <li v-if="isShowAdd" @click="createPage">+</li>
     <li
-      :class="{ active: page.id === currentPageId }"
-      :key="page.id"
+      :class="{ active: page.name === currentPageName }"
+      :key="page.name"
       v-for="page in pageList"
-      @click="changePage(page.id)"
-      @contextmenu="showContextmenu($event, page.id)"
+      @click="changePage(page.name)"
+      @contextmenu="showContextmenu($event, page.name)"
     >
-      {{ page.name }}
-      <div v-if="contextmenu === page.id" class="context-menu">
-        <div class="context-menu-item" @click="copyPage(page.id)">复制页</div>
-        <div class="context-menu-item" @click="deletePage($event, page.id)">删除页</div>
+      {{ page.title }}
+      <div v-if="contextmenu === page.name" class="context-menu">
+        <div class="context-menu-item" @click="copyPage(page.name)">复制页</div>
+        <div class="context-menu-item" @click="deletePage($event, page.name)">删除页</div>
         <div class="context-menu-item" @click="sortPage">重新排序</div>
       </div>
     </li>
@@ -26,31 +26,31 @@ const editStore = useEditStore()
 
 const contextmenu = ref('')
 const isShowAdd = computed(() => !route.query.page)
-const currentPageId = computed(() => editStore.currentPage.id)
+const currentPageName = computed(() => editStore.currentPage.name)
 const pageList = computed(() =>
   editStore.pages.map(page => {
-    return { id: page.id, name: page.name }
+    return { name: page.name, title: page.title }
   })
 )
 
 const createPage = () => editStore.createPage()
-const copyPage = (pageId: string) => editStore.copyPage(pageId)
-const changePage = (pageId: string) => editStore.changePage(pageId)
-const deletePage = (ev: MouseEvent, pageId: string) => {
+const copyPage = (pageName: string) => editStore.copyPage(pageName)
+const changePage = (pageName: string) => editStore.changePage(pageName)
+const deletePage = (ev: MouseEvent, pageName: string) => {
   ev.preventDefault()
   ev.stopPropagation()
   if (editStore.pages.length === 1) {
     ElMessage({ type: 'warning', message: '只剩一页了，哥哥姐姐别删了！' })
     return
   }
-  editStore.deletePage(pageId)
+  editStore.deletePage(pageName)
 }
 const sortPage = () => ElMessage('此功能正在开发中...')
 
 const closeContextmenu = () => contextmenu.value = ''
-const showContextmenu = (ev: MouseEvent, pageId: string) => {
+const showContextmenu = (ev: MouseEvent, pageName: string) => {
   ev.preventDefault()
-  contextmenu.value = pageId
+  contextmenu.value = pageName
 }
 </script>
 

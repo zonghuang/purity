@@ -26,6 +26,11 @@ export default defineConfig(({ command, mode }) => {
         target: env.VITE_BASE_URL,
         changeOrigin: true,
       },
+
+      '/api': {
+        target: 'http://127.0.0.1:9000/',
+        changeOrigin: true,
+      },
     }
   }
 

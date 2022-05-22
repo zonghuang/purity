@@ -38,8 +38,8 @@
           <div class="form-item form-item--inline">
             <label class="form-item_label">用户操作<abbr title="required">*</abbr></label>
             <div class="form-item_content">
-              <el-select v-model="firstEv.userAction" placeholder="请选择操作" clearable>
-                <el-option v-for="item in userActionOptions" :key="item.value" :label="item.label" :value="item.value">
+              <el-select v-model="firstEv.event" placeholder="请选择操作" clearable>
+                <el-option v-for="item in eventOptions" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
               </el-select>
             </div>
@@ -154,7 +154,7 @@
 <script setup lang="ts">
 import { useEditStore } from '@/store/edit'
 import { IElement, IEvent, IEventOption } from '@/interface-type'
-import { userActionOptions } from '@/mock-data'
+import { eventOptions } from '@/mock-data'
 
 const editStore = useEditStore()
 const events = computed({
@@ -166,13 +166,13 @@ const currentIndex = ref(0)
 const showOtherEvent = ref(false)
 
 const addEvent = () => {
-  const event: IEvent = { userAction: 'click', event: '', option: {} as IEventOption, thenEvents: [] }
+  const event: IEvent = { event: 'click', action: '', option: {}, thenEvents: [] }
   if (editStore.currentComponent?.type === 'table') event.bindCode = ''
   events.value?.push(event)
 }
 
 const addThenEvent = (event: IEvent) => {
-  const thenEvent = { event: '', option: {} as IEventOption, thenEvents: [] }
+  const thenEvent = { action: '', option: {} as IEventOption, thenEvents: [] }
   event.thenEvents?.push(thenEvent)
 }
 

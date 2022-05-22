@@ -15,10 +15,10 @@
 </template>
 
 <script setup lang="ts">
-import { IStyle } from '@/interface-type'
+import { StyleValue } from 'vue'
 
 defineProps<{
-  style: IStyle
+  style: StyleValue
   propConfig: any
 }>()
 </script>

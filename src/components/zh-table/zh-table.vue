@@ -105,7 +105,7 @@ const handleClick = (item: any, row: any) => {
   const rowKey = row[primaryKey.value]
   if (!renderStore.cacheData[props.uuid]) renderStore.cacheData[props.uuid] = {}
   Object.assign(renderStore.cacheData[props.uuid], { currentRow, rowKey, primaryKey })
-  emit('action', { userAction: 'click', bindCode: item.code })
+  emit('action', { event: 'click', bindCode: item.code })
 }
 </script>
 

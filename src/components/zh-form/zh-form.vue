@@ -28,7 +28,7 @@ const formData = computed(() => {
   return data
 })
 
-onBeforeMount(() => emit('action', { userAction: 'mount' }))
+onBeforeMount(() => emit('action', { event: 'mount' }))
 onMounted(() => {
   if (!renderStore.cacheData[props.uuid]) renderStore.cacheData[props.uuid] = {}
   const originData = _.cloneDeep(formData.value)

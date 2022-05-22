@@ -218,22 +218,25 @@ export { componentsConfig }
 // 所有页数据
 export const pages: IPage[] = [
   {
-    id: 'p1',
-    name: '首页',
-    path: '',
+    system: '',
+    module: '',
+    name: 'p1',
+    title: '首页',
     elements: [],
     settings: {},
   },
   // {
-  //   id: 'p2',
-  //   name: '详情页',
+  //   system: '',
+  //   module: '',
+  //   name: 'p2',
+  //   title: '详情页',
   //   elements: [],
-  //   settings: {}
+  //   settings: {},
   // }
 ]
 
-// 用户操作行为
-export const userActionOptions = [
+// 事件选项
+export const eventOptions = [
   { label: '点击', value: 'click' },
   { label: '双击', value: 'dbclick' },
   { label: '触摸', value: 'touch' },
@@ -243,8 +246,8 @@ export const userActionOptions = [
   { label: '组件销毁', value: 'unmount' },
 ]
 
-// 事件选项
-export const eventOptions = [
+// action 选项
+export const actionOptions = [
   { label: '打开弹窗', value: 'openModal' },
   { label: '关闭弹窗', value: 'closeModal' },
   { label: '跳转链接', value: 'link' },

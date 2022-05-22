@@ -12,24 +12,24 @@
   <div class="form-item form-item--inline">
     <label class="form-item_label">触发事件<abbr title="required">*</abbr></label>
     <div class="form-item_content">
-      <el-select v-model="event.event" @change="changeEvent" placeholder="请选择事件" clearable>
-        <el-option v-for="item in eventOptions" :key="item.value" :label="item.label" :value="item.value">
+      <el-select v-model="event.action" @change="changeEvent" placeholder="请选择事件" clearable>
+        <el-option v-for="item in actionOptions" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
     </div>
   </div>
 
-  <div v-if="event.event === 'openModal' || event.event === 'closeModal'" class="form-item form-item--inline">
+  <div v-if="event.action === 'openModal' || event.action === 'closeModal'" class="form-item form-item--inline">
     <label class="form-item_label">模态框<abbr title="required">*</abbr></label>
     <div class="form-item_content">
-      <el-select v-model="event.option.modalId" placeholder="请选择模态框" clearable>
+      <el-select v-model="event.option.target" placeholder="请选择模态框" clearable>
         <el-option v-for="item in modalList" :key="item.uuid" :label="item.propConfig.label" :value="item.uuid">
         </el-option>
       </el-select>
     </div>
   </div>
 
-  <template v-if="event.event === 'link'">
+  <template v-if="event.action === 'link'">
     <div class="form-item form-item--inline">
       <label class="form-item_label">跳转链接<abbr title="required">*</abbr></label>
       <div class="form-item_content">
@@ -39,16 +39,16 @@
     <div class="form-item form-item--inline">
       <label class="form-item_label">跳转方式<abbr title="required">*</abbr></label>
       <div class="form-item_content">
-        <el-radio-group v-model="event.option.window">
+        <el-radio-group v-model="event.option.tab">
           <el-radio label="_self">当前页面加载</el-radio>
           <el-radio label="_blank">新窗口打开</el-radio>
         </el-radio-group>
       </div>
     </div>
-    <div v-if="event.option.window === '_self'" class="form-item form-item--inline">
+    <div v-if="event.option.tab === '_self'" class="form-item form-item--inline">
       <label class="form-item_label">传参方式</label>
       <div class="form-item_content">
-        <el-radio-group v-model="event.option.transferMode">
+        <el-radio-group v-model="event.option.mode">
           <el-radio label="query">query 传参方式</el-radio>
           <el-radio label="params">params 传参方式</el-radio>
         </el-radio-group>
@@ -57,11 +57,11 @@
     <!-- 携带路由参数 -->
   </template>
 
-  <template v-if="event.event === 'fetch'">
+  <template v-if="event.action === 'fetch'">
     <div class="form-item form-item--inline">
       <label class="form-item_label">请求接口<abbr title="required">*</abbr></label>
       <div class="form-item_content">
-        <el-input v-model="event.option.api" placeholder="请输入api" clearable />
+        <el-input v-model="event.option.url" placeholder="请输入api" clearable />
       </div>
     </div>
     <div class="form-item form-item--inline">
@@ -82,9 +82,9 @@
   </template>
 
   <!-- 携带路由参数/请求参数/源数据 -->
-  <div v-if="['link', 'fetch', 'set'].includes(event.event)" class="form-item">
+  <div v-if="['link', 'fetch', 'set'].includes(event.action)" class="form-item">
     <label class="form-item_label">
-      {{ event.event === 'link' ? '携带路由参数' : event.event === 'fetch' ? '请求参数' : '源数据' }}
+      {{ event.action === 'link' ? '携带路由参数' : event.action === 'fetch' ? '请求参数' : '源数据' }}
     </label>
     <div class="form-item_content">
       <div v-if="event.option.params?.length" class="list-head">
@@ -121,7 +121,7 @@
             <el-option v-for="item in sourceOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
-          <el-input v-model="one.deepProp" placeholder="对象属性" />
+          <el-input v-model="one.path" placeholder="对象属性" />
         </template>
 
         <span class="icon-box icon-box-delete" @click="deleteParam(i)">
@@ -156,8 +156,8 @@
   </div>
 
   <!-- 赋值方式 -->
-  <div v-if="event.event === 'set' || event.event === 'fetch'" class="form-item form-item--inline">
-    <label class="form-item_label">{{ event.event === 'fetch' ? '响应数据赋值' : '赋值方式' }}</label>
+  <div v-if="event.action === 'set' || event.action === 'fetch'" class="form-item form-item--inline">
+    <label class="form-item_label">{{ event.action === 'fetch' ? '响应数据赋值' : '赋值方式' }}</label>
     <div class="form-item_content">
       <el-select v-model="event.option.assign" placeholder="请选择赋值方式" clearable>
         <el-option v-for="item in assignOptions" :key="item.value" :label="item.label" :value="item.value">
@@ -168,11 +168,11 @@
 
   <!-- 赋值给组件/重置组件 -->
   <div class="form-item"
-    v-if="['fetch', 'set', 'reset'].includes(event.event) && 
-    !['cacheData', 'components'].includes(event.option.assign)"
+    v-if="['fetch', 'set', 'reset'].includes(event.action) &&
+    !['cacheData', 'components'].includes(event.option.assign!)"
   >
     <label class="form-item_label">
-      {{ event.event === 'fetch' ? '响应的数据赋值给哪个组件?' : event.event === 'reset' ? '重置组件' : '值赋值给哪个组件?' }}
+      {{ event.action === 'fetch' ? '响应的数据赋值给哪个组件?' : event.action === 'reset' ? '重置组件' : '值赋值给哪个组件?' }}
     </label>
     <div class="form-item_content">
       <el-select v-model="event.option.target" placeholder="请选择组件" clearable>
@@ -182,7 +182,7 @@
     </div>
   </div>
 
-  <div v-if="event.event === 'fetch' && ['cacheData', 'components'].includes(event.option.assign)" class="form-item">
+  <div v-if="event.action === 'fetch' && ['cacheData', 'components'].includes(event.option.assign!)" class="form-item">
     <div v-if="event.option.targets?.length" class="list-head">
       <label class="list-head_label">键</label>
       <label class="list-head_label">组件</label>
@@ -206,7 +206,7 @@
     </span>
   </div>
 
-  <div v-if="event.event === 'set' && event.option.assign === 'cacheData'" class="form-item form-item--inline">
+  <div v-if="event.action === 'set' && event.option.assign === 'cacheData'" class="form-item form-item--inline">
     <label class="form-item_label">缓存key</label>
     <div class="form-item_content">
       <el-input v-model="event.option.target" placeholder="请输入键" />
@@ -217,7 +217,7 @@
 <script setup lang="ts">
 import { useEditStore } from '@/store/edit'
 import { IElement, IEvent, IOptions, IEventOption } from '@/interface-type'
-import { eventOptions, methodOptions, assignOptions, validComponents } from '@/mock-data'
+import { actionOptions, methodOptions, assignOptions, validComponents } from '@/mock-data'
 
 const editStore = useEditStore()
 const props = defineProps<{
@@ -278,18 +278,18 @@ const deleteParam = (index: number) => event.value.option.params?.splice(index, 
 
 const changeEvent = () => {
   let option: IEventOption = {}
-  switch (event.value.event) {
+  switch (event.value.action) {
     case 'openModal':
     case 'closeModal':
-      option = { modalId: '' }
+      option = { target: '' }
       break;
 
     case 'link':
-      option = { url: '', window: '', transferMode: '', params: [] }
+      option = { url: '', tab: '', mode: '', params: [] }
       break;
 
     case 'fetch':
-      option = { api: '', method: '', loading: false, params: [], assign: '', target: '', targets: [{ source: '', target: '' }] }
+      option = { url: '', method: '', loading: false, params: [], assign: '', target: '', targets: [] }
       break;
 
     case 'set':
@@ -307,7 +307,7 @@ const changeEvent = () => {
   event.value.option = option
 }
 
-const addTarget = () => event.value.option.targets?.push({ source: '', target: '' })
+const addTarget = () => event.value.option.targets?.push({ target: '', source: '' })
 const deleteTarget = (index: number) => event.value.option.targets?.splice(index, 1)
 </script>
 

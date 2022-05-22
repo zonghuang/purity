@@ -49,8 +49,8 @@ function handleUpdate(value: any, element: IElement) {
 }
 
 function handleAction(ev: IAction, element: IElement) {
-  console.log('action: ', ev.userAction, toRaw(element))
-  const events = element.events.filter(item => item.userAction === ev.userAction)
+  console.log('action: ', ev.event, toRaw(element))
+  const events = element.events.filter(item => item.event === ev.event)
   if (ev.bindCode) {
     const bindCodeEvents = events.filter(item => item.bindCode === ev.bindCode)
     bindCodeEvents && handleEvents(bindCodeEvents)
@@ -61,25 +61,25 @@ function handleAction(ev: IAction, element: IElement) {
 
 const handleEvents = (events: IEvent[]) => {
   events.forEach(async item => {
-    const { event, option, thenEvents } = item
-    const { modalId, url, window: linkWindow, transferMode, params, api, method, loading, assign, target, targets } = option
-    switch (event) {
+    const { action, option, thenEvents } = item
+    const { url, tab, mode, params, method, loading, assign, target, targets } = option
+    switch (action) {
       case 'openModal':
-        renderStore.openModal(modalId!)
+        renderStore.openModal(target!)
         if (thenEvents?.length) handleEvents(thenEvents)
         break;
 
       case 'closeModal':
-        renderStore.closeModal(modalId!)
+        renderStore.closeModal(target!)
         if (thenEvents?.length) handleEvents(thenEvents)
         break;
 
       case 'link':
         const routeParams = getValue(toRaw(params))
-        console.log('正在跳转链接: ', url, '打开方式: ', linkWindow, '携带路由参数', routeParams)
+        console.log('正在跳转链接: ', url, '打开方式: ', tab, '携带路由参数', routeParams)
         if (url!.charAt(0) === '/') {
-          if (linkWindow === '_self') {
-            if (transferMode === 'params') {
+          if (tab === '_self') {
+            if (mode === 'params') {
               const chips = url!.split('/')
               const smp = { system: chips[2], module: chips[3], page: chips[4] }
               Object.assign(routeParams, smp)
@@ -89,11 +89,11 @@ const handleEvents = (events: IEvent[]) => {
             }
           } else {
             const fullUrl = joinRouteParams(window.location.host + url, routeParams)
-            window.open(fullUrl, linkWindow)
+            window.open(fullUrl, tab)
           }
         } else {
           const fullUrl = joinRouteParams(url, routeParams)
-          window.open(fullUrl, linkWindow)
+          window.open(fullUrl, tab)
         }
 
         if (thenEvents?.length) handleEvents(thenEvents)
@@ -125,9 +125,9 @@ const handleEvents = (events: IEvent[]) => {
         }
         // 临时 end
 
-        console.log('正在请求数据, 访问 api: ', api, '请求方式: ', method, '请求参数: ', payload)
+        console.log('正在请求数据, 访问 api: ', url, '请求方式: ', method, '请求参数: ', payload)
         console.time('fetch')
-        const responseData = await renderStore.getData(api!, method!, payload, loading)
+        const responseData = await renderStore.getData(url!, method!, payload, loading)
         console.log('正在请求数据完成了，花费时间：')
         console.timeEnd('fetch')
         console.log('响应数据', responseData)
@@ -193,10 +193,10 @@ const joinRouteParams = (url: string = '', params: any[]) => {
   return urlObj.href
 }
 
-const getValue = (params: { type: string; key: string; value: string; deepProp?: string }[] = []) => {
+const getValue = (params: { type: string; key: string; value: string; path?: string }[] = []) => {
   let result: any = {}
   params.forEach(item => {
-    const { type, key, value, deepProp } = item
+    const { type, key, value, path } = item
     switch (type) {
       case 'input':
         result[key] = value
@@ -212,7 +212,7 @@ const getValue = (params: { type: string; key: string; value: string; deepProp?:
 
       case 'inputSelectInput':
          const obj = getRealvalue(value)
-        result[key] = obj[deepProp!]
+        result[key] = obj[path!]
         break;
 
       default:
