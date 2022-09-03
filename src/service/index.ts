@@ -1,34 +1,38 @@
-import zhRequest from './request'
-import { IDataType } from './request/types'
+import { zhRequest } from './instance'
+import type { RequestConfig, ResponseData } from './types'
 
-export function getData(url: string, params: any, showLoading?: boolean) {
-  return zhRequest.get({
-    url,
-    params,
-    showLoading
-  })
+export { defaultConfig } from './config'
+
+export function getData(config: RequestConfig) {
+  const { payload, ...restArgs } = config
+  return zhRequest.get<ResponseData>({ ...restArgs, params: payload })
 }
 
-export function postData(url: string, data: any, showLoading?: boolean) {
-  return zhRequest.post<IDataType>({
-    url,
-    data,
-    showLoading
-  })
+export function headData(config: RequestConfig) {
+  const { payload, ...restArgs } = config
+  return zhRequest.head<ResponseData>({ ...restArgs, params: payload })
 }
 
-export function deleteData(url: string, data: any, showLoading?: boolean) {
-  return zhRequest.delete<IDataType>({
-    url,
-    data,
-    showLoading
-  })
+export function postData(config: RequestConfig) {
+  const { payload, ...restArgs } = config
+  return zhRequest.post<ResponseData>({ ...restArgs, data: payload })
 }
 
-export function patchData(url: string, data: any, showLoading?: boolean) {
-  return zhRequest.patch<IDataType>({
-    url,
-    data,
-    showLoading
-  })
+export function deleteData(config: RequestConfig) {
+  const { payload, ...restArgs } = config
+  return zhRequest.delete<ResponseData>({ ...restArgs, data: payload })
+}
+
+export function putData(config: RequestConfig) {
+  const { payload, ...restArgs } = config
+  return zhRequest.put<ResponseData>({ ...restArgs, data: payload })
+}
+
+export function patchData(config: RequestConfig) {
+  const { payload, ...restArgs } = config
+  return zhRequest.patch<ResponseData>({ ...restArgs, data: payload })
+}
+
+export function cancelAllRequest() {
+  return zhRequest.cancelAllRequest()
 }

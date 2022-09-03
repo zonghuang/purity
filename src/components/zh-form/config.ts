@@ -3,7 +3,7 @@ export default {
   name: 'zh-form',
   type: 'form',
   style: { height: '100px' },
-  events: [],
+  actions: [],
   modelValue: {},
   propConfig: {
     label: '表单',

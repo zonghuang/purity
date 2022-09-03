@@ -3,7 +3,7 @@ export default {
   name: 'zh-input',
   type: 'input',
   style: {},
-  events: [],
+  actions: [],
   modelValue: '',
   propConfig: {
     label: '输入框',

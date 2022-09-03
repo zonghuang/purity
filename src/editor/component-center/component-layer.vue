@@ -16,8 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { IElement } from '@/interface-type'
-import { useEditStore } from '@/store/edit'
+import { useEditStore } from '@/store/editor'
 
 const editStore = useEditStore()
 
@@ -40,9 +39,3 @@ const clickNode = (node: IElement) => {
 
 const dragend = () => editStore.recordSnapshot()
 </script>
-
-<style scoped>
-.el-tree {
-  padding: 10px 0;
-}
-</style>

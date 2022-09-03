@@ -3,7 +3,7 @@ export default {
   name: 'zh-date-picker',
   type: 'datepicker',
   style: {},
-  events: [],
+  actions: [],
   modelValue: '',
   propConfig: {
     label: '日期选择器',

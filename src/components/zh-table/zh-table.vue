@@ -10,7 +10,7 @@
       @selection-change="selectionChange"
     >
       <el-table-column v-if="showSelection" type="selection" width="55" :fixed="selectionColumnFixed" />
-      <el-table-column 
+      <el-table-column
         v-for="item in columns"
         :prop="item.field"
         :label="item.label"
@@ -31,7 +31,7 @@
         <template v-if="operations.length > 3" #default="scope">
           <el-button
             v-for="item in operations.slice(0, 2)"
-            type="text"
+            type="primary"
             size="small"
             @click="handleClick(item, scope.row)"
           >
@@ -39,7 +39,7 @@
           </el-button>
           <el-dropdown class="more-button" size="small">
             <span class="el-dropdown-link">
-              <el-button type="text" size="small">更多</el-button>
+              <el-button type="primary" size="small">更多</el-button>
               <el-icon class="el-icon--right"><arrow-down /></el-icon>
             </span>
             <template #dropdown>
@@ -56,7 +56,7 @@
         <template v-else #default="scope">
           <el-button
             v-for="item in operations"
-            type="text"
+            type="primary"
             size="small"
             @click="handleClick(item, scope.row)"
             >{{item.name}}

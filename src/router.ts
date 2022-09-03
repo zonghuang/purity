@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [
     path: '/admin',
     name: 'admin',
     component: () => import('./admin/Admin.vue')
-    // component: () => import('./admin/AdminTest.vue')
+    // component: () => import('./admin/temp.vue')
   },
   {
     path: '/editor',
@@ -26,7 +26,7 @@ const routes: RouteRecordRaw[] = [
     path: '/render/:system/:module/:page',
     name: 'render',
     component: () => import('./render/Render.vue')
-  },
+  }
 ]
 
 const router = createRouter({

@@ -1,6 +1,5 @@
 import type { App } from 'vue'
 import * as icons from '@element-plus/icons-vue'
-import { IComponentConfig } from '../interface-type'
 
 const mode = import.meta.env.MODE
 
@@ -20,9 +19,11 @@ const elementPlustIcons = {
 const allComponents = {
   version: 'v1',
   install: (app: App) => {
-    const modules = import.meta.globEager('./**/*.vue')
+    const modules = import.meta.glob('./**/*.vue')
     for (const path in modules) {
-      app.component(path.split('/')[1], modules[path].default)
+      modules[path]().then((mod: any) => {
+        app.component(path.split('/')[1], mod.default)
+      })
     }
   }
 }
@@ -30,29 +31,35 @@ const allComponents = {
 // 按需导入组件
 const demandComponents = {
   version: 'v1',
-  install: (app: App) => {
+  install: async (app: App) => {
     // 遍历传入需要的组件，打包
-    // const modules = import.meta.globEager('./**/zh-button.vue')
+    // const demands = await useRequest({ url: '' })
+    // demands.data.forEach(async (file: any) => {
+    //   const module = await import(`./**/${file}.vue`)
+    //   // app.component()
+    // })
 
     // 现在先全量打包，这是临时的
-    const modules = import.meta.globEager('./**/*.vue')
+    const modules = import.meta.glob('./**/*.vue')
     for (const path in modules) {
-      app.component(path.split('/')[1], modules[path].default)
+      modules[path]().then((mod: any) => {
+        app.component(path.split('/')[1], mod.default)
+      })
     }
   }
 }
 
 // 所有组件的默认配置数据 (build 库的时候不用打包组件配置)
-const componentsConfig: IComponentConfig = {}
+const componentsConfig: { [key: string]: IElement } = {}
 if (mode !== 'lib') {
   const allConfig = import.meta.glob('./**/*.ts')
   for (const path in allConfig) {
-    allConfig[path]().then(mod => {
+    allConfig[path]().then((mod: any) => {
       componentsConfig[path.split('/')[1]] = mod.default
     })
   }
 }
 
-const components = import.meta.env.MODE === 'development' ? allComponents : demandComponents
+const PurityComponents = mode === 'development' ? allComponents : demandComponents
 
-export { elementPlustIcons, components, componentsConfig }
+export { elementPlustIcons, PurityComponents, componentsConfig }

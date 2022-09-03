@@ -5,9 +5,10 @@
 </template>
 
 <script setup lang="ts">
-
 </script>
 
 <style scoped>
-.animation-config {}
+.animation-config {
+  padding: 16px;
+}
 </style>

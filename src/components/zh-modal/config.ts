@@ -3,7 +3,7 @@ export default {
   name: 'zh-modal',
   type: 'modal',
   style: {},
-  events: [],
+  actions: [],
   modelValue: '',
   propConfig: {
     label: '模态框',
@@ -19,7 +19,7 @@ export default {
       name: 'zh-container',
       type: 'container',
       style: { minHeight: '100px', overflowY: 'scroll' },
-      events: [],
+      actions: [],
       modelValue: '',
       propConfig: {},
       animations: [],
@@ -36,7 +36,7 @@ export default {
         columnGap: '12px',
         height: '44px'
       },
-      events: [],
+      actions: [],
       modelValue: '',
       propConfig: {},
       animations: [],
@@ -46,7 +46,7 @@ export default {
           name: 'zh-button',
           type: 'button',
           style: { display: 'inline-block' },
-          events: [],
+          actions: [],
           modelValue: '',
           propConfig: { label: '取 消' },
           animations: []
@@ -56,7 +56,7 @@ export default {
           name: 'zh-button',
           type: 'button',
           style: { display: 'inline-block' },
-          events: [],
+          actions: [],
           modelValue: '',
           propConfig: { type: 'primary', label: '确 认' },
           animations: []

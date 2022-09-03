@@ -2,15 +2,21 @@
   <div class="top-toolbar">
     <ul class="platform">
       <el-tooltip content="Mac" placement="bottom-end">
-        <li><zh-svg name="mac" :isActive="true" /></li>
+        <li>
+          <zh-svg name="Mac" :isActive="true" />
+        </li>
       </el-tooltip>
-      
+
       <el-tooltip content="iPad" placement="bottom-end">
-        <li @click="changePlatform"><zh-svg name="ipad" /></li>
+        <li @click="changePlatform">
+          <zh-svg name="iPad" />
+        </li>
       </el-tooltip>
-      
+
       <el-tooltip content="iPhone" placement="bottom-end">
-        <li @click="changePlatform"><zh-svg name="iphone" /></li>
+        <li @click="changePlatform">
+          <zh-svg name="iPhone" />
+        </li>
       </el-tooltip>
     </ul>
 
@@ -19,38 +25,52 @@
         <li v-if="editStore.snapshot.index === 0" class="disabled">
           <zh-svg name="undo" :color="'#aaa'" />
         </li>
-        <li v-else @click="undo"><zh-svg name="undo" /></li>   
+        <li v-else @click="undo">
+          <zh-svg name="undo" />
+        </li>
       </el-tooltip>
       <el-tooltip content="重做" placement="bottom-end">
         <li v-if="editStore.snapshot.index === editStore.snapshot.list?.length - 1" class="disabled">
           <zh-svg name="redo" :color="'#aaa'" />
         </li>
-        <li v-else @click="redo"><zh-svg name="redo" /></li>
+        <li v-else @click="redo">
+          <zh-svg name="redo" />
+        </li>
       </el-tooltip>
       <el-tooltip content="保存" placement="bottom-end">
-        <li @click="save"><zh-svg name="save" /></li>
+        <li @click="save">
+          <zh-svg name="save" />
+        </li>
       </el-tooltip>
       <el-tooltip content="上传" placement="bottom-end">
-        <li @click="unload"><zh-svg name="upload" /></li>
+        <li @click="unload">
+          <zh-svg name="upload" />
+        </li>
       </el-tooltip>
       <el-tooltip content="下载" placement="bottom-end">
-        <li @click="download"><zh-svg name="download" /></li>
-      </el-tooltip>    
+        <li @click="download">
+          <zh-svg name="download" />
+        </li>
+      </el-tooltip>
     </ul>
 
     <ul class="publish">
       <el-tooltip content="预览" placement="bottom-end">
-        <li @click="preview"><zh-svg name="preview" /></li>
+        <li @click="preview">
+          <zh-svg name="preview" />
+        </li>
       </el-tooltip>
       <el-tooltip content="发布" placement="bottom-end">
-        <li @click="publish"><zh-svg name="publish" /></li>
+        <li @click="publish">
+          <zh-svg name="publish" />
+        </li>
       </el-tooltip>
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useEditStore } from '@/store/edit'
+import { useEditStore } from '@/store/editor'
 
 const editStore = useEditStore()
 const router = useRouter()
@@ -65,7 +85,7 @@ const download = () => {
   ElMessage('此功能正在开发中...')
 }
 
-const save = () => { 
+const save = () => {
   editStore.save()
   ElMessage({ type: 'success', message: '保存成功' })
 }
@@ -86,7 +106,7 @@ const publish = () => {
 .top-toolbar {
   display: flex;
   align-items: center;
-  height: 44px;
+  height: 43px;
   border-bottom: 1px solid #eee;
 
   .platform {

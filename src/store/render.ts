@@ -1,41 +1,32 @@
-import { IElement, IPage, ITarget } from "@/interface-type";
-import { pages } from '@/mock-data'
-import { getData, postData, deleteData, patchData } from "@/service";
-import { getPages } from '../../mock'
-import { useEditStore } from "./edit";
-import { formatData } from '@/utils/format-data'
+import { useLinkto, usePayload, useRequest } from '@/hooks'
+import { useEditStore } from './editor'
 
-export const useRenderStore = defineStore({
-  id: 'render',
-  state: () => ({
-    pages,
-    currentPage: {} as IPage,
-    cacheData: {} as any
+async function getPageConfig(params: any) {
+  return {} as IPage
+}
+
+export const useRenderStore = defineStore('render', {
+  state: (): IRenderState => ({
+    page: {} as IPage,
+    cacheData: {}
   }),
-  getters: {
 
-  },
+  getters: {},
+
   actions: {
-    async fetchConfig(params: any) {
-      // 临时的，测试打包库 Start
-      if (import.meta.env.MODE === 'lib') {
-        params = { system: 'sso', module: 'app-manage', page: 'sso-app-manage' }
-      }
-      // 临时的，测试打包库 End
-
+    // 请求页面配置
+    async fetchConfig(params: IObject) {
       if (params.page) {
-        const pages = await getPages(params)
-        this.$patch({ pages: pages, currentPage: pages[0] })
+        this.page = await getPageConfig(params)
       } else {
         const editStore = useEditStore()
-        const pages = editStore.pages
-        this.$patch({ pages: pages, currentPage: pages[0] })
+        this.$patch({ page: editStore.pages[0] })
       }
     },
 
     // 打开模态框
     openModal(targetId: string) {
-      this.currentPage.elements.some(item => {
+      this.page.elements.some((item) => {
         if (item.uuid === targetId) {
           item.propConfig.visible = true
           return true
@@ -45,7 +36,7 @@ export const useRenderStore = defineStore({
 
     // 关闭模态框
     closeModal(targetId: string) {
-      this.currentPage.elements.some(item => {
+      this.page.elements.some((item) => {
         if (item.uuid === targetId) {
           item.propConfig.visible = false
           return true
@@ -53,32 +44,114 @@ export const useRenderStore = defineStore({
       })
     },
 
-    // 查找目标组件的索引、配置、父组件
-    findComponent(elements: IElement[], targetId: string = '', target?: ITarget) {
+    // 设置值
+    setValue(data: any, option: ISetValue) {
+      const { type, targetId, targets } = option
+      if (type === 'modelValue') {
+        const component = this.findComponent(targetId!, this.page.elements)
+        if (component) this.updateValue(data, component)
+      } else if (type === 'options') {
+        const component = this.findComponent(targetId!, this.page.elements)
+        if (component) component.propConfig.options = data
+      } else if (type === 'components') {
+        targets?.forEach((one) => {
+          const component = this.findComponent(one.targetId, this.page.elements)
+          if (component) this.updateValue((data as IObject)[one.sourceKey], component)
+        })
+      } else if (type === 'store') {
+        this.cacheData[targetId!] = data
+      }
+    },
+
+    // 更新值
+    updateValue(newValue: any, component: IElement) {
+      console.log('update', newValue, toRaw(component))
+      component.modelValue = newValue
+    },
+
+    // 查找目标组件
+    findComponent(targetId: string, elements: IElement[], target?: IElement) {
       for (let i = 0; i < elements.length; i++) {
         if (target) break
-        if (elements[i].uuid === targetId) 
-          return { index: i, config: elements[i], parent: elements }
-        if (!target && elements[i].childrens) 
-          target = this.findComponent(elements[i].childrens!, targetId, target)
+        if (elements[i].uuid === targetId) return elements[i]
+        if (!target && elements[i].childrens)
+          target = this.findComponent(targetId, elements[i].childrens!, target)
       }
       return target
     },
 
     // 请求数据
-    async getData(url: string, method: string, payload: any, showLoading?: boolean) {
-      const data = method === 'GET' ? await getData(url, payload, showLoading)
-                 : method === 'POST' ? await postData(url, payload, showLoading)
-                 : method === 'DELETE' ? await deleteData(url, payload, showLoading)
-                 : method === 'PATCH' ? await patchData(url, payload, showLoading)
-                 : null
-      // return data
-      
-      // 兼容旧数据，进行数据清洗
-      return formatData(data, url, payload)
-    }
+    async request(requestConfig: IRequest) {
+      return useRequest(requestConfig)
+    },
 
-  },
+    // 处理事件
+    handleActions(actions: IAction[]) {
+      actions.forEach(async (item) => {
+        const { action, option, thenActions } = item
+        switch (action) {
+          case 'openModal': {
+            const { targetId } = option
+            console.log('targetId', targetId)
+            this.openModal(targetId!)
+            break
+          }
+
+          case 'closeModal': {
+            const { targetId } = option
+            this.closeModal(targetId!)
+            break
+          }
+
+          case 'linkto': {
+            const { url, tab, mode, name, payloads } = option
+            useLinkto({ url, tab, mode, name, payloads })
+            break
+          }
+
+          case 'request': {
+            const { failedActions, successfulActions } = option.customConfig!
+            const data = await useRequest(option)
+
+            if (data.fault && failedActions?.length) {
+              this.handleActions(failedActions)
+              break
+            }
+
+            // 将响应数据赋值
+            this.setValue(data, option)
+
+            if (successfulActions?.length) {
+              this.handleActions(successfulActions)
+            }
+            break
+          }
+
+          case 'setValue': {
+            const { payloads } = option
+            const data = usePayload(payloads)
+            this.setValue(data, option)
+            break
+          }
+
+          case 'resetValue': {
+            const { targetId } = option
+            const component = this.findComponent(targetId!, this.page.elements)
+            const originValue = toRaw(this.cacheData[targetId!]?.originData)
+            if (component) this.updateValue(originValue, component)
+            break
+          }
+
+          default:
+            break
+        }
+
+        if (thenActions?.length) {
+          this.handleActions(thenActions)
+        }
+      })
+    },
+  }
 
   // 开启数据缓存
   // persist: {

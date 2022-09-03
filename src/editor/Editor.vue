@@ -1,7 +1,12 @@
 <template>
-  <div class="editor" v-for="page in pages" :key="page.name" v-show="page.name === currentPageName">
-    <aside class="lib-layer">
-      <el-tabs v-model="activeLib" @tab-click="handleClick">
+  <div
+    class="editor"
+    :key="page.page"
+    v-for="page in pages"
+    v-show="page.page === currentPageName"
+  >
+    <aside class="component-center">
+      <el-tabs v-model="activeLib">
         <el-tab-pane label="组件" name="lib">
           <component-lib></component-lib>
         </el-tab-pane>
@@ -16,7 +21,7 @@
       <div class="edit-area">
         <modal-list></modal-list>
         <div class="canvas-container" :class="{ 'overlay': isOverlay }">
-          <editor-template v-if="elements" :elements="elements"></editor-template>
+          <editor-template :elements="elements"></editor-template>
         </div>
         <aside-toolbar></aside-toolbar>
       </div>
@@ -24,7 +29,7 @@
     </main>
 
     <aside class="config-center">
-      <el-tabs v-model="activeConfig" @tab-click="handleClick">
+      <el-tabs v-model="activeConfig">
         <el-tab-pane label="属性" name="prop">
           <prop-config></prop-config>
         </el-tab-pane>
@@ -47,34 +52,40 @@
 
 
 <script setup lang="ts">
-import { useEditStore } from '@/store/edit'
+import { useEditStore } from '@/store/editor'
+
+const activeLib = ref('lib')
+const activeConfig = ref('prop')
 
 const route = useRoute()
 const editStore = useEditStore()
 editStore.fetchConfig(route.query)
-const activeLib = ref('lib')
-const activeConfig = ref('prop')
 const pages = computed(() => editStore.pages)
-const currentPageName = computed(() => editStore.currentPage.name)
 const elements = computed(() => editStore.currentPage.elements)
-const isOverlay = computed(() => {
-  return editStore.currentPage.elements?.some(item => {
-    if (item.type === 'modal' && item.propConfig.visible) return true
-  })
-})
+const currentPageName = computed(() => editStore.currentPage.page)
 
-const handleClick = (pane: any) => {
-  // console.log(pane)
-}
+const isOverlay = computed(() =>
+  editStore.currentPage.elements?.some(item => {
+    return item.type === 'modal' && item.propConfig.visible
+  })
+)
 </script>
 
-
 <style scoped lang="less">
+// 蒙层
+.overlay {
+  background-color: rgba(33, 33, 33, .46);
+}
+
 .editor {
   display: flex;
   height: 100vh;
 
-  .lib-layer {
+  :deep(.pointer-none)>* {
+    pointer-events: none;
+  }
+
+  .component-center {
     width: 280px;
 
     &::-webkit-scrollbar {
@@ -92,8 +103,8 @@ const handleClick = (pane: any) => {
     .edit-area {
       flex: 1;
       display: flex;
-      padding: 20px 10px;
-      height: calc(100% - 152px);
+      background: #f5f5f5;
+      // height: calc(100% - 152px);
     }
   }
 
@@ -109,10 +120,16 @@ const handleClick = (pane: any) => {
 .canvas-container {
   position: relative;
   flex: 1;
-  margin: 0 8px;
+  margin: 16px;
   width: 600px; // 解决编辑时表格宽度溢出问题（真实宽度不止 600px，这里相当于限制了画布的最小宽度为 600px）
   overflow: scroll;
-  
+  // border-left: 1px solid #eee;
+  // border-right: 1px solid #eee;
+  border: 1px solid #eee;
+  background: #fff;
+  box-sizing: border-box;
+
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -120,25 +137,34 @@ const handleClick = (pane: any) => {
 
 :deep(.el-tabs__header) {
   margin: 0;
-  border-bottom: 1px solid #eee;
-}
-
-:deep(.el-collapse) {
-  border-top: none
 }
 
 :deep(.el-tabs__nav) {
   display: flex;
   width: 100%;
-  height: 45px;
+  height: 43px;
 }
+
 :deep(.el-tabs__item) {
   padding: 0;
   flex: 1;
   text-align: center;
   color: rgba(0, 0, 0, .6);
 }
-:deep(.el-tabs__nav-wrap::after) {
-  content: none;
+
+:deep(.el-collapse-item__header) {
+  padding-left: 10px;
+}
+
+:deep(.el-collapse-item__content) {
+  padding-bottom: 16px;
+}
+
+:deep(.el-tabs__nav-wrap) {
+  border-bottom: 1px solid #eee;
+
+  &::after {
+    content: none;
+  }
 }
 </style>

@@ -3,7 +3,7 @@ export default {
   name: 'zh-button',
   type: 'button',
   style: { display: 'inline-block' },
-  events: [],
+  actions: [],
   modelValue: '',
   propConfig: {
     label: '按钮'

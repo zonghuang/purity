@@ -1,0 +1,9 @@
+/* Global Styles */
+body {
+  font-size: 14px;
+}
+
+.component-layer {
+  height: calc(100vh - 44px);
+  overflow-y: scroll;
+}

@@ -1,12 +1,11 @@
 <template>
-  <div class="zh-form">
+  <div class="zh-form" @click="handleClick">
     <slot></slot>
   </div>
 </template>
 
 <script setup lang="ts">
-import _ from 'lodash-es'
-import { IElement } from '@/interface-type'
+import { cloneDeep } from 'lodash-es'
 import { useRenderStore } from '@/store/render'
 import { validComponents } from '@/mock-data'
 
@@ -31,10 +30,12 @@ const formData = computed(() => {
 onBeforeMount(() => emit('action', { event: 'mount' }))
 onMounted(() => {
   if (!renderStore.cacheData[props.uuid]) renderStore.cacheData[props.uuid] = {}
-  const originData = _.cloneDeep(formData.value)
+  const originData = cloneDeep(formData.value)
   Object.assign(renderStore.cacheData[props.uuid], { originData })
 })
 
 
 watch(formData, () => emit('update:modelValue', formData.value))
+
+const handleClick = () => emit('action', { event: 'click' })
 </script>

@@ -3,7 +3,7 @@ export default {
   name: 'zh-picture',
   type: 'picture',
   style: {},
-  events: [],
+  actions: [],
   modelValue: '',
   propConfig: {
     label: '输入框',

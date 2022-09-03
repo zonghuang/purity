@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { UploadProps, UploadUserFile } from 'element-plus'
-import localCache from '@/utils/cache'
+import { localCache } from '@/utils'
 
 const props = defineProps<{
   modelValue: any
@@ -86,13 +86,16 @@ const handleRemove = () => {
 .form-item_label {
   width: v-bind(labelWidth);
 }
+
 :deep(.el-upload-list__item) {
   width: 36px;
   height: 36px;
+
   .el-upload-list__item-thumbnail {
     object-fit: cover;
   }
 }
+
 :deep(.el-upload--picture-card) {
   width: 36px;
   height: 36px;

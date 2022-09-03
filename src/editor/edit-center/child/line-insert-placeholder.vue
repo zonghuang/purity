@@ -1,6 +1,6 @@
 <template>
   <div class="line-insert-placeholder" :style="style">
-    <div v-if="propConfig.direction === 'horizontal'" class="horizontal">
+    <div v-if="direction === 'horizontal'" class="horizontal">
       <div class="triangle-left"></div>
       <div class="horizontal-line"></div>
       <div class="triangle-right"></div>
@@ -19,15 +19,15 @@ import { StyleValue } from 'vue'
 
 defineProps<{
   style: StyleValue
-  propConfig: any
+  direction: string
 }>()
 </script>
 
 <style scoped>
 .line-insert-placeholder {
   display: inline-block;
-  position: absolute;
-  z-index: 100;
+  /* position: absolute;
+  z-index: 100; */
 }
 
 .horizontal,
@@ -49,12 +49,12 @@ defineProps<{
 
 .horizontal-line {
   width: 100%;
-  height: 1px;
+  height: 2px;
   background: rgb(8, 190, 245);
 }
 
 .vertical-line {
-  width: 1px;
+  width: 2px;
   height: 100%;
   background: rgb(8, 190, 245);
 }

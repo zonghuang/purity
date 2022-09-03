@@ -1,31 +1,45 @@
 <template>
-  <ul class="aside-toolbar">
+  <div class="aside-toolbar">
     <el-tooltip content="粘贴" placement="right">
-      <li @click="pasteComponent"><zh-svg name="paste" /></li>
+      <li @click="pasteComponent">
+        <zh-svg name="paste" />
+      </li>
     </el-tooltip>
     <el-tooltip content="复制" placement="right">
-      <li @click="copyComponent"><zh-svg name="copy" /></li>
+      <li @click="copyComponent">
+        <zh-svg name="copy" />
+      </li>
     </el-tooltip>
     <el-tooltip content="剪切" placement="right">
-      <li cutComponent @click="cutComponent"><zh-svg name="cut" /></li>
+      <li cutComponent @click="cutComponent">
+        <zh-svg name="cut" />
+      </li>
     </el-tooltip>
     <el-tooltip content="删除" placement="right">
-      <li @click="deleteComponent"><zh-svg name="delete" /></li>
+      <li @click="deleteComponent">
+        <zh-svg name="delete" />
+      </li>
     </el-tooltip>
-    <el-tooltip content="组合" placement="right">
-      <li @click="composeComponent"><zh-svg name="compose" /></li>
+    <!-- <el-tooltip content="锁定" placement="right">
+      <li @click="composeComponent">
+        <zh-svg name="lock" />
+      </li>
     </el-tooltip>
-    <el-tooltip content="拆分" placement="right">
-      <li @click="decomposeComponent"><zh-svg name="decompose" /></li>
-    </el-tooltip>
+    <el-tooltip content="解锁" placement="right">
+      <li @click="decomposeComponent">
+        <zh-svg name="unlock" />
+      </li>
+    </el-tooltip> -->
     <el-tooltip content="收藏" placement="right">
-      <li @click="collectionComponent"><zh-svg name="collection" /></li>
+      <li @click="collectionComponent">
+        <zh-svg name="favorite" />
+      </li>
     </el-tooltip>
-  </ul>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { useEditStore } from "@/store/edit"
+import { useEditStore } from "@/store/editor"
 
 const editStore = useEditStore()
 
@@ -106,9 +120,14 @@ const collectionComponent = () => {
 .aside-toolbar {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  gap: 24px;
+  padding: 8px;
+  background: #fff;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  padding: 2px;
 }
 </style>

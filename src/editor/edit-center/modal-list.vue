@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-list">
+  <div class="modal-list" v-if="modalList.length">
     <div class="modal-preview" :key="item.uuid" v-for="item in modalList" @click="handleClick(item)">
       <div class="image"></div>
       <span class="title">{{ item.propConfig.label }}</span>
@@ -8,8 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { IElement } from '@/interface-type'
-import { useEditStore } from '@/store/edit'
+import { useEditStore } from '@/store/editor'
 
 const editStore = useEditStore()
 const modalList = computed(() => {
@@ -27,6 +26,8 @@ const handleClick = (item: IElement) => {
 <style scoped lang="less">
 .modal-list {
   width: 100px;
+  padding: 12px;
+  background: #fff;
 }
 
 .modal-preview {
@@ -43,9 +44,10 @@ const handleClick = (item: IElement) => {
 
   .image {
     width: 100px;
-    height: 65px;
+    height: 62px;
     border-radius: 4px;
     border: 1px solid #eee;
+    box-sizing: border-box;
 
     &:hover {
       border: 1px solid #409eff;

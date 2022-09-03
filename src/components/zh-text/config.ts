@@ -3,7 +3,7 @@ export default {
   name: 'zh-text',
   type: 'text',
   style: { 'min-height': '32px', display: 'flex', 'align-items': 'center' },
-  events: [],
+  actions: [],
   modelValue: '标题/段落',
   propConfig: {
     label: '标题/段落'

@@ -3,7 +3,7 @@ export default {
   name: 'zh-select',
   type: 'select',
   style: {},
-  events: [],
+  actions: [],
   modelValue: '',
   propConfig: {
     label: '下拉选择',

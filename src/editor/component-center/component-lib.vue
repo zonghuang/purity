@@ -8,13 +8,13 @@
         :name="category.name"
       >
         <div class="component-group" v-for="(item, index) in category.childrens" :key="item.name">
-          <ul class="component-list" :style="{ marginBottom: index+1 === (category.childrens?.length) ? '8px' : '' }">
+          <ul class="component-list">
             <li
               v-for="component in item.childrens"
               :key="component.name"
               :name="component.name"
               draggable="true"
-              @dragstart="dragstart"
+              @dragstart="dragstart($event, component.name)"
             >{{ component.label }}</li>
           </ul>
         </div>
@@ -29,28 +29,27 @@ import { componentLibs } from '@/mock-data'
 const libs = ref(componentLibs)
 const activeNames = ref(['test'])
 
-const dragstart = (ev: DragEvent) => {
+const dragstart = (ev: DragEvent, name: string) => {
   ev.dataTransfer?.clearData()
-  const { currentTarget, offsetX, offsetY } = ev
-  const name = (currentTarget as Element).getAttribute('name')
-  const data = `${name},${offsetX},${offsetY},isNew`
+  const { offsetX, offsetY } = ev
+  const data = { name, offsetX, offsetY }
   ev.dataTransfer!.effectAllowed = 'copyMove'
-  ev.dataTransfer!.setData('text/plain', data)
+  ev.dataTransfer!.setData('text/plain', JSON.stringify(data))
 }
 </script>
 
 <style scoped lang="less">
 .component-list {
-  margin: 0 0 20px;
-  padding: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
+  justify-content: center;
   list-style: none;
+  padding: 0;
 
   li {
-    width: 116px;
+    width: 115px;
     height: 32px;
     line-height: 32px;
     padding-left: 8px;

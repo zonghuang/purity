@@ -19,17 +19,18 @@
 </template>
 
 <script setup lang="ts">
-import { useEditStore } from '@/store/edit'
+import {useRoute} from 'vue-router'
+import { useEditStore } from '@/store/editor'
 
 const route = useRoute()
 const editStore = useEditStore()
 
 const contextmenu = ref('')
 const isShowAdd = computed(() => !route.query.page)
-const currentPageName = computed(() => editStore.currentPage.name)
+const currentPageName = computed(() => editStore.currentPage.page)
 const pageList = computed(() =>
   editStore.pages.map(page => {
-    return { name: page.name, title: page.title }
+    return { name: page.page, title: page.title }
   })
 )
 

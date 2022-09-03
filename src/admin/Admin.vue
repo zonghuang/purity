@@ -35,8 +35,8 @@
 
               <el-table-column fixed="right" label="" width="120" align="center">
                 <template #default="scope">
-                  <el-button type="text" size="small" @click="preview(props.row.path, scope.row.path)">预览</el-button>
-                  <el-button type="text" size="small" @click="edit(props.row.path, scope.row.path)">编辑</el-button>
+                  <el-button type="primary" size="small" @click="preview(props.row.path, scope.row.path)">预览</el-button>
+                  <el-button type="primary" size="small" @click="edit(props.row.path, scope.row.path)">编辑</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -52,15 +52,15 @@
 
         <el-table-column fixed="right" label="操作" width="120" align="center">
           <template #default="scope">
-            <!-- <el-button type="text" size="small" @click="preview(scope.row.path)">预览</el-button> -->
-            <el-button type="text" size="small" @click="edit(scope.row.path)">编辑</el-button>
+            <!-- <el-button type="primary" size="small" @click="preview(scope.row.path)">预览</el-button> -->
+            <el-button type="primary" size="small" @click="edit(scope.row.path)">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
 
       <div >
         <p>上面的都是示例，由于没有保存到后端，因此更改后，再次进入还是原来的数据</p>
-        用这个来测，可以保存在本地 <el-button type="text" @click="handleClick">Click Me</el-button>
+        用这个来测，可以保存在本地 <el-button type="primary" @click="handleClick">Click Me</el-button>
       </div>
     </div>
     <div class="beian">
@@ -74,7 +74,7 @@
 
 <script setup lang="ts">
 
-import localCache from '@/utils/cache'
+import { localCache } from '@/utils'
 import { ssoTableData } from '../../mock/admin'
 
 const router = useRouter()

@@ -1,4 +1,3 @@
-import { ILib, IPage, ISnapshot } from "./interface-type"
 import { componentsConfig } from "./components"
 
 // 组件库列表
@@ -98,118 +97,118 @@ export const componentLibs: ILib[] = [
       }
     ]
   },
-  {
-    label: '媒体组件',
-    name: 'media',
-    childrens: [
-      {
-        label: 'group-1',
-        name: 'group-1',
-        childrens: [
-          { label: '图片', name: 'zh-picture', icon: '' },
-          { label: '视频', name: 'zh-video', icon: '' },
-          { label: '音频', name: 'zh-audio', icon: '' },
-          { label: '附件', name: 'zh-upload', icon: '' },
-          { label: '富文本', name: 'zh-rich-text', icon: '' }
-        ]
-      }
-    ]
-  },
-  {
-    label: '容器组件',
-    name: 'container',
-    childrens: [
-      {
-        label: 'group-1',
-        name: 'group-1',
-        childrens: [
-          { label: '容器', name: 'zh-container', icon: '' },
-          { label: '表单', name: 'zh-form', icon: '' },
-          { label: '标签页', name: 'zh-tabs', icon: '' },
-          { label: '模态框', name: 'zh-modal', icon: '' },
-          { label: '抽屉', name: 'zh-drawer', icon: '' }
-        ]
-      }
-    ]
-  },
-  {
-    label: '图表组件',
-    name: 'chart',
-    childrens: [
-      {
-        label: 'group-1',
-        name: 'group-1',
-        childrens: [
-          { label: '表格', name: 'zh-table', icon: '' },
-          { label: '柱状图', name: 'zh-bar', icon: '' },
-          { label: '饼状图', name: 'zh-pie', icon: '' },
-          { label: '折线图', name: 'zh-line', icon: '' }
-        ]
-      }
-    ]
-  },
-  {
-    label: '反馈组件',
-    name: 'feedback',
-    childrens: [
-      {
-        label: 'group-1',
-        name: 'group-1',
-        childrens: [
-          { label: '消息提示', name: 'zh-message', icon: '' },
-          { label: '文字提示', name: 'zh-tooltip', icon: '' },
-          { label: 'loading', name: 'zh-loading', icon: '' },
-          { label: '结果', name: 'zh-rusult', icon: '' },
-          { label: '通知', name: 'zh-notice', icon: '' },
-          { label: '徽章', name: 'zh-badge', icon: '' }
-        ]
-      }
-    ]
-  },
-  {
-    label: '其他组件',
-    name: 'other',
-    childrens: [
-      {
-        label: 'group-1',
-        name: 'group-1',
-        childrens: [
-          { label: '卡片', name: 'zh-card', icon: '' },
-          { label: '轮播图', name: 'zh-carousel', icon: '' },
-          { label: '面包屑', name: 'zh-breadcrumb', icon: '' },
-          { label: '工具栏', name: 'zh-toolbar', icon: '' },
-          { label: '分页', name: 'zh-pagination', icon: '' },
-          { label: '折叠板', name: 'zh-collapse', icon: '' },
-          { label: 'Tag 标签', name: 'zh-tag', icon: '' },
-          { label: '时间线', name: 'zh-timeline', icon: '' },
-          { label: '步骤条', name: 'zh-steps', icon: '' },
-          { label: '菜单', name: 'zh-menu', icon: '' }
-        ]
-      }
-    ]
-  },
-  {
-    label: '业务组件',
-    name: 'business',
-    childrens: [
-      // {
-      //   label: 'group-1',
-      //   name: 'group-1',
-      //   childrens: []
-      // }
-    ]
-  },
-  {
-    label: '自定义组件',
-    name: 'custom',
-    childrens: [
-      // {
-      //   label: 'group-1',
-      //   name: 'group-1',
-      //   childrens: []
-      // }
-    ]
-  },
+  // {
+  //   label: '媒体组件',
+  //   name: 'media',
+  //   childrens: [
+  //     {
+  //       label: 'group-1',
+  //       name: 'group-1',
+  //       childrens: [
+  //         { label: '图片', name: 'zh-picture', icon: '' },
+  //         { label: '视频', name: 'zh-video', icon: '' },
+  //         { label: '音频', name: 'zh-audio', icon: '' },
+  //         { label: '附件', name: 'zh-upload', icon: '' },
+  //         { label: '富文本', name: 'zh-rich-text', icon: '' }
+  //       ]
+  //     }
+  //   ]
+  // },
+  // {
+  //   label: '容器组件',
+  //   name: 'container',
+  //   childrens: [
+  //     {
+  //       label: 'group-1',
+  //       name: 'group-1',
+  //       childrens: [
+  //         { label: '容器', name: 'zh-container', icon: '' },
+  //         { label: '表单', name: 'zh-form', icon: '' },
+  //         { label: '标签页', name: 'zh-tabs', icon: '' },
+  //         { label: '模态框', name: 'zh-modal', icon: '' },
+  //         { label: '抽屉', name: 'zh-drawer', icon: '' }
+  //       ]
+  //     }
+  //   ]
+  // },
+  // {
+  //   label: '图表组件',
+  //   name: 'chart',
+  //   childrens: [
+  //     {
+  //       label: 'group-1',
+  //       name: 'group-1',
+  //       childrens: [
+  //         { label: '表格', name: 'zh-table', icon: '' },
+  //         { label: '柱状图', name: 'zh-bar', icon: '' },
+  //         { label: '饼状图', name: 'zh-pie', icon: '' },
+  //         { label: '折线图', name: 'zh-line', icon: '' }
+  //       ]
+  //     }
+  //   ]
+  // },
+  // {
+  //   label: '反馈组件',
+  //   name: 'feedback',
+  //   childrens: [
+  //     {
+  //       label: 'group-1',
+  //       name: 'group-1',
+  //       childrens: [
+  //         { label: '消息提示', name: 'zh-message', icon: '' },
+  //         { label: '文字提示', name: 'zh-tooltip', icon: '' },
+  //         { label: 'loading', name: 'zh-loading', icon: '' },
+  //         { label: '结果', name: 'zh-rusult', icon: '' },
+  //         { label: '通知', name: 'zh-notice', icon: '' },
+  //         { label: '徽章', name: 'zh-badge', icon: '' }
+  //       ]
+  //     }
+  //   ]
+  // },
+  // {
+  //   label: '其他组件',
+  //   name: 'other',
+  //   childrens: [
+  //     {
+  //       label: 'group-1',
+  //       name: 'group-1',
+  //       childrens: [
+  //         { label: '卡片', name: 'zh-card', icon: '' },
+  //         { label: '轮播图', name: 'zh-carousel', icon: '' },
+  //         { label: '面包屑', name: 'zh-breadcrumb', icon: '' },
+  //         { label: '工具栏', name: 'zh-toolbar', icon: '' },
+  //         { label: '分页', name: 'zh-pagination', icon: '' },
+  //         { label: '折叠板', name: 'zh-collapse', icon: '' },
+  //         { label: 'Tag 标签', name: 'zh-tag', icon: '' },
+  //         { label: '时间线', name: 'zh-timeline', icon: '' },
+  //         { label: '步骤条', name: 'zh-steps', icon: '' },
+  //         { label: '菜单', name: 'zh-menu', icon: '' }
+  //       ]
+  //     }
+  //   ]
+  // },
+  // {
+  //   label: '业务组件',
+  //   name: 'business',
+  //   childrens: [
+  //     // {
+  //     //   label: 'group-1',
+  //     //   name: 'group-1',
+  //     //   childrens: []
+  //     // }
+  //   ]
+  // },
+  // {
+  //   label: '自定义组件',
+  //   name: 'custom',
+  //   childrens: [
+  //     // {
+  //     //   label: 'group-1',
+  //     //   name: 'group-1',
+  //     //   childrens: []
+  //     // }
+  //   ]
+  // },
 ]
 
 // 组件的默认数据
@@ -220,7 +219,7 @@ export const pages: IPage[] = [
   {
     system: '',
     module: '',
-    name: 'p1',
+    page: 'p1',
     title: '首页',
     elements: [],
     settings: {},
@@ -403,7 +402,7 @@ export const validComponents = [
 ]
 
 // 容器组件
-export const containers = ['root', 'container', 'modal', 'form', 'table']
+export const containers = ['root', 'container', 'modal', 'form']
 
 // 赋值类型
 export const assignOptions = [
@@ -411,4 +410,23 @@ export const assignOptions = [
   { label: '赋给多个组件', value: 'components' },
   { label: '赋给组件选项', value: 'componentOptions' },
   { label: '赋给缓存数据', value: 'cacheData' },
+]
+
+const formtypes = [
+  'input',
+  'textarea',
+  'number',
+  'select',
+  'cascader',
+  'datepicker',
+  'timepicker',
+  'switch',
+  'radio',
+  'checkbox',
+  'slider',
+  'rate',
+  'color',
+  'range',
+  'upload',
+  'tree',
 ]

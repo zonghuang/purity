@@ -9,8 +9,8 @@
   >
     <use
       :href="symbolId"
-      :fill="isActive ? activeColor: currentColor"
-      :stroke="isActive ? activeColor: currentColor"
+      :fill="isActive ? activeColor : currentColor"
+      :stroke="isActive ? activeColor : currentColor"
     />
   </svg>
 </template>

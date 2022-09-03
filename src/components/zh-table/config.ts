@@ -3,7 +3,7 @@ export default {
   name: 'zh-table',
   type: 'table',
   style: {},
-  events: [],
+  actions: [],
   modelValue: [],
   propConfig: {
     label: '表格数据',

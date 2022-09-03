@@ -9,7 +9,7 @@ export const config = {
       style: {
         display: "block",
         minHeight: "60px",
-        background: "#f5f5f5",
+        // background: "#f5f5f5",
         paddingTop: "16px",
         paddingRight: "16px",
         paddingBottom: "16px",
@@ -109,7 +109,7 @@ export const config = {
               name: "zh-container",
               type: "container",
               style: {
-                display: "block",
+                display: "flex",
                 minHeight: "",
                 width: "",
               },

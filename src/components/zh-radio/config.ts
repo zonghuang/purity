@@ -3,7 +3,7 @@ export default {
   name: 'zh-radio',
   type: 'radio',
   style: {},
-  events: [],
+  actions: [],
   modelValue: '',
   propConfig: {
     label: '单选框',

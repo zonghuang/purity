@@ -3,7 +3,7 @@ export default {
   name: 'zh-pagination',
   type: 'pagination',
   style: {  },
-  events: [],
+  actions: [],
   modelValue: {
     currentPage: 1,
     pageSize: 10,
