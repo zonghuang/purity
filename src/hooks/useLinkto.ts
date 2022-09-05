@@ -5,7 +5,7 @@ import { usePayload } from './usePayload'
 export function useLinkto(linkConfig: ILinkto) {
   const { url: originUrl, payloads, tab, mode, name } = linkConfig
   const payload = usePayload(payloads)
-  const { url, replacedFields } = replaceUrl(originUrl, payload)
+  const { url, replacedFields } = replaceUrl(originUrl!, payload)
   replacedFields.forEach((field) => delete payload[field])
 
   // url 不是以 / 开头的 (即，url 有完整域名和路径)

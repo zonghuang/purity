@@ -85,6 +85,7 @@ declare interface IPayload {
 }
 
 declare interface ICondition {
+  belong?: 'success' | 'error' | 'finally'
   type: 'show' | 'hide' | 'disable' | 'highlight'
   payloads: IPayload[]
   expression: string

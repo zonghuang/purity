@@ -89,6 +89,7 @@ export const useRenderStore = defineStore('render', {
     handleActions(actions: IAction[]) {
       actions.forEach(async (item) => {
         const { action, option, thenActions } = item
+
         switch (action) {
           case 'openModal': {
             const { targetId } = option
@@ -109,24 +110,6 @@ export const useRenderStore = defineStore('render', {
             break
           }
 
-          case 'request': {
-            const { failedActions, successfulActions } = option.customConfig!
-            const data = await useRequest(option)
-
-            if (data.fault && failedActions?.length) {
-              this.handleActions(failedActions)
-              break
-            }
-
-            // 将响应数据赋值
-            this.setValue(data, option)
-
-            if (successfulActions?.length) {
-              this.handleActions(successfulActions)
-            }
-            break
-          }
-
           case 'setValue': {
             const { payloads } = option
             const data = usePayload(payloads)
@@ -142,11 +125,42 @@ export const useRenderStore = defineStore('render', {
             break
           }
 
+          case 'request': {
+            const data = await useRequest(option)
+
+            const success = data.fault ? false : true
+            const successfulActions: IAction[] = []
+            const failedActions: IAction[] = []
+            const finallyActions: IAction[] = []
+            thenActions?.forEach(item => {
+              const type = item.trigger?.belong
+              if (type === 'error') {
+                failedActions.push(item)
+              } else if (type === 'finally') {
+                finallyActions.push(item)
+              } else {
+                successfulActions.push(item)
+              }
+            })
+
+            if (success) {
+              // 将响应数据赋值
+              this.setValue(data, option)
+              this.handleActions(successfulActions)
+            }
+
+            if (!success) {
+              this.handleActions(failedActions)
+            }
+
+            this.handleActions(finallyActions)
+          }
+
           default:
             break
         }
 
-        if (thenActions?.length) {
+        if (action !== 'request' && thenActions?.length) {
           this.handleActions(thenActions)
         }
       })

@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import {useRoute} from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useEditStore } from '@/store/editor'
 
 const route = useRoute()

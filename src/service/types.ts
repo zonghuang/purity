@@ -20,8 +20,6 @@ export interface CustomConfig {
   loading?: boolean | ILoading
   successfulFeedback?: IFeedback
   failedFeedback?: IFeedback
-  failedActions?: IAction[]
-  successfulActions?: IAction[]
   dupliRequestStrictEquality?: boolean
   successCode?: number | string
   codePath?: string
@@ -47,5 +45,5 @@ export interface ResponseData<T = any> {
   data?: T
   code?: number | string
   message?: string
-  fault?: boolean
+  fault?: true
 }

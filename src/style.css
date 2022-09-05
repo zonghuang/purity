@@ -7,3 +7,17 @@ body {
   height: calc(100vh - 44px);
   overflow-y: scroll;
 }
+
+/* Container */
+.fab {
+  width: 56px;
+  height: 56px;
+  /* margin: 16px; */
+
+  border-radius: 16px;
+}
+
+.fab__icon {
+  width: 24px;
+  height: 24px;
+}
