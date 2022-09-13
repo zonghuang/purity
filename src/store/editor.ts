@@ -56,39 +56,72 @@ const demoPage: any = {
           childrens: [
             {
               uuid: '1662126789908',
-              name: 'zh-input',
+              name: 'zh-filled-text-field',
               type: 'input',
               style: {},
               actions: [],
               modelValue: '',
               propConfig: {
-                label: '输入框',
+                label: 'Label text',
                 field: '',
-                placeholder: '请输入',
-                labelWidth: '100px',
-                labelPosition: 'right'
+              },
+              animations: []
+            },
+            {
+              uuid: '1662126789908',
+              name: 'zh-outlined-text-field',
+              type: 'input',
+              style: {},
+              actions: [],
+              modelValue: '',
+              propConfig: {
+                label: 'Label text',
+                field: '',
               },
               animations: []
             },
             {
               uuid: '1662126792173',
-              name: 'zh-button',
+              name: 'zh-elevated-button',
               type: 'button',
-              style: {
-                display: 'inline-block'
-              },
+              style: {},
               actions: [
                 {
                   event: 'click',
                   action: 'openModal',
                   option: {
-                    targetId: 'm3',
+                    targetId: 'm1',
                   }
                 }
               ],
               modelValue: '',
               propConfig: {
-                label: '按钮'
+                label: 'Elevated button'
+              },
+              animations: []
+            },
+            {
+              uuid: '16621267921777',
+              name: 'zh-fab',
+              type: 'button',
+              style: {},
+              actions: [],
+              modelValue: '',
+              propConfig: {
+                icon: '@'
+              },
+              animations: []
+            },
+            {
+              uuid: '16621767921777',
+              name: 'zh-switch',
+              type: 'switch',
+              style: {},
+              actions: [],
+              modelValue: '',
+              propConfig: {
+                label: 'Label text',
+                field: '',
               },
               animations: []
             }
@@ -397,7 +430,7 @@ export const useEditStore = defineStore('edit', {
     preview() {},
 
     // 发布
-    publish() {}
+    publish() {},
   }
 
   // 开启数据缓存

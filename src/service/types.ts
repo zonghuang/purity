@@ -45,5 +45,5 @@ export interface ResponseData<T = any> {
   data?: T
   code?: number | string
   message?: string
-  fault?: true
+  fault?: boolean
 }

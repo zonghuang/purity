@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-list" v-if="modalList.length">
+  <div class="modal-list" v-if="modalList?.length">
     <div class="modal-preview" :key="item.uuid" v-for="item in modalList" @click="handleClick(item)">
       <div class="image"></div>
       <span class="title">{{ item.propConfig.label }}</span>

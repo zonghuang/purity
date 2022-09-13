@@ -22,7 +22,9 @@ const allComponents = {
     const modules = import.meta.glob('./**/*.vue')
     for (const path in modules) {
       modules[path]().then((mod: any) => {
-        app.component(path.split('/')[1], mod.default)
+        // const name = 'zh-' + mod.default.__name
+        const name = mod.default.__name.includes('zh-') ? mod.default.__name : 'zh-' + mod.default.__name
+        app.component(name, mod.default)
       })
     }
   }
@@ -52,10 +54,12 @@ const demandComponents = {
 // 所有组件的默认配置数据 (build 库的时候不用打包组件配置)
 const componentsConfig: { [key: string]: IElement } = {}
 if (mode !== 'lib') {
-  const allConfig = import.meta.glob('./**/*.ts')
+  const allConfig = import.meta.glob('./**/config.ts')
   for (const path in allConfig) {
     allConfig[path]().then((mod: any) => {
-      componentsConfig[path.split('/')[1]] = mod.default
+      // const name = 'zh-' + mod.default.name
+      const name = mod.default.name.includes('zh-') ? mod.default.name : 'zh-' + mod.default.name
+      componentsConfig[name] = mod.default
     })
   }
 }

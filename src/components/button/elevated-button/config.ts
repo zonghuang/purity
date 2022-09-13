@@ -1,12 +1,12 @@
 export default {
   uuid: '',
-  name: 'zh-button',
+  name: 'elevated-button',
   type: 'button',
-  style: { display: 'inline-block' },
+  style: {},
   actions: [],
   modelValue: '',
   propConfig: {
-    label: '按钮'
+    label: 'Elevated button'
   },
   animations: []
 }

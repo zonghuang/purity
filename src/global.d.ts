@@ -1,5 +1,5 @@
 declare type RequestConfig = import('@/service/types').RequestConfig
-// declare type IStyle = Partial<CSSStyleDeclaration>
+// declare type IStyle = Partial<CSSStyleDeclaration> // CSSStyleSheet
 declare type CSSProperties = import('csstype').Properties
 declare type CSSPropertiesHyphen = import('csstype').Properties
 declare interface IStyle extends CSSProperties, CSSPropertiesHyphen {}

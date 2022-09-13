@@ -34,7 +34,15 @@ export default defineConfig(({ command, mode }) => {
   }
 
   const plugins = [
-    vue({}),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => {
+            return tag.startsWith('md-')
+          }
+        }
+      }
+    }),
     vueJsx({}),
     Inspect(),
     // https://github.com/antfu/unplugin-auto-import
