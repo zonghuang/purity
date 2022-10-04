@@ -1,0 +1,7 @@
+export { datePipe } from './date.pipe'
+export { decimalPipe } from './decimal.pipe'
+export { percentPipe } from './percent.pipe'
+export { currencyPipe } from './currency.pipe'
+export { lowerCasePipe } from './lower-case.pipe'
+export { upperCasePipe } from './upper-case.pipe'
+export { textmapPipe } from './textmap.pipe'
