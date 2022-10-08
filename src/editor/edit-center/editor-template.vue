@@ -26,6 +26,10 @@
       @dragend="dragend($event, element)"
     >
       <editor-template v-if="element.childrens?.length" :elements="element.childrens" />
+
+      <template v-for="slot in element.slots" :key="slot.name" v-slot:[slot.name]>
+        <render-template :elements="slot.childrens" />
+      </template>
     </component>
 
     <line-insert-placeholder

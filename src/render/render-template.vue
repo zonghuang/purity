@@ -13,6 +13,10 @@
     @action="handleAction($event, element)"
   >
     <render-template v-if="element.childrens?.length" :elements="element.childrens" />
+
+    <template v-for="slot in element.slots" :key="slot.name" v-slot:[slot.name]>
+      <render-template :elements="slot.childrens" />
+    </template>
   </component>
 </template>
 
@@ -26,11 +30,12 @@ defineProps<{
 const renderStore = useRenderStore()
 
 function handleUpdate(newValue: any, element: IElement) {
+  console.log('update', newValue, toRaw(element))
   renderStore.updateValue(newValue, element)
 }
 
 function handleAction(ev: { event: string; bindCode?: string }, element: IElement) {
-  console.log('action: ', ev.event, toRaw(element))
+  console.log('action', ev.event, toRaw(element))
   const actions = element.actions?.filter(item => item.event === ev.event)
   if (actions && ev.bindCode) {
     const bindCodeActions = actions.filter(item => item.bindCode === ev.bindCode)
