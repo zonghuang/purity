@@ -1,11 +1,11 @@
 <template>
-  <md-elevated-button
+  <md-fab-extended
     :icon="icon"
     :label="label"
     :disabled="disabled"
     @click="click"
     @dblclick="dbclick"
-  ></md-elevated-button>
+  ></md-fab-extended>
 </template>
 
 <script setup lang="ts">

@@ -1,24 +1,22 @@
 <template>
-  <md-elevated-button
+  <md-fab
     :icon="icon"
-    :label="label"
     :disabled="disabled"
     @click="click"
     @dblclick="dbclick"
-  ></md-elevated-button>
+  ></md-fab>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
   propConfig: {
-    label: string
-    icon?: string
+    icon: string
+    size?: 'default' | 'large' | 'small'
     disabled?: boolean
   }
 }>()
 const emit = defineEmits(['action'])
 
-const label = computed(() => props.propConfig.label)
 const icon = computed(() => props.propConfig.icon)
 const disabled = computed(() => props.propConfig.disabled)
 
