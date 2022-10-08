@@ -1,5 +1,5 @@
 declare type RequestConfig = import('@/service/types').RequestConfig
-// declare type IStyle = Partial<CSSStyleDeclaration> // CSSStyleSheet
+// declare type IStyle = Partial<CSSStyleDeclaration>
 declare type CSSProperties = import('csstype').Properties
 declare type CSSPropertiesHyphen = import('csstype').Properties
 declare interface IStyle extends CSSProperties, CSSPropertiesHyphen {}
@@ -41,6 +41,10 @@ declare interface IElement {
   propConfig?: any
   animations?: any[]
   childrens?: IElement[]
+  slots?: {
+    name: string
+    childrens: IElement[]
+  }[]
 }
 
 declare interface IAction {
