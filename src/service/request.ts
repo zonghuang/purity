@@ -3,6 +3,7 @@ import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 import type { RequestConfig, Interceptors } from './types'
 import { Progress } from './progress'
+import { getIn } from '@/utils'
 
 export class Request {
   instance: AxiosInstance
@@ -89,7 +90,8 @@ export class Request {
             res = config.interceptors.responseInterceptor(res)
           }
 
-          resolve(res?.data ?? res)
+          if (res?.data?.fault === true) resolve(res.data)
+          resolve(getIn(res?.data ?? res, config.customConfig?.jsonPath))
         })
         .catch((err) => {
           reject(err)

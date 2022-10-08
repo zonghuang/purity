@@ -44,6 +44,12 @@ export const zhRequest = new Request({
       return res
     },
     responseInterceptorCatch: (err) => {
+      if (err.name === 'CanceledError') {
+        const { code, message } = err
+        const fault = { fault: true, code, message }  // code: ERR_CANCELED
+        return { data: fault }
+      }
+
       const { customConfig } = err.config as RequestConfig
       const { failedFeedback, unhandled } = customConfig!
       const { code, message, response } = err
