@@ -3,136 +3,252 @@ import { sessionCache } from '@/utils'
 import { componentsConfig, containers } from '@/mock-data'
 import { getPages } from '../../mock'
 
-
 const demoPage: any = {
   page: 'sso-log',
   title: 'sso 日志',
   elements: [
+    // {
+    //   uuid: '1662126644525',
+    //   name: 'zh-container',
+    //   type: 'root',
+    //   style: {
+    //     width: '100%',
+    //     padding: '16px'
+    //   },
+    //   actions: [
+    //     {
+    //       event: 'click',
+    //       action: 'openModal',
+    //       option: {
+    //         targetId: 'm1',
+    //       }
+    //     }
+    //   ],
+    //   modelValue: '',
+    //   propConfig: {},
+    //   animations: [],
+    //   childrens: [
+    //     {
+    //       uuid: '1662126786340',
+    //       name: 'zh-form',
+    //       type: 'form',
+    //       style: {
+    //         height: '100px'
+    //       },
+    //       actions: [
+    //         {
+    //           event: 'click',
+    //           action: 'openModal',
+    //           option: {
+    //             targetId: 'm2',
+    //           }
+    //         }
+    //       ],
+    //       modelValue: {},
+    //       propConfig: {
+    //         label: '表单',
+    //         formItemWidth: '',
+    //         labelWidth: '',
+    //         labelPosition: ''
+    //       },
+    //       animations: [],
+    //       childrens: [
+    //         {
+    //           uuid: '1662126789908',
+    //           name: 'zh-filled-text-field',
+    //           type: 'input',
+    //           style: {},
+    //           actions: [],
+    //           modelValue: '',
+    //           propConfig: {
+    //             label: 'Label text',
+    //             field: '',
+    //           },
+    //           animations: []
+    //         },
+    //         {
+    //           uuid: '1662126789908',
+    //           name: 'zh-outlined-text-field',
+    //           type: 'input',
+    //           style: {},
+    //           actions: [],
+    //           modelValue: '',
+    //           propConfig: {
+    //             label: 'Label text',
+    //             field: '',
+    //           },
+    //           animations: []
+    //         },
+    //         {
+    //           uuid: '1662126792173',
+    //           name: 'zh-elevated-button',
+    //           type: 'button',
+    //           style: {},
+    //           actions: [
+    //             {
+    //               event: 'click',
+    //               action: 'openModal',
+    //               option: {
+    //                 targetId: 'm1',
+    //               }
+    //             }
+    //           ],
+    //           propConfig: {
+    //             label: 'Elevated button'
+    //           },
+    //           animations: []
+    //         },
+    //         {
+    //           uuid: '16621267921777',
+    //           name: 'zh-fab',
+    //           type: 'button',
+    //           style: {},
+    //           actions: [],
+    //           propConfig: {
+    //             icon: '@'
+    //           },
+    //           animations: []
+    //         },
+    //         {
+    //           uuid: '16621767921777',
+    //           name: 'zh-switch',
+    //           type: 'switch',
+    //           style: {},
+    //           actions: [],
+    //           modelValue: '',
+    //           propConfig: {
+    //             label: 'Label text',
+    //             field: '',
+    //           },
+    //           animations: []
+    //         }
+    //       ]
+    //     }
+    //   ],
+    //   slots: [
+    //     {
+    //       name: 'header',
+    //       childrens: [
+    //         {
+    //           uuid: '166212ggg8',
+    //           name: 'zh-filled-text-field',
+    //           type: 'input',
+    //           modelValue: '',
+    //           propConfig: {
+    //             label: 'Slot Label text',
+    //             field: '',
+    //           },
+    //         },
+    //         {
+    //           uuid: '16asdafg',
+    //           name: 'zh-elevated-button',
+    //           type: 'button',
+    //           propConfig: {
+    //             label: 'Slot Header'
+    //           },
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       name: 'footer',
+    //       childrens: [
+    //         {
+    //           uuid: '16asd',
+    //           name: 'zh-elevated-button',
+    //           type: 'button',
+    //           modelValue: '',
+    //           propConfig: {
+    //             // icon: '+',
+    //             label: 'Slot Footer'
+    //           },
+    //         },
+    //       ],
+    //     },
+    //   ],
+    // },
+
+    // button
     {
-      uuid: '1662126644525',
-      name: 'zh-container',
-      type: 'root',
-      style: {
-        width: '100%',
-        padding: '16px'
-      },
-      actions: [
-        {
-          event: 'click',
-          action: 'openModal',
-          option: {
-            targetId: 'm1',
+      uuid: 'elevated-button',
+      name: 'zh-elevated-button',
+      propConfig: {
+        label: 'Elevated button'
+      }
+    },
+    {
+      uuid: 'extended-fab',
+      name: 'zh-extended-fab',
+      propConfig: {
+        icon: '@',
+        label: 'Extended fab'
+      }
+    },
+    {
+      uuid: 'fab',
+      name: 'zh-fab',
+      propConfig: {
+        icon: '@'
+      }
+    },
+    {
+      uuid: 'filled-button',
+      name: 'zh-filled-button',
+      propConfig: {
+        label: 'Filled button'
+      }
+    },
+    {
+      uuid: 'filled-tonal-button',
+      name: 'zh-filled-tonal-button',
+      propConfig: {
+        label: 'Filled tonal button'
+      }
+    },
+    {
+      uuid: 'outlined-button',
+      name: 'zh-outlined-button',
+      propConfig: {
+        label: 'Outlined button'
+      }
+    },
+    {
+      uuid: 'segmented-button',
+      name: 'zh-segmented-button',
+      propConfig: {
+        segments: [
+          {
+            label: 'Segmented button'
           }
-        }
-      ],
+        ]
+      }
+    },
+    {
+      uuid: 'switch',
+      name: 'zh-switch',
+      modelValue: false,
+      propConfig: {}
+    },
+    {
+      uuid: 'filled-text-field',
+      name: 'zh-filled-text-field',
       modelValue: '',
-      propConfig: {},
-      animations: [],
-      childrens: [
-        {
-          uuid: '1662126786340',
-          name: 'zh-form',
-          type: 'form',
-          style: {
-            height: '100px'
-          },
-          actions: [
-            {
-              event: 'click',
-              action: 'openModal',
-              option: {
-                targetId: 'm2',
-              }
-            }
-          ],
-          modelValue: {},
-          propConfig: {
-            label: '表单',
-            formItemWidth: '',
-            labelWidth: '',
-            labelPosition: ''
-          },
-          animations: [],
-          childrens: [
-            {
-              uuid: '1662126789908',
-              name: 'zh-filled-text-field',
-              type: 'input',
-              style: {},
-              actions: [],
-              modelValue: '',
-              propConfig: {
-                label: 'Label text',
-                field: '',
-              },
-              animations: []
-            },
-            {
-              uuid: '1662126789908',
-              name: 'zh-outlined-text-field',
-              type: 'input',
-              style: {},
-              actions: [],
-              modelValue: '',
-              propConfig: {
-                label: 'Label text',
-                field: '',
-              },
-              animations: []
-            },
-            {
-              uuid: '1662126792173',
-              name: 'zh-elevated-button',
-              type: 'button',
-              style: {},
-              actions: [
-                {
-                  event: 'click',
-                  action: 'openModal',
-                  option: {
-                    targetId: 'm1',
-                  }
-                }
-              ],
-              modelValue: '',
-              propConfig: {
-                label: 'Elevated button'
-              },
-              animations: []
-            },
-            {
-              uuid: '16621267921777',
-              name: 'zh-fab',
-              type: 'button',
-              style: {},
-              actions: [],
-              modelValue: '',
-              propConfig: {
-                icon: '@'
-              },
-              animations: []
-            },
-            {
-              uuid: '16621767921777',
-              name: 'zh-switch',
-              type: 'switch',
-              style: {},
-              actions: [],
-              modelValue: '',
-              propConfig: {
-                label: 'Label text',
-                field: '',
-              },
-              animations: []
-            }
-          ]
-        }
-      ]
+      propConfig: {
+        label: 'Label text',
+        field: ''
+      },
+    },
+    {
+      uuid: 'outlined-text-field',
+      name: 'zh-outlined-text-field',
+      modelValue: '',
+      propConfig: {
+        label: 'Label text',
+        field: ''
+      },
     }
   ],
   settings: {}
 }
-
 
 export const useEditStore = defineStore('edit', {
   state: (): IEditorState => ({
@@ -158,7 +274,6 @@ export const useEditStore = defineStore('edit', {
       // const pages = (!query.system && local) ? local : cloud
       const pages = [demoPage]
 
-
       // 如果页面没有元素，则给它一个根元素
       if (!pages[0].elements.length) {
         pages[0].elements.push(this.addRootComponent())
@@ -168,7 +283,7 @@ export const useEditStore = defineStore('edit', {
       this.$patch({ pages: pages, currentPage: pages[0] })
 
       // 初始化 snapshotStore
-      this.snapshotStore = this.pages.map(item => {
+      this.snapshotStore = this.pages.map((item) => {
         return { id: item.page, index: -1, list: [] }
       })
       this.snapshot = this.snapshotStore.find((item) => item.id === this.currentPage.page)!
@@ -430,7 +545,7 @@ export const useEditStore = defineStore('edit', {
     preview() {},
 
     // 发布
-    publish() {},
+    publish() {}
   }
 
   // 开启数据缓存
