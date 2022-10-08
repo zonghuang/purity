@@ -72,10 +72,15 @@ export const useRenderStore = defineStore('render', {
     // 查找目标组件
     findComponent(targetId: string, elements: IElement[], target?: IElement) {
       for (let i = 0; i < elements.length; i++) {
-        if (target) break
+        if (target) return target
         if (elements[i].uuid === targetId) return elements[i]
-        if (!target && elements[i].childrens)
+        if (elements[i].childrens)
           target = this.findComponent(targetId, elements[i].childrens!, target)
+        if (elements[i].slots) {
+          elements[i].slots?.forEach(slot => {
+            target = this.findComponent(targetId, slot.childrens, target)
+          })
+        }
       }
       return target
     },
