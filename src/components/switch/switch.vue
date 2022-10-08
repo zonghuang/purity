@@ -1,5 +1,4 @@
 <template>
-  {{ value }}
   <md-switch
     :label="label"
     :name="field"
@@ -13,7 +12,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  modelValue: string | number
+  modelValue: string | number | boolean
   propConfig: {
     label: string
     field: string
