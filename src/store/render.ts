@@ -1,5 +1,6 @@
 import { useLinkto, usePayload, useRequest } from '@/hooks'
 import { useEditStore } from './editor'
+import { openDialog } from './render/actions'
 
 async function getPageConfig(params: any) {
   return {} as IPage
@@ -14,6 +15,8 @@ export const useRenderStore = defineStore('render', {
   getters: {},
 
   actions: {
+    openDialog,
+
     // 请求页面配置
     async fetchConfig(params: IObject) {
       if (params.page) {

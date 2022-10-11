@@ -173,7 +173,16 @@ const demoPage: any = {
       name: 'zh-elevated-button',
       propConfig: {
         label: 'Elevated button'
-      }
+      },
+      actions: [
+        {
+          event: 'click',
+          action: 'openDialog',
+          options: {
+            targetId: '12',
+          }
+        }
+      ]
     },
     {
       uuid: 'extended-fab',

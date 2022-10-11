@@ -1,8 +1,42 @@
+declare type RequestConfig = import('@/service/types').RequestConfig
+declare type CSSStyle = Partial<CSSStyleDeclaration>
+declare type IObject = Record<string | number | symbol, any>
+declare type InsertSeat = 'previous' | 'next' | 'inside'
+
+declare interface RenderState {
+  page: IPage
+  cacheData: IObject
+}
+
+declare interface EditorState {
+  pages: IPage[]
+  currentPage: IPage
+  currentComponent: Component | null
+  snapshot: ISnapshot
+  snapshotStore: ISnapshot[]
+  time: number
+}
+
+declare interface Page {
+  readonly _id?: string
+  system: string
+  module: string
+  page: string
+  title: string
+  components: Component[]
+  settings: any
+}
+
+declare interface Snapshot {
+  id: string
+  index: number
+  list: any[]
+}
 
 declare interface Component {
   uuid: string
   name: string
-  style?: Style
+  style?: CSSStyle
   property?: any
   modelValue?: any
   actions?: Action[]
@@ -28,7 +62,16 @@ declare type EventType =
   | 'deactivated'
 
 // actions
-declare type Action = OpenDialog | CloseDialog | Linkto | Fetch | Download | Validate | resetValue | setValue | Broadcast
+declare type Action =
+  | OpenDialog
+  | CloseDialog
+  | NavigateTo
+  | Fetch
+  | Download
+  | Validate
+  | resetValue
+  | setValue
+  | Delegation
 
 declare interface OpenDialog {
   event?: EventType
@@ -50,19 +93,21 @@ declare interface CloseDialog {
   thenActions: Action[]
 }
 
-declare interface Linkto {
+declare interface NavigateTo {
   event?: EventType
-  action: 'linkto'
-  options: {
-    go?: number
-    url?: string
-    tab?: '_self' | '_blank'
-    mode?: 'query' | 'params'
-    name?: string
-    payloads?: Payload[]
-  }
+  action: 'navigateTo'
+  options: Navigation
   condition: Condition
   thenActions: Action[]
+}
+
+declare interface Navigation {
+  go?: number
+  url?: string
+  tab?: '_self' | '_blank'
+  mode?: 'query' | 'params'
+  name?: string
+  payloads?: Payload[]
 }
 
 declare interface Fetch {
@@ -132,14 +177,17 @@ declare interface setValue {
   thenActions: Action[]
 }
 
-declare interface Broadcast {
+declare interface Delegation {
   event?: EventType
-  action: 'broadcast'
-  options: {
-    targetId: string
-  }
+  action: 'delegation'
+  options: DelegationOption
   condition: Condition
   thenActions: Action[]
+}
+
+declare interface DelegationOption {
+  targetId: string
+  event: EventType
 }
 
 // payload
@@ -154,4 +202,60 @@ declare interface IPayload {
 declare interface Condition {
   payloads: Payload[]
   expression: string
+}
+
+/**************
+ * Pipeline
+ **************/
+
+declare interface CurrencyPipe {
+  /**
+   * 货币名称
+   */
+  currency?: 'CNY' | 'USD' | 'EUR' | 'GBP' | 'CHF' | 'JPY' | 'KRW' | 'HKD'
+  /**
+   * 前缀
+   */
+  prefix?: string
+  /**
+   * 后缀
+   */
+  suffix?: string
+  /**
+   * 保留小数点位数，默认 2 位
+   */
+  digits?: number
+  /**
+   * 是否千分位，默认 true
+   */
+  thousands?: boolean
+}
+
+declare interface DatePipe {
+  format?: string
+}
+
+declare interface DecimalPipe {
+  /**
+   * 保留小数点位数，默认 2 位
+   */
+  digits?: number
+  /**
+   * 是否千分位，默认 true
+   */
+  thousands?: boolean
+}
+
+declare interface PercentPipe {
+  /**
+   * 保留小数点位数，默认 2 位
+   */
+  digits?: number
+}
+
+declare declare interface TextmapPipe {
+  textMap: {
+    origin?: number | string | boolean
+    result?: string
+  }[]
 }
