@@ -13,13 +13,4 @@ export const decimalPipe = (num: number, options?: DecimalPipe) => {
   return thousands ? (value + '').replace(/\B(?=(\d{3})+(?!\d))/g, ',') : value
 }
 
-interface DecimalPipe {
-  /**
-   * 保留小数点位数，默认 2 位
-   */
-  digits?: number
-  /**
-   * 是否千分位，默认 true
-   */
-  thousands?: boolean
-}
+

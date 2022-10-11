@@ -61,26 +61,3 @@ const getCurrencyCode = (currency: string) => {
       return ''
   }
 }
-
-interface CurrencyPipe {
-  /**
-   * 货币名称
-   */
-  currency?: 'CNY' | 'USD' | 'EUR' | 'GBP' | 'CHF' | 'JPY' | 'KRW' | 'HKD'
-  /**
-   * 前缀
-   */
-  prefix?: string
-  /**
-   * 后缀
-   */
-  suffix?: string
-  /**
-   * 保留小数点位数，默认 2 位
-   */
-  digits?: number
-  /**
-   * 是否千分位，默认 true
-   */
-  thousands?: boolean
-}

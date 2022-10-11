@@ -11,10 +11,3 @@ export const percentPipe = (num: number, options?: PercentPipe) => {
 
   return (num * 100).toFixed(digits) + '%'
 }
-
-interface PercentPipe {
-  /**
-   * 保留小数点位数，默认 2 位
-   */
-  digits?: number
-}

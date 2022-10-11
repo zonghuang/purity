@@ -13,7 +13,3 @@ export const datePipe = (datetime: any, options?: DatePipe) => {
   const result = dayjs.utc(time).utcOffset(8).format(format)
   return result === 'Invalid Date' ? '' : result
 }
-
-interface DatePipe {
-  format?: string
-}
