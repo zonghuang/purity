@@ -1,19 +1,22 @@
 declare type RequestConfig = import('@/service/types').RequestConfig
-declare type CSSStyle = Partial<CSSStyleDeclaration>
+// declare type CSSStyle = Partial<CSSStyleDeclaration>
+declare type CSSProperties = import('csstype').Properties
+declare type CSSPropertiesHyphen = import('csstype').Properties
+declare interface CSSStyle extends CSSProperties, CSSPropertiesHyphen {}
 declare type IObject = Record<string | number | symbol, any>
 declare type InsertSeat = 'previous' | 'next' | 'inside'
 
 declare interface RenderState {
-  page: IPage
+  page: Page
   cacheData: IObject
 }
 
 declare interface EditorState {
-  pages: IPage[]
-  currentPage: IPage
+  pages: Page[]
+  currentPage: Page
   currentComponent: Component | null
-  snapshot: ISnapshot
-  snapshotStore: ISnapshot[]
+  snapshot: Snapshot
+  snapshotStore: Snapshot[]
   time: number
 }
 
@@ -66,12 +69,14 @@ declare type Action =
   | OpenDialog
   | CloseDialog
   | NavigateTo
-  | Fetch
+  | HttpRequest
   | Download
-  | Validate
-  | resetValue
-  | setValue
+  | ValidateForm
+  | ResetState
+  | SetState
   | Delegation
+  | PrintDocs
+  | Upload
 
 declare interface OpenDialog {
   event?: EventType
@@ -110,9 +115,9 @@ declare interface Navigation {
   payloads?: Payload[]
 }
 
-declare interface Fetch {
+declare interface HttpRequest {
   event?: EventType
-  action: 'fetch'
+  action: 'httpRequest'
   options: FetchOption
   condition: Condition
   thenActions: Action[]
@@ -133,9 +138,9 @@ declare interface Download {
   thenActions: Action[]
 }
 
-declare interface Validate {
+declare interface ValidateForm {
   event?: EventType
-  action: 'validate'
+  action: 'validateForm'
   options: {
     targetId: string
   }
@@ -143,9 +148,9 @@ declare interface Validate {
   thenActions: Action[]
 }
 
-declare interface resetValue {
+declare interface ResetState {
   event?: EventType
-  action: 'resetValue'
+  action: 'resetState'
   options: {
     targetId: string
   }
@@ -153,9 +158,9 @@ declare interface resetValue {
   thenActions: Action[]
 }
 
-declare interface setValue {
+declare interface SetState {
   event?: EventType
-  action: 'setValue'
+  action: 'setState'
   options: {
     payloads: Payload[]
 
@@ -188,6 +193,22 @@ declare interface Delegation {
 declare interface DelegationOption {
   targetId: string
   event: EventType
+}
+
+declare interface Upload {
+  event?: EventType
+  action: 'upload'
+  options: DelegationOption
+  condition: Condition
+  thenActions: Action[]
+}
+
+declare interface PrintDocs {
+  event?: EventType
+  action: 'printDocs'
+  options: DelegationOption
+  condition: Condition
+  thenActions: Action[]
 }
 
 // payload
