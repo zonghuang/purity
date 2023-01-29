@@ -1,39 +1,38 @@
 <template>
-  <template v-for="element in components" :key="element.uuid">
+  <template v-for="component in components" :key="component.uuid">
     <line-insert-placeholder
-      v-if="insertPlaceholder.targetId === element.uuid && insertPlaceholder.placement === 'previous'"
+      v-if="insertPlaceholder.targetId === component.uuid && insertPlaceholder.placement === 'previous'"
       :direction="insertPlaceholder.direction"
       :style="insertPlaceholder.style"
     ></line-insert-placeholder>
 
     <component
-      :id="element.uuid"
-      :class="getClassNames(element)"
-      :draggable="!['root', 'modal'].includes(element.type)"
-      :is="element.name"
-      :uuid="element.uuid"
-      :style="element.style"
-      :modelValue="element.modelValue"
-      :property="element.property"
-      :children="element.children"
-      @mousedown="mousedown($event, element)"
-      @dragstart="dragstart($event, element)"
-      @drag="drag($event, element)"
-      @dragenter="dragenter($event, element)"
-      @dragover="dragover($event, element)"
-      @dragleave="dragleave($event, element)"
-      @drop="drop($event, element)"
-      @dragend="dragend($event, element)"
+      :id="component.uuid"
+      :class="getClassNames(component)"
+      :draggable="!['root', 'modal'].includes(component.type)"
+      :is="component.name"
+      :uuid="component.uuid"
+      :style="component.style"
+      :modelValue="component.modelValue"
+      :property="component.property"
+      @mousedown="mousedown($event, component)"
+      @dragstart="dragstart($event, component)"
+      @drag="drag($event, component)"
+      @dragenter="dragenter($event, component)"
+      @dragover="dragover($event, component)"
+      @dragleave="dragleave($event, component)"
+      @drop="drop($event, component)"
+      @dragend="dragend($event, component)"
     >
-      <editor-template v-if="element.children?.length" :components="element.children" />
+      <editor-template v-if="component.children?.length" :components="component.children" />
 
-      <template v-for="slot in element.slots" :key="slot.name" v-slot:[slot.name]>
+      <template v-for="slot in component.slots" :key="slot.name" v-slot:[slot.name]>
         <render-template :components="slot.children" />
       </template>
     </component>
 
     <line-insert-placeholder
-      v-if="insertPlaceholder.targetId === element.uuid && insertPlaceholder.placement === 'next'"
+      v-if="insertPlaceholder.targetId === component.uuid && insertPlaceholder.placement === 'next'"
       :direction="insertPlaceholder.direction"
       :style="insertPlaceholder.style"
     ></line-insert-placeholder>
@@ -42,7 +41,7 @@
 
 <script setup lang="ts">
 import { useEditStore } from '@/store/editor'
-import { containers } from '@/mock-data'
+import { containers } from '../../../temp/mock-data'
 
 defineProps<{
   components: Component[]
@@ -53,43 +52,43 @@ const editStore = useEditStore()
 let insertSeat: InsertSeat = 'next'
 const insertPlaceholder = reactive({ targetId: '', placement: '', direction: '', style: {} })
 
-const mousedown = (ev: MouseEvent, element: Component) => {
+const mousedown = (ev: MouseEvent, component: Component) => {
   ev.stopPropagation()
-  // if (!isCurrentTarget(ev, element)) return
+  // if (!isCurrentTarget(ev, component)) return
 
-  editStore.currentComponent = element
+  editStore.currentComponent = component
 }
 
-const dragstart = (ev: DragEvent, element: Component) => {
+const dragstart = (ev: DragEvent, component: Component) => {
   ev.stopPropagation()
   ev.dataTransfer?.clearData()
-  // if (!isCurrentTarget(ev, element)) return
+  // if (!isCurrentTarget(ev, component)) return
 
-  const data = { uuid: element.uuid, offsetX: ev.offsetX, offsetY: ev.offsetY }
+  const data = { uuid: component.uuid, offsetX: ev.offsetX, offsetY: ev.offsetY }
   ev.dataTransfer!.effectAllowed = 'copyMove'
   ev.dataTransfer!.setData('text/plain', JSON.stringify(data))
 }
 
-const drag = (ev: DragEvent, element: Component) => {}
+const drag = (ev: DragEvent, component: Component) => {}
 
-const dragenter = (ev: DragEvent, element: Component) => {
+const dragenter = (ev: DragEvent, component: Component) => {
   ev.preventDefault()
   // ev.stopPropagation()
-  // if (!isCurrentTarget(ev, element)) return
+  // if (!isCurrentTarget(ev, component)) return
 
   const target = ev.target as HTMLElement
   target.style.background = 'rgb(234, 242, 253)'
 }
 
-const dragover = (ev: DragEvent, element: Component) => {
+const dragover = (ev: DragEvent, component: Component) => {
   ev.preventDefault()
   // ev.stopPropagation()
-  // if (!isCurrentTarget(ev, element)) return
+  // if (!isCurrentTarget(ev, component)) return
 
   const { offsetX, offsetY, currentTarget } = ev
   const { clientWidth, clientHeight } = currentTarget as HTMLElement
 
-  if (containers.includes(element.type)) {
+  if (containers.includes(component.type)) {
     insertSeat = 'inside'
     return
   }
@@ -102,7 +101,7 @@ const dragover = (ev: DragEvent, element: Component) => {
   }
 
   Object.assign(insertPlaceholder, {
-    targetId: element.uuid,
+    targetId: component.uuid,
     placement: insertSeat,
     direction: isInline ? 'vertical' : 'horizontal',
     style: {
@@ -112,18 +111,18 @@ const dragover = (ev: DragEvent, element: Component) => {
   })
 }
 
-const dragleave = (ev: DragEvent, element: Component) => {
+const dragleave = (ev: DragEvent, component: Component) => {
   const target = ev.target as HTMLElement
   target.style.background = ''
   Object.assign(insertPlaceholder, { targetId: '', placement: '', direction: '', style: {} })
 }
 
-const drop = (ev: DragEvent, element: Component) => {
+const drop = (ev: DragEvent, component: Component) => {
   // ev.preventDefault()
   ev.stopPropagation()
-  // if (!isCurrentTarget(ev, element)) return
+  // if (!isCurrentTarget(ev, component)) return
 
-  const targetId = element.uuid
+  const targetId = component.uuid
   const target = ev.target as HTMLElement
   target.style.background = ''
   Object.assign(insertPlaceholder, { targetId: '', placement: '', direction: '', style: {} })
@@ -151,19 +150,19 @@ const drop = (ev: DragEvent, element: Component) => {
   }
 }
 
-const dragend = (ev: DragEvent, element: Component) => {}
+const dragend = (ev: DragEvent, component: Component) => {}
 
-const getClassNames = (element: Component) => {
+const getClassNames = (component: Component) => {
   return {
-    root: element.type === 'root',
-    active: editStore.currentComponent?.uuid === element.uuid && element.type !== 'modal',
-    'pointer-none': !containers.includes(element.type)
+    root: component.type === 'root',
+    active: editStore.currentComponent?.uuid === component.uuid && component.type !== 'modal',
+    'pointer-none': !containers.includes(component.type)
   }
 }
 
-const isCurrentTarget = (ev: MouseEvent | DragEvent, element: Component) => {
+const isCurrentTarget = (ev: MouseEvent | DragEvent, component: Component) => {
   const currentTarget = ev.currentTarget as HTMLElement
-  return currentTarget.getAttribute('id') === element.uuid
+  return currentTarget.getAttribute('id') === component.uuid
 }
 
 const isInlineBox = (currentTarget: HTMLElement) => {

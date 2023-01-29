@@ -12,7 +12,6 @@ import { useEditStore } from '@/store/editor'
 
 const editStore = useEditStore()
 const modalList = computed(() => {
-  console.log(15, editStore.currentPage.components)
   return editStore.currentPage.components?.filter(item => {
     if (item.type === 'modal') return item
   })

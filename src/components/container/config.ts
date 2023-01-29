@@ -5,5 +5,5 @@ export default {
   actions: [],
   property: {},
   animations: [],
-  childrens: []
+  children: []
 }

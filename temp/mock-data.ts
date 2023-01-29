@@ -1,4 +1,4 @@
-import { componentsConfig } from "./components"
+import { componentsConfig } from "../src/components"
 
 // 组件库列表
 export const componentLibs: ILib[] = [

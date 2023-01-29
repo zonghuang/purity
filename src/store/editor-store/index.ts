@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash-es'
 import { sessionCache } from '@/utils'
-import { componentsConfig, containers } from '@/mock-data'
+import { componentsConfig, containers } from '../../../temp/mock-data'
 import { getPages } from '../../../mock'
 
 const demoPage: any = {

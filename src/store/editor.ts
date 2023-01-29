@@ -1,7 +1,8 @@
 import { cloneDeep } from 'lodash-es'
 import { sessionCache } from '@/utils'
-import { componentsConfig, containers } from '@/mock-data'
+import { componentsConfig, containers } from '../../temp/mock-data'
 import { getPages } from '../../mock'
+import { conmponent_name_prefix } from '@/tokens'
 
 const demoPage: any = {
   page: 'sso-log',
@@ -168,103 +169,103 @@ const demoPage: any = {
     // },
 
     // button
-    {
-      uuid: 'elevated-button',
-      name: 'zh-elevated-button',
-      property: {
-        label: 'Elevated button'
-      },
-      actions: [
-        {
-          event: 'click',
-          action: 'openDialog',
-          options: {
-            targetId: '12',
-          }
-        }
-      ]
-    },
-    {
-      uuid: 'extended-fab',
-      name: 'zh-extended-fab',
-      property: {
-        icon: '@',
-        label: 'Extended fab'
-      }
-    },
-    {
-      uuid: 'fab',
-      name: 'zh-fab',
-      property: {
-        icon: '@'
-      }
-    },
-    {
-      uuid: 'filled-button',
-      name: 'zh-filled-button',
-      property: {
-        label: 'Filled button'
-      }
-    },
-    {
-      uuid: 'filled-tonal-button',
-      name: 'zh-filled-tonal-button',
-      property: {
-        label: 'Filled tonal button'
-      }
-    },
-    {
-      uuid: 'outlined-button',
-      name: 'zh-outlined-button',
-      property: {
-        label: 'Outlined button'
-      }
-    },
-    {
-      uuid: 'segmented-button',
-      name: 'zh-segmented-button',
-      property: {
-        segments: [
-          {
-            label: 'Segmented button'
-          }
-        ]
-      }
-    },
-    {
-      uuid: 'switch',
-      name: 'zh-switch',
-      modelValue: false,
-      property: {}
-    },
-    {
-      uuid: 'filled-text-field',
-      name: 'zh-filled-text-field',
-      modelValue: '',
-      property: {
-        label: 'Label text',
-        field: ''
-      },
-    },
-    {
-      uuid: 'outlined-text-field',
-      name: 'zh-outlined-text-field',
-      modelValue: '',
-      property: {
-        label: 'Label text',
-        field: ''
-      },
-    },
-    {
-      uuid: 'dialog',
-      name: 'zh-dialog',
-      type: 'modal',
-      modelValue: '',
-      property: {
-        label: 'Label text',
-        field: ''
-      },
-    }
+    // {
+    //   uuid: 'elevated-button',
+    //   name: 'zh-elevated-button',
+    //   property: {
+    //     label: 'Elevated button'
+    //   },
+    //   actions: [
+    //     {
+    //       event: 'click',
+    //       action: 'openDialog',
+    //       options: {
+    //         targetId: '12',
+    //       }
+    //     }
+    //   ]
+    // },
+    // {
+    //   uuid: 'extended-fab',
+    //   name: 'zh-extended-fab',
+    //   property: {
+    //     icon: '@',
+    //     label: 'Extended fab'
+    //   }
+    // },
+    // {
+    //   uuid: 'fab',
+    //   name: 'zh-fab',
+    //   property: {
+    //     icon: '@'
+    //   }
+    // },
+    // {
+    //   uuid: 'filled-button',
+    //   name: 'zh-filled-button',
+    //   property: {
+    //     label: 'Filled button'
+    //   }
+    // },
+    // {
+    //   uuid: 'filled-tonal-button',
+    //   name: 'zh-filled-tonal-button',
+    //   property: {
+    //     label: 'Filled tonal button'
+    //   }
+    // },
+    // {
+    //   uuid: 'outlined-button',
+    //   name: 'zh-outlined-button',
+    //   property: {
+    //     label: 'Outlined button'
+    //   }
+    // },
+    // {
+    //   uuid: 'segmented-button',
+    //   name: 'zh-segmented-button',
+    //   property: {
+    //     segments: [
+    //       {
+    //         label: 'Segmented button'
+    //       }
+    //     ]
+    //   }
+    // },
+    // {
+    //   uuid: 'switch',
+    //   name: 'zh-switch',
+    //   modelValue: false,
+    //   property: {}
+    // },
+    // {
+    //   uuid: 'filled-text-field',
+    //   name: 'zh-filled-text-field',
+    //   modelValue: '',
+    //   property: {
+    //     label: 'Label text',
+    //     field: ''
+    //   },
+    // },
+    // {
+    //   uuid: 'outlined-text-field',
+    //   name: 'zh-outlined-text-field',
+    //   modelValue: '',
+    //   property: {
+    //     label: 'Label text',
+    //     field: ''
+    //   },
+    // },
+    // {
+    //   uuid: 'dialog',
+    //   name: 'zh-dialog',
+    //   type: 'modal',
+    //   modelValue: '',
+    //   property: {
+    //     label: 'Label text',
+    //     field: ''
+    //   },
+    // }
   ],
   settings: {}
 }
@@ -366,7 +367,7 @@ export const useEditStore = defineStore('edit', {
 
     // 新增根组件
     addRootComponent() {
-      const rootComponent = cloneDeep(componentsConfig['zh-container'])
+      const rootComponent = cloneDeep(componentsConfig[`${conmponent_name_prefix}container`])
       rootComponent.uuid = String(++this.time)
       rootComponent.type = 'root'
       return rootComponent

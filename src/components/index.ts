@@ -57,8 +57,8 @@ if (mode !== 'lib') {
   const allConfig = import.meta.glob('./**/config.ts')
   for (const path in allConfig) {
     allConfig[path]().then((mod: any) => {
-      // const name = 'zh-' + mod.default.name
-      const name = mod.default.name.includes('zh-') ? mod.default.name : 'zh-' + mod.default.name
+      const name = 'zh-' + mod.default.name
+      mod.default.name = 'zh-' + mod.default.name
       componentsConfig[name] = mod.default
     })
   }

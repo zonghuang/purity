@@ -1,3 +1,114 @@
+export const components = [
+  {
+    label: 'Button',
+    name: 'button',
+    children: [
+      { icon: 'standard-icon-button', width: 40, height: 40 },
+      { icon: 'contained-icon-button', width: 40, height: 40 },
+      { icon: 'fab', width: 40, height: 40 },
+      { icon: 'extended-fab', width: 123, height: 40 },
+      { icon: 'elevated-button', width: 117, height: 40 },
+      { icon: 'filled-button', width: 99, height: 40 },
+      { icon: 'tonal-button', width: 99, height: 40 },
+      { icon: 'outlined-button', width: 99, height: 40 },
+      { icon: 'text-button', width: 75, height: 40 },
+      { icon: 'xxx', width: 40, height: 40 },
+      { icon: 'segmented-button', width: 280, height: 40 },
+    ]
+  },
+  {
+    label: 'Communication',
+    name: 'communication',
+    children: [
+      { icon: 'small-badge', width: 6, height: 6 },
+      { icon: 'large-badge', width: 16, height: 16 },
+
+      { icon: 'linear-progress-indicator', width: 260, height: 70 },
+      { icon: 'circular-progress-indicator', width: 50, height: 50 },
+
+      { icon: 'snackbar', width: 270, height: 52 },
+    ]
+  },
+  {
+    label: 'Containment',
+    name: 'Containment',
+    children: [
+      { icon: 'standard-bottom-sheet', width: 260, height: 210 },
+      { icon: 'modal-bottom-sheet', width: 260, height: 210 },
+
+      { icon: 'elevated-card', width: 272, height: 65 },
+      { icon: 'filled-card', width: 260, height: 65 },
+      { icon: 'outlined-card', width: 260, height: 65 },
+      { icon: 'elevated-card-pro', width: 270, height: 360 },
+      { icon: 'filled-card-pro', width: 260, height: 355 },
+      { icon: 'outlined-card-pro', width: 260, height: 355 },
+
+      { icon: 'basic-dialog', width: 260, height: 210 },
+      { icon: 'full-screen-dialog', width: 260, height: 320 },
+
+      { icon: 'divider', width: 280, height: 36 },
+
+      { icon: 'list', width: 260, height: 130 },
+    ]
+  },
+  {
+    label: 'Navigation',
+    name: 'navigation',
+    children: [
+      { icon: 'bottom-app-bar', width: 260, height: 60 },
+      { icon: 'navigation-bar', width: 260, height: 60 },
+      { icon: 'standard-navigation-drawer', width: 260, height: 430 },
+      { icon: 'navigation-rail', width: 110, height: 400 },
+
+      { icon: 'search-bar', width: 260, height: 56 },
+      { icon: 'search-view', width: 260, height: 115 },
+
+      { icon: 'primary-tabs', width: 260, height: 65 },
+      { icon: 'secondary-tabs', width: 260, height: 49 },
+
+      { icon: 'center-aligned-top-app-bar', width: 260, height: 50 },
+      { icon: 'small-top-app-bar', width: 260, height: 50 },
+      { icon: 'medium-top-app-bar', width: 260, height: 80 },
+      { icon: 'large-top-app-bar', width: 260, height: 105 },
+    ]
+  },
+  {
+    label: 'Selection',
+    name: 'selection',
+    children: [
+      { icon: 'radio', width: 48, height: 48 },
+      { icon: 'checkbox', width: 40, height: 40 },
+      { icon: 'switch', width: 52, height: 32 },
+      { icon: 'xxx', width: 52, height: 32 },
+
+      { icon: 'assist-chip', width: 101, height: 32 },
+      { icon: 'filter-chip', width: 101, height: 32 },
+      { icon: 'input-chip', width: 97, height: 32 },
+      { icon: 'suggestion-chip', width: 83, height: 32 },
+
+      { icon: 'docked-date-picker', width: 264, height: 415 },
+      { icon: 'modal-date-picker', width: 260, height: 415 },
+      { icon: 'modal-date-input', width: 264, height: 225 },
+
+      { icon: 'menus', width: 240, height: 200 },
+
+      { icon: 'continuous-slider', width: 180, height: 75 },
+      { icon: 'discrete-slider', width: 180, height: 75 },
+
+      { icon: 'time-picker-dial', width: 260, height: 415 },
+      { icon: 'time-picker-input', width: 260, height: 200 }
+    ]
+  },
+  {
+    label: 'Text input',
+    name: 'text-input',
+    children: [
+      { icon: 'filled-text-field', width: 210, height: 48 },
+      { icon: 'outlined-text-field', width: 210, height: 56 }
+    ]
+  }
+]
+
 /**
 Badges
 small-badge
@@ -64,13 +175,11 @@ Image list
 Lists
 list
 
-Navigation bar
-navigation-bar
-
 Menus
 menus
 
 Navigation bar
+navigation-bar
 
 Navigation drawers
 standard-navigation-drawer
@@ -91,6 +200,8 @@ radio
 Rating
 
 Search
+search-bar
+search-view
 
 Select
 
@@ -132,75 +243,3 @@ large-top-app-bar
 
 Tree
 */
-
-export const components = [
-  {
-    label: 'Buttons',
-    name: 'buttons',
-    children: [
-      { label: 'Elevated button', name: 'elevated-button', icon: '' },
-      { label: 'Extended fab', name: 'extended-fab', icon: '' },
-      { label: 'Fab', name: 'fab', icon: '' },
-      { label: 'Filled button', name: 'filled-button', icon: '' },
-      { label: 'Filled tonal button', name: 'filled-tonal-button', icon: '' },
-      { label: 'Icon button', name: 'icon-button', icon: '' },
-      { label: 'Outlined button', name: 'outlined-button', icon: '' },
-      { label: 'Segmented button', name: 'segmented-button', icon: '' },
-      { label: 'Text button', name: 'text-button', icon: '' }
-    ]
-  },
-  {
-    label: 'Communication',
-    name: 'communication',
-    children: [
-      { label: 'Badges', name: 'badge', icon: '' },
-      { label: 'Progress indicators', name: '', icon: '' },
-      { label: 'Snackbar', name: '', icon: '' }
-    ]
-  },
-  {
-    label: 'Containment',
-    name: 'Containment',
-    children: [
-      { label: 'Bottom sheet', name: 'bottom-sheet', icon: '' },
-      { label: 'Card', name: 'card', icon: '' },
-      { label: 'Container', name: 'container', icon: '' },
-      { label: 'Dialog', name: 'dialog', icon: '' },
-      { label: 'Divider', name: 'divider', icon: '' },
-      { label: 'List', name: 'list', icon: '' }
-    ]
-  },
-  {
-    label: 'Navigation',
-    name: 'navigation',
-    children: [
-      { label: 'Bottom app bar', name: 'bottom-app-bar', icon: '' },
-      { label: 'Navigation bar', name: 'navigation-bar', icon: '' },
-      { label: 'Navigation drawer', name: 'navigation-drawer', icon: '' },
-      { label: 'Navigation rail', name: 'navigation-rail', icon: '' },
-      { label: 'Search', name: 'search', icon: '' },
-      { label: 'Tabs', name: 'tabs', icon: '' },
-      { label: 'Top app bar', name: 'top-app-bar', icon: '' }
-    ]
-  },
-  {
-    label: 'Selection',
-    name: 'selection',
-    children: [
-      { label: 'Chips', name: '', icon: '' },
-      { label: 'Date pickers', name: '', icon: '' },
-      { label: 'Menus', name: '', icon: '' },
-      { label: 'Radio buttons', name: '', icon: '' },
-      { label: 'Sliders', name: '', icon: '' },
-      { label: 'Switch', name: '', icon: '' },
-      { label: 'Time pickers', name: '', icon: '' }
-    ]
-  },
-  {
-    label: 'Text inputs',
-    name: 'text-inputs',
-    children: [
-      { label: 'Text fields', name: '', icon: '' },
-    ]
-  },
-]
