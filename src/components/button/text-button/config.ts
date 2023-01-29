@@ -1,6 +1,6 @@
 export default {
   name: 'text-button',
-  propConfig: {
+  property: {
     label: 'Text button'
   }
 }

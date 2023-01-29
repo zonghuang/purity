@@ -6,7 +6,7 @@ import { getPages } from '../../mock'
 const demoPage: any = {
   page: 'sso-log',
   title: 'sso 日志',
-  elements: [
+  components: [
     // {
     //   uuid: '1662126644525',
     //   name: 'zh-container',
@@ -25,9 +25,9 @@ const demoPage: any = {
     //     }
     //   ],
     //   modelValue: '',
-    //   propConfig: {},
+    //   property: {},
     //   animations: [],
-    //   childrens: [
+    //   children: [
     //     {
     //       uuid: '1662126786340',
     //       name: 'zh-form',
@@ -45,14 +45,14 @@ const demoPage: any = {
     //         }
     //       ],
     //       modelValue: {},
-    //       propConfig: {
+    //       property: {
     //         label: '表单',
     //         formItemWidth: '',
     //         labelWidth: '',
     //         labelPosition: ''
     //       },
     //       animations: [],
-    //       childrens: [
+    //       children: [
     //         {
     //           uuid: '1662126789908',
     //           name: 'zh-filled-text-field',
@@ -60,7 +60,7 @@ const demoPage: any = {
     //           style: {},
     //           actions: [],
     //           modelValue: '',
-    //           propConfig: {
+    //           property: {
     //             label: 'Label text',
     //             field: '',
     //           },
@@ -73,7 +73,7 @@ const demoPage: any = {
     //           style: {},
     //           actions: [],
     //           modelValue: '',
-    //           propConfig: {
+    //           property: {
     //             label: 'Label text',
     //             field: '',
     //           },
@@ -93,7 +93,7 @@ const demoPage: any = {
     //               }
     //             }
     //           ],
-    //           propConfig: {
+    //           property: {
     //             label: 'Elevated button'
     //           },
     //           animations: []
@@ -104,7 +104,7 @@ const demoPage: any = {
     //           type: 'button',
     //           style: {},
     //           actions: [],
-    //           propConfig: {
+    //           property: {
     //             icon: '@'
     //           },
     //           animations: []
@@ -116,7 +116,7 @@ const demoPage: any = {
     //           style: {},
     //           actions: [],
     //           modelValue: '',
-    //           propConfig: {
+    //           property: {
     //             label: 'Label text',
     //             field: '',
     //           },
@@ -128,13 +128,13 @@ const demoPage: any = {
     //   slots: [
     //     {
     //       name: 'header',
-    //       childrens: [
+    //       children: [
     //         {
     //           uuid: '166212ggg8',
     //           name: 'zh-filled-text-field',
     //           type: 'input',
     //           modelValue: '',
-    //           propConfig: {
+    //           property: {
     //             label: 'Slot Label text',
     //             field: '',
     //           },
@@ -143,7 +143,7 @@ const demoPage: any = {
     //           uuid: '16asdafg',
     //           name: 'zh-elevated-button',
     //           type: 'button',
-    //           propConfig: {
+    //           property: {
     //             label: 'Slot Header'
     //           },
     //         },
@@ -151,13 +151,13 @@ const demoPage: any = {
     //     },
     //     {
     //       name: 'footer',
-    //       childrens: [
+    //       children: [
     //         {
     //           uuid: '16asd',
     //           name: 'zh-elevated-button',
     //           type: 'button',
     //           modelValue: '',
-    //           propConfig: {
+    //           property: {
     //             // icon: '+',
     //             label: 'Slot Footer'
     //           },
@@ -171,7 +171,7 @@ const demoPage: any = {
     {
       uuid: 'elevated-button',
       name: 'zh-elevated-button',
-      propConfig: {
+      property: {
         label: 'Elevated button'
       },
       actions: [
@@ -187,7 +187,7 @@ const demoPage: any = {
     {
       uuid: 'extended-fab',
       name: 'zh-extended-fab',
-      propConfig: {
+      property: {
         icon: '@',
         label: 'Extended fab'
       }
@@ -195,35 +195,35 @@ const demoPage: any = {
     {
       uuid: 'fab',
       name: 'zh-fab',
-      propConfig: {
+      property: {
         icon: '@'
       }
     },
     {
       uuid: 'filled-button',
       name: 'zh-filled-button',
-      propConfig: {
+      property: {
         label: 'Filled button'
       }
     },
     {
       uuid: 'filled-tonal-button',
       name: 'zh-filled-tonal-button',
-      propConfig: {
+      property: {
         label: 'Filled tonal button'
       }
     },
     {
       uuid: 'outlined-button',
       name: 'zh-outlined-button',
-      propConfig: {
+      property: {
         label: 'Outlined button'
       }
     },
     {
       uuid: 'segmented-button',
       name: 'zh-segmented-button',
-      propConfig: {
+      property: {
         segments: [
           {
             label: 'Segmented button'
@@ -235,13 +235,13 @@ const demoPage: any = {
       uuid: 'switch',
       name: 'zh-switch',
       modelValue: false,
-      propConfig: {}
+      property: {}
     },
     {
       uuid: 'filled-text-field',
       name: 'zh-filled-text-field',
       modelValue: '',
-      propConfig: {
+      property: {
         label: 'Label text',
         field: ''
       },
@@ -250,7 +250,17 @@ const demoPage: any = {
       uuid: 'outlined-text-field',
       name: 'zh-outlined-text-field',
       modelValue: '',
-      propConfig: {
+      property: {
+        label: 'Label text',
+        field: ''
+      },
+    },
+    {
+      uuid: 'dialog',
+      name: 'zh-dialog',
+      type: 'modal',
+      modelValue: '',
+      property: {
         label: 'Label text',
         field: ''
       },
@@ -260,13 +270,13 @@ const demoPage: any = {
 }
 
 export const useEditStore = defineStore('edit', {
-  state: (): IEditorState => ({
+  state: (): EditorState => ({
     time: new Date().getTime(),
     pages: [],
-    currentPage: {} as IPage,
+    currentPage: {} as Page,
     currentComponent: null,
 
-    snapshot: {} as ISnapshot,
+    snapshot: {} as Snapshot,
     snapshotStore: []
   }),
 
@@ -275,7 +285,7 @@ export const useEditStore = defineStore('edit', {
   actions: {
     async fetchConfig(query: IObject) {
       this.currentComponent = null
-      this.currentPage.elements = []
+      this.currentPage.components = []
 
       // 编辑页面未划分给某个系统并且有本地缓存时，取缓存数据；反之取云端数据
       const local = sessionCache.getCache('purity')
@@ -284,8 +294,8 @@ export const useEditStore = defineStore('edit', {
       const pages = [demoPage]
 
       // 如果页面没有元素，则给它一个根元素
-      if (!pages[0].elements.length) {
-        pages[0].elements.push(this.addRootComponent())
+      if (!pages[0].components.length) {
+        pages[0].components.push(this.addRootComponent())
       }
 
       // this.$patch({ pages: pages, currentPage: pages[0] })
@@ -308,9 +318,9 @@ export const useEditStore = defineStore('edit', {
         module: '',
         page: pageName,
         title: 'page-' + num,
-        elements: [this.addRootComponent()],
+        components: [this.addRootComponent()],
         settings: {},
-        actions: []
+        // actions: []
       })
       this.snapshotStore.push({ id: pageName, index: -1, list: [] })
       this.changePage(pageName)
@@ -370,7 +380,7 @@ export const useEditStore = defineStore('edit', {
     },
 
     // 设置组件 uuid，以时间赋值
-    setComponentId(component: IElement) {
+    setComponentId(component: Component) {
       if (!component) {
         console.log('此组件正在开发中...')
         ElMessage('此组件正在开发中...')
@@ -378,9 +388,9 @@ export const useEditStore = defineStore('edit', {
       }
 
       component.uuid = String(++this.time)
-      if (component.childrens) {
-        for (let i = 0; i < component.childrens.length; i++) {
-          this.setComponentId(component.childrens[i])
+      if (component.children) {
+        for (let i = 0; i < component.children.length; i++) {
+          this.setComponentId(component.children[i])
         }
       }
     },
@@ -406,7 +416,7 @@ export const useEditStore = defineStore('edit', {
         return
       }
 
-      const target = this.findComponent(this.currentPage.elements, targetId)
+      const target = this.findComponent(this.currentPage.components, targetId)
       target?.parent.splice(target.index, 0, this.currentComponent!)
     },
 
@@ -417,7 +427,7 @@ export const useEditStore = defineStore('edit', {
         return
       }
 
-      const target = this.findComponent(this.currentPage.elements, targetId)
+      const target = this.findComponent(this.currentPage.components, targetId)
       target?.parent.splice(target.index + 1, 0, this.currentComponent!)
     },
 
@@ -428,34 +438,34 @@ export const useEditStore = defineStore('edit', {
         return
       }
 
-      const target = this.findComponent(this.currentPage.elements, targetId)
-      target?.config.childrens?.push(this.currentComponent!)
+      const target = this.findComponent(this.currentPage.components, targetId)
+      target?.config.children?.push(this.currentComponent!)
     },
 
     // 插入模态框组件
     insertModal() {
-      this.currentPage.elements.push(this.currentComponent!)
+      this.currentPage.components.push(this.currentComponent!)
     },
 
     // 查找目标组件的索引、配置、父组件
     findComponent(
-      elements: IElement[],
+      components: Component[],
       targetId: string,
-      target?: { index: number; config: IElement; parent: IElement[] }
+      target?: { index: number; config: Component; parent: Component[] }
     ) {
-      for (let i = 0; i < elements.length; i++) {
+      for (let i = 0; i < components.length; i++) {
         if (target) break
-        if (elements[i].uuid === targetId)
-          return { index: i, config: elements[i], parent: elements }
-        if (!target && elements[i].childrens)
-          target = this.findComponent(elements[i].childrens!, targetId, target)
+        if (components[i].uuid === targetId)
+          return { index: i, config: components[i], parent: components }
+        if (!target && components[i].children)
+          target = this.findComponent(components[i].children!, targetId, target)
       }
       return target
     },
 
     // 设置当前组件
     setComponent(targetId: string) {
-      const target = this.findComponent(this.currentPage.elements, targetId)
+      const target = this.findComponent(this.currentPage.components, targetId)
       if (target) this.currentComponent = target.config
     },
 
@@ -465,7 +475,7 @@ export const useEditStore = defineStore('edit', {
     },
 
     // 粘贴组件
-    pasteComponent(component: IElement) {
+    pasteComponent(component: Component) {
       if (!this.currentComponent) return
       this.time = new Date().getTime()
       this.setComponentId(component)
@@ -478,7 +488,7 @@ export const useEditStore = defineStore('edit', {
 
     // 删除组件
     deleteComponent(targetId: string, isRecord: boolean = true) {
-      const target = this.findComponent(this.currentPage.elements, targetId)
+      const target = this.findComponent(this.currentPage.components, targetId)
       target?.parent.splice(target.index, 1)
       isRecord && this.recordSnapshot()
     },
@@ -490,9 +500,9 @@ export const useEditStore = defineStore('edit', {
 
     // 打开模态框
     openModal(targetId: string) {
-      this.currentPage.elements.some((item) => {
+      this.currentPage.components.some((item) => {
         if (item.uuid === targetId) {
-          item.propConfig.visible = true
+          item.property.visible = true
           return true
         }
       })
@@ -500,9 +510,9 @@ export const useEditStore = defineStore('edit', {
 
     // 关闭模态框
     closeModal(targetId: string) {
-      this.currentPage.elements.some((item) => {
+      this.currentPage.components.some((item) => {
         if (item.uuid === targetId) {
-          item.propConfig.visible = false
+          item.property.visible = false
           return true
         }
       })
@@ -510,7 +520,7 @@ export const useEditStore = defineStore('edit', {
 
     // 记录快照
     recordSnapshot() {
-      this.snapshot.list[++this.snapshot.index] = cloneDeep(this.currentPage.elements)
+      this.snapshot.list[++this.snapshot.index] = cloneDeep(this.currentPage.components)
       if (this.snapshot.index < this.snapshot.list.length - 1) {
         this.snapshot.list = this.snapshot.list.slice(0, this.snapshot.index + 1)
       }
@@ -526,8 +536,8 @@ export const useEditStore = defineStore('edit', {
     undo() {
       if (this.snapshot.index > 0) {
         this.snapshot.index--
-        const elements = cloneDeep(this.snapshot.list[this.snapshot.index])
-        this.setCurrentPageElements(elements)
+        const components = cloneDeep(this.snapshot.list[this.snapshot.index])
+        this.setCurrentPageComponents(components)
       }
     },
 
@@ -535,14 +545,14 @@ export const useEditStore = defineStore('edit', {
     redo() {
       if (this.snapshot.index < this.snapshot.list.length - 1) {
         this.snapshot.index++
-        const elements = cloneDeep(this.snapshot.list[this.snapshot.index])
-        this.setCurrentPageElements(elements)
+        const components = cloneDeep(this.snapshot.list[this.snapshot.index])
+        this.setCurrentPageComponents(components)
       }
     },
 
-    // 设置当前页面的 elements
-    setCurrentPageElements(elements: IElement[]) {
-      this.currentPage.elements = elements
+    // 设置当前页面的 components
+    setCurrentPageComponents(components: Component[]) {
+      this.currentPage.components = components
     },
 
     // 保存

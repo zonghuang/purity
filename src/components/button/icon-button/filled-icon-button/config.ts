@@ -1,6 +1,6 @@
 export default {
   name: 'filled-icon-button',
-  propConfig: {
+  property: {
     icon: '',
   }
 }

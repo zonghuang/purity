@@ -1,10 +1,10 @@
-import { ILoading } from './types'
+import { Loading } from './types'
 
 /**
  * There are two types of progress indicators: Linear and circular
  */
 export class Progress {
-  loading(option: boolean | ILoading) {
+  loading(option: boolean | Loading) {
     console.log('loading', option)
   }
 

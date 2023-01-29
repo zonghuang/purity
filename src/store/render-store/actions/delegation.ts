@@ -6,6 +6,5 @@ import { findComponent } from './find-component'
 export function delegation(options: DelegationOption, components: Component[]) {
   const { targetId, event } = options
   const target = findComponent(targetId, components)
-  const actions = target?.actions?.filter(item => item.event === event)
-  // runAction(actions, target)
+  return target?.actions?.filter(item => item.event === event)
 }

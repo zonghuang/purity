@@ -2,7 +2,7 @@ import { getIn, localCache, sessionCache } from '@/utils'
 import { defaultConfig } from './config'
 import { Request } from './request'
 import { feedback } from './feedback'
-import { httpStatusHandler } from './status-handler'
+import { httpStatusHandler } from './http-status-handler'
 import type { RequestConfig } from './types'
 
 export const zhRequest = new Request({

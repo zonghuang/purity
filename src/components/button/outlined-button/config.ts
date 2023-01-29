@@ -1,6 +1,6 @@
 export default {
   name: 'outlined-button',
-  propConfig: {
+  property: {
     label: 'Outlined button'
   }
 }

@@ -17,9 +17,9 @@ export interface RequestConfig extends AxiosRequestConfig {
 
 export interface CustomConfig {
   jsonPath?: string
-  loading?: boolean | ILoading
-  successfulFeedback?: IFeedback
-  failedFeedback?: IFeedback
+  loading?: boolean | Loading
+  successfulFeedback?: Feedback
+  failedFeedback?: Feedback
   dupliRequestStrictEquality?: boolean
   successCode?: number | string
   codePath?: string
@@ -27,12 +27,12 @@ export interface CustomConfig {
   unhandled?: boolean
 }
 
-export interface ILoading {
+export interface Loading {
   type?: 'circular' | 'linear'
   color?: string
 }
 
-export interface IFeedback {
+export interface Feedback {
   type: 'snackbar' | 'notification'
   duration?: number
   placement?: 'topCenter' | 'topRight' | 'bottomCenter' | 'bottomRight'

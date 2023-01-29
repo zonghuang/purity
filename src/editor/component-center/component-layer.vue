@@ -22,7 +22,7 @@ const editStore = useEditStore()
 
 const refresh = ref(true)
 const defaultProps = { label: 'name', children: 'childrens' }
-const trees = computed(() => editStore.currentPage.elements)
+const trees = computed(() => editStore.currentPage.components)
 const currentNodeKey = computed(() => editStore.currentComponent?.uuid)
 
 watch(currentNodeKey, () => {
@@ -32,7 +32,7 @@ watch(currentNodeKey, () => {
   immediate: true
 })
 
-const clickNode = (node: IElement) => {
+const clickNode = (node: Component) => {
   editStore.setComponent(node.uuid)
   if (node.type === 'modal') editStore.openModal(node.uuid)
 }

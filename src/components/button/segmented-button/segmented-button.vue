@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  propConfig: {
+  property: {
     segments: {
       label: string
       icon?: string
@@ -18,8 +18,8 @@ const props = defineProps<{
 }>()
 const emit = defineEmits(['action'])
 
-const segments = computed(() => props.propConfig.segments)
-
 const click = () => emit('action', { event: 'click' })
 const dbclick = () => emit('action', { event: 'dbclick' })
+
+const segments = computed(() => props.property.segments)
 </script>

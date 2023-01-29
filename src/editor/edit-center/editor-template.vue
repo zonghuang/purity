@@ -1,5 +1,5 @@
 <template>
-  <template v-for="element in elements" :key="element.uuid">
+  <template v-for="element in components" :key="element.uuid">
     <line-insert-placeholder
       v-if="insertPlaceholder.targetId === element.uuid && insertPlaceholder.placement === 'previous'"
       :direction="insertPlaceholder.direction"
@@ -14,8 +14,8 @@
       :uuid="element.uuid"
       :style="element.style"
       :modelValue="element.modelValue"
-      :propConfig="element.propConfig"
-      :childrens="element.childrens"
+      :property="element.property"
+      :children="element.children"
       @mousedown="mousedown($event, element)"
       @dragstart="dragstart($event, element)"
       @drag="drag($event, element)"
@@ -25,10 +25,10 @@
       @drop="drop($event, element)"
       @dragend="dragend($event, element)"
     >
-      <editor-template v-if="element.childrens?.length" :elements="element.childrens" />
+      <editor-template v-if="element.children?.length" :components="element.children" />
 
       <template v-for="slot in element.slots" :key="slot.name" v-slot:[slot.name]>
-        <render-template :elements="slot.childrens" />
+        <render-template :components="slot.children" />
       </template>
     </component>
 
@@ -45,7 +45,7 @@ import { useEditStore } from '@/store/editor'
 import { containers } from '@/mock-data'
 
 defineProps<{
-  elements: IElement[]
+  components: Component[]
 }>()
 
 const editStore = useEditStore()
@@ -53,14 +53,14 @@ const editStore = useEditStore()
 let insertSeat: InsertSeat = 'next'
 const insertPlaceholder = reactive({ targetId: '', placement: '', direction: '', style: {} })
 
-const mousedown = (ev: MouseEvent, element: IElement) => {
+const mousedown = (ev: MouseEvent, element: Component) => {
   ev.stopPropagation()
   // if (!isCurrentTarget(ev, element)) return
 
   editStore.currentComponent = element
 }
 
-const dragstart = (ev: DragEvent, element: IElement) => {
+const dragstart = (ev: DragEvent, element: Component) => {
   ev.stopPropagation()
   ev.dataTransfer?.clearData()
   // if (!isCurrentTarget(ev, element)) return
@@ -70,9 +70,9 @@ const dragstart = (ev: DragEvent, element: IElement) => {
   ev.dataTransfer!.setData('text/plain', JSON.stringify(data))
 }
 
-const drag = (ev: DragEvent, element: IElement) => {}
+const drag = (ev: DragEvent, element: Component) => {}
 
-const dragenter = (ev: DragEvent, element: IElement) => {
+const dragenter = (ev: DragEvent, element: Component) => {
   ev.preventDefault()
   // ev.stopPropagation()
   // if (!isCurrentTarget(ev, element)) return
@@ -81,7 +81,7 @@ const dragenter = (ev: DragEvent, element: IElement) => {
   target.style.background = 'rgb(234, 242, 253)'
 }
 
-const dragover = (ev: DragEvent, element: IElement) => {
+const dragover = (ev: DragEvent, element: Component) => {
   ev.preventDefault()
   // ev.stopPropagation()
   // if (!isCurrentTarget(ev, element)) return
@@ -112,13 +112,13 @@ const dragover = (ev: DragEvent, element: IElement) => {
   })
 }
 
-const dragleave = (ev: DragEvent, element: IElement) => {
+const dragleave = (ev: DragEvent, element: Component) => {
   const target = ev.target as HTMLElement
   target.style.background = ''
   Object.assign(insertPlaceholder, { targetId: '', placement: '', direction: '', style: {} })
 }
 
-const drop = (ev: DragEvent, element: IElement) => {
+const drop = (ev: DragEvent, element: Component) => {
   // ev.preventDefault()
   ev.stopPropagation()
   // if (!isCurrentTarget(ev, element)) return
@@ -151,9 +151,9 @@ const drop = (ev: DragEvent, element: IElement) => {
   }
 }
 
-const dragend = (ev: DragEvent, element: IElement) => {}
+const dragend = (ev: DragEvent, element: Component) => {}
 
-const getClassNames = (element: IElement) => {
+const getClassNames = (element: Component) => {
   return {
     root: element.type === 'root',
     active: editStore.currentComponent?.uuid === element.uuid && element.type !== 'modal',
@@ -161,7 +161,7 @@ const getClassNames = (element: IElement) => {
   }
 }
 
-const isCurrentTarget = (ev: MouseEvent | DragEvent, element: IElement) => {
+const isCurrentTarget = (ev: MouseEvent | DragEvent, element: Component) => {
   const currentTarget = ev.currentTarget as HTMLElement
   return currentTarget.getAttribute('id') === element.uuid
 }

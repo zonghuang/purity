@@ -2,7 +2,7 @@
   <div class="modal-list" v-if="modalList?.length">
     <div class="modal-preview" :key="item.uuid" v-for="item in modalList" @click="handleClick(item)">
       <div class="image"></div>
-      <span class="title">{{ item.propConfig.label }}</span>
+      <span class="title">{{ item.property.label }}</span>
     </div>
   </div>
 </template>
@@ -12,12 +12,13 @@ import { useEditStore } from '@/store/editor'
 
 const editStore = useEditStore()
 const modalList = computed(() => {
-  return editStore.currentPage.elements?.filter(item => {
+  console.log(15, editStore.currentPage.components)
+  return editStore.currentPage.components?.filter(item => {
     if (item.type === 'modal') return item
   })
 })
 
-const handleClick = (item: IElement) => {
+const handleClick = (item: Component) => {
   editStore.setComponent(item.uuid)
   editStore.openModal(item.uuid)
 }
@@ -26,7 +27,7 @@ const handleClick = (item: IElement) => {
 <style scoped lang="less">
 .modal-list {
   width: 100px;
-  padding: 12px;
+  padding: 8px;
   background: #fff;
 }
 

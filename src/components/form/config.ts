@@ -1,11 +1,11 @@
 export default {
   uuid: '',
-  name: 'zh-form',
+  name: 'form',
   type: 'form',
   style: { height: '100px' },
   actions: [],
   modelValue: {},
-  propConfig: {
+  property: {
     label: '表单',
     formItemWidth: '',
     labelWidth: '',

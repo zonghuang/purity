@@ -1,22 +1,14 @@
 <template>
-  <div class="zh-container" @click="handleClick">
+  <div>
     <slot></slot>
+    <slot name="header"></slot>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  uuid: string
-  modelValue: string
-}>()
-
 const emit = defineEmits(['action'])
 
-const handleClick = () => emit('action', { event: 'click' })
+onBeforeMount(() => emit('action', { event: 'beforeMount' }))
+onMounted(() => emit('action', { event: 'mounted' }))
+onBeforeUnmount(() => emit('action', { event: 'beforeUnmount' }))
 </script>
-
-<style scoped lang="less">
-&::-webkit-scrollbar {
-  display: none;
-}
-</style>

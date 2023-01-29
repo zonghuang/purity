@@ -1,6 +1,6 @@
 export default {
   name: 'filled-button',
-  propConfig: {
+  property: {
     label: 'Filled button'
   }
 }

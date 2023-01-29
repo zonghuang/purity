@@ -1,6 +1,6 @@
 export default {
   name: 'fab',
-  propConfig: {
+  property: {
     icon: ''
   }
 }

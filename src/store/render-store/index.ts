@@ -12,14 +12,19 @@ import {
   upload,
   validateForm
 } from './actions'
+import { getProperty, getModelValue } from './getters'
+
+import { config } from './config'
 
 export const useRenderStore = defineStore('render', {
   state: (): RenderState => ({
     page: {} as Page,
-    cacheData: {}
   }),
 
-  getters: {},
+  getters: {
+    getProperty,
+    getModelValue,
+  },
 
   actions: {
     closeDialog,
@@ -35,6 +40,10 @@ export const useRenderStore = defineStore('render', {
     upload,
     validateForm,
 
+    fetchPageConfig() {
+      this.page.components = config
+    },
+
     // actions filter
     // 1.event
     // 2.condition
@@ -42,7 +51,7 @@ export const useRenderStore = defineStore('render', {
     async handleAction(actions: Action[]) {
       // condition
 
-      actions.forEach((item) => {
+      actions.forEach(async (item) => {
         const { action, options, thenActions } = item
         switch (action) {
           case 'openDialog':
@@ -55,10 +64,12 @@ export const useRenderStore = defineStore('render', {
             this.navigateTo(options)
             break
           case 'delegation':
-            this.delegation(options, this.page.components)
+            const actions = this.delegation(options, this.page.components)
+            if (actions) this.handleAction(actions)
             break
           case 'validateForm':
-            this.validateForm(options.targetId)
+            const res = await this.validateForm(options.targetId)
+            // if (res) this.handleAction(thenActions)
             break
           case 'setState':
             this.setState(options)
@@ -79,18 +90,17 @@ export const useRenderStore = defineStore('render', {
             this.printDocs(options)
             break
 
-
           default:
             break
         }
       })
     }
-  }
+  },
 
   // 开启数据缓存
-  // persist: {
-  //   enabled: true
-  // }
+  persist: {
+    enabled: true
+  }
 })
 
 if (import.meta.hot) {

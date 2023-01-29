@@ -1,6 +1,6 @@
 export default {
   name: 'extended-fab',
-  propConfig: {
+  property: {
     label: 'Extended Fab'
   }
 }

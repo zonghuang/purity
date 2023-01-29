@@ -1,47 +1,42 @@
 <template>
   <component
-    v-for="element in elements"
-    :key="element.uuid"
-    :is="element.name"
-    :uuid="element.uuid"
-    :style="element.style"
-    :actions="element.actions"
-    :modelValue="element.modelValue"
-    :propConfig="element.propConfig"
-    :childrens="element.childrens"
-    @update:modelValue="handleUpdate($event, element)"
-    @action="handleAction($event, element)"
+    v-for="component in components"
+    :key="component.uuid"
+    :is="component.name"
+    :uuid="component.uuid"
+    :style="component.style"
+    :property="component.property"
+    :modelValue="component.modelValue"
+    @update:modelValue="handleUpdate($event, component)"
+    @action="handleAction($event, component)"
   >
-    <render-template v-if="element.childrens?.length" :elements="element.childrens" />
-
-    <template v-for="slot in element.slots" :key="slot.name" v-slot:[slot.name]>
-      <render-template :elements="slot.childrens" />
+    <render-template v-if="component.children?.length" :components="component.children" />
+    <template v-for="slot in component.slots" :key="slot.name" v-slot:[slot.name]>
+      <render-template :components="slot.children" />
     </template>
   </component>
 </template>
 
 <script setup lang="ts">
-import { useRenderStore } from '@/store/render'
+import { useRenderStore } from '@/store'
 
 defineProps<{
-  elements: IElement[]
+  components: Component[]
 }>()
 
 const renderStore = useRenderStore()
 
-function handleUpdate(newValue: any, element: IElement) {
-  console.log('update', newValue, toRaw(element))
-  renderStore.updateValue(newValue, element)
+const getProps = (component: Component) => renderStore.getProperty(component)
+const getValue = (component: Component) => renderStore.getModelValue(component)
+
+function handleUpdate(newValue: any, component: Component) {
+  console.log('update:modelValue', newValue, component)
+  component.modelValue = newValue
 }
 
-function handleAction(ev: { event: string; bindCode?: string }, element: IElement) {
-  console.log('action', ev.event, toRaw(element))
-  const actions = element.actions?.filter(item => item.event === ev.event)
-  if (actions && ev.bindCode) {
-    const bindCodeActions = actions.filter(item => item.bindCode === ev.bindCode)
-    bindCodeActions && renderStore.handleActions(bindCodeActions)
-  } else {
-    actions && renderStore.handleActions(actions)
-  }
+function handleAction(ev: any, component: Component) {
+  console.log(ev.event, component)
+  const actions = component.actions?.filter(item => item.event === ev.event)
+  if (actions) renderStore.handleAction(actions)
 }
 </script>

@@ -1,6 +1,6 @@
 export default {
   name: 'filled-tonal-button',
-  propConfig: {
+  property: {
     label: 'Filled tonal button'
   }
 }

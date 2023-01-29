@@ -89,7 +89,8 @@ const preview = (module: string, page?: string) => {
   }
   if (page) query.page = page.replace('/', '')
   const system = type.value
-  router.push({ path: `/render/${system}${module}${page}`, name: 'render', params: query })
+  router.push({ name: 'render', params: query })
+  // router.push({ path: `/render/${system}${module}${page}`, name: 'render', params: query })
 }
 
 const edit = (module: string, page?: string) => {

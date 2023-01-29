@@ -9,16 +9,16 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  propConfig: {
+  property: {
     icon: string
     disabled?: boolean
   }
 }>()
 const emit = defineEmits(['action'])
 
-const icon = computed(() => props.propConfig.icon)
-const disabled = computed(() => props.propConfig.disabled)
-
 const click = () => emit('action', { event: 'click' })
 const dbclick = () => emit('action', { event: 'dbclick' })
+
+const icon = computed(() => props.property.icon)
+const disabled = computed(() => props.property.disabled)
 </script>

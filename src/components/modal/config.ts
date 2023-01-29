@@ -5,7 +5,7 @@ export default {
   style: {},
   actions: [],
   modelValue: '',
-  propConfig: {
+  property: {
     label: '模态框',
     width: '500px',
     visible: true,
@@ -21,7 +21,7 @@ export default {
       style: { minHeight: '100px', overflowY: 'scroll' },
       actions: [],
       modelValue: '',
-      propConfig: {},
+      property: {},
       animations: [],
       childrens: []
     },
@@ -38,7 +38,7 @@ export default {
       },
       actions: [],
       modelValue: '',
-      propConfig: {},
+      property: {},
       animations: [],
       childrens: [
         {
@@ -48,7 +48,7 @@ export default {
           style: { display: 'inline-block' },
           actions: [],
           modelValue: '',
-          propConfig: { label: '取 消' },
+          property: { label: '取 消' },
           animations: []
         },
         {
@@ -58,7 +58,7 @@ export default {
           style: { display: 'inline-block' },
           actions: [],
           modelValue: '',
-          propConfig: { type: 'primary', label: '确 认' },
+          property: { type: 'primary', label: '确 认' },
           animations: []
         }
       ]

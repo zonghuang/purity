@@ -1,6 +1,6 @@
 export default {
   name: 'elevated-button',
-  propConfig: {
+  property: {
     label: 'Elevated button'
   }
 }

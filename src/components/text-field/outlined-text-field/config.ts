@@ -5,7 +5,7 @@ export default {
   style: {},
   actions: [],
   modelValue: '',
-  propConfig: {
+  property: {
     label: 'Label text'
   },
   animations: []

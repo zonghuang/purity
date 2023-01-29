@@ -1,6 +1,6 @@
 export default {
   name: 'outlined-icon-button',
-  propConfig: {
+  property: {
     icon: ''
   }
 }

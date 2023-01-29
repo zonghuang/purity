@@ -1,6 +1,6 @@
 export default {
   name: 'segmented-button',
-  propConfig: {
+  property: {
     type: 'multi',
     segments: [
       {

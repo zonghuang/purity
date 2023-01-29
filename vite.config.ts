@@ -15,7 +15,8 @@ export default defineConfig(({ command, mode }) => {
 
   const resolve = {
     alias: {
-      '@': path.resolve(__dirname, 'src')
+      '@': path.resolve(__dirname, 'src'),
+      'mock': path.resolve(__dirname, 'mock')
     }
   }
 
@@ -55,7 +56,12 @@ export default defineConfig(({ command, mode }) => {
     // https://github.com/antfu/unplugin-vue-components
     Components({
       dts: 'src/auto-components.d.ts',
-      dirs: ['src/components', 'src/render', 'src/editor', 'src/admin'],
+      dirs: [
+        'src/components',
+        'src/render',
+        'src/editor',
+        'src/admin'
+      ],
       resolvers: [ElementPlusResolver()]
     }),
     createSvgIconsPlugin({

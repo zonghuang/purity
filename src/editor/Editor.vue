@@ -21,7 +21,7 @@
       <div class="edit-area">
         <modal-list></modal-list>
         <div class="canvas-container" :class="{ 'overlay': isOverlay }">
-          <editor-template :elements="elements"></editor-template>
+          <editor-template :components="components"></editor-template>
         </div>
         <aside-toolbar></aside-toolbar>
       </div>
@@ -61,12 +61,12 @@ const route = useRoute()
 const editStore = useEditStore()
 editStore.fetchConfig(route.query)
 const pages = computed(() => editStore.pages)
-const elements = computed(() => editStore.currentPage.elements)
+const components = computed(() => editStore.currentPage.components)
 const currentPageName = computed(() => editStore.currentPage.page)
 
 const isOverlay = computed(() =>
-  editStore.currentPage.elements?.some(item => {
-    return item.type === 'modal' && item.propConfig.visible
+  editStore.currentPage.components?.some(item => {
+    return item.type === 'modal' && item.property.visible
   })
 )
 </script>
@@ -90,6 +90,14 @@ const isOverlay = computed(() =>
 
     &::-webkit-scrollbar {
       display: none;
+    }
+
+    .component-lib, .component-layer {
+      height: calc(100vh - 44px);
+      overflow-y: scroll;
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
   }
 
@@ -120,7 +128,7 @@ const isOverlay = computed(() =>
 .canvas-container {
   position: relative;
   flex: 1;
-  margin: 16px;
+  margin: 8px;
   width: 600px; // 解决编辑时表格宽度溢出问题（真实宽度不止 600px，这里相当于限制了画布的最小宽度为 600px）
   overflow: scroll;
   // border-left: 1px solid #eee;

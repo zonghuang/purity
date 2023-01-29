@@ -36,18 +36,18 @@
 import { _useRoute } from '@/hooks'
 
 const route = _useRoute()
-const props = defineProps(['modelValue', 'propConfig'])
+const props = defineProps(['modelValue', 'property'])
 
 const editing = computed(() => route.path === '/editor')
 const visible = computed({
-  get: () => props.propConfig.visible,
-  set: (newValue: boolean) => props.propConfig.visible = newValue
+  get: () => props.property.visible,
+  set: (newValue: boolean) => props.property.visible = newValue
 })
-const title = computed(() => (props.propConfig.label))
-const width = computed(() => (props.propConfig.width))
-const modal = computed(() => (props.propConfig.modal))
-const fullscreen = computed(() => (props.propConfig.fullscreen))
-const closeOnClickModal = computed(() => (props.propConfig.closeOnClickModal))
+const title = computed(() => (props.property.label))
+const width = computed(() => (props.property.width))
+const modal = computed(() => (props.property.modal))
+const fullscreen = computed(() => (props.property.fullscreen))
+const closeOnClickModal = computed(() => (props.property.closeOnClickModal))
 
 const closeModal = () => visible.value = false
 const closedFn = (ev: KeyboardEvent) => ev.code === 'Escape' && closeModal()
@@ -118,7 +118,7 @@ watch(visible, newValue => {
 
   .modal-close {
     cursor: pointer;
-    
+
     &:hover {
       color: #409eff;
     }

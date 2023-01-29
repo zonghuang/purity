@@ -8,7 +8,7 @@ declare type InsertSeat = 'previous' | 'next' | 'inside'
 
 declare interface RenderState {
   page: Page
-  cacheData: IObject
+  [key: string]: any
 }
 
 declare interface EditorState {
@@ -37,6 +37,7 @@ declare interface Snapshot {
 }
 
 declare interface Component {
+  type?: string  // 待废弃
   uuid: string
   name: string
   style?: CSSStyle
@@ -84,8 +85,8 @@ declare interface OpenDialog {
   options: {
     targetId: string
   }
-  condition: Condition
-  thenActions: Action[]
+  condition?: Condition
+  thenActions?: Action[]
 }
 
 declare interface CloseDialog {
@@ -94,16 +95,16 @@ declare interface CloseDialog {
   options: {
     targetId: string
   }
-  condition: Condition
-  thenActions: Action[]
+  condition?: Condition
+  thenActions?: Action[]
 }
 
 declare interface NavigateTo {
   event?: EventType
   action: 'navigateTo'
   options: Navigation
-  condition: Condition
-  thenActions: Action[]
+  condition?: Condition
+  thenActions?: Action[]
 }
 
 declare interface Navigation {
@@ -119,8 +120,8 @@ declare interface HttpRequest {
   event?: EventType
   action: 'httpRequest'
   options: FetchOption
-  condition: Condition
-  thenActions: Action[]
+  condition?: Condition
+  thenActions?: Action[]
 }
 
 declare interface FetchOption extends RequestConfig {
@@ -134,8 +135,8 @@ declare interface Download {
   options: {
     // 待完善
   }
-  condition: Condition
-  thenActions: Action[]
+  condition?: Condition
+  thenActions?: Action[]
 }
 
 declare interface ValidateForm {
@@ -144,8 +145,8 @@ declare interface ValidateForm {
   options: {
     targetId: string
   }
-  condition: Condition
-  thenActions: Action[]
+  condition?: Condition
+  thenActions?: Action[]
 }
 
 declare interface ResetState {
@@ -154,8 +155,8 @@ declare interface ResetState {
   options: {
     targetId: string
   }
-  condition: Condition
-  thenActions: Action[]
+  condition?: Condition
+  thenActions?: Action[]
 }
 
 declare interface SetState {
@@ -178,16 +179,16 @@ declare interface SetState {
       payloadKey?: string
     }[]
   }
-  condition: Condition
-  thenActions: Action[]
+  condition?: Condition
+  thenActions?: Action[]
 }
 
 declare interface Delegation {
   event?: EventType
   action: 'delegation'
   options: DelegationOption
-  condition: Condition
-  thenActions: Action[]
+  condition?: Condition
+  thenActions?: Action[]
 }
 
 declare interface DelegationOption {
@@ -199,20 +200,20 @@ declare interface Upload {
   event?: EventType
   action: 'upload'
   options: DelegationOption
-  condition: Condition
-  thenActions: Action[]
+  condition?: Condition
+  thenActions?: Action[]
 }
 
 declare interface PrintDocs {
   event?: EventType
   action: 'printDocs'
   options: DelegationOption
-  condition: Condition
-  thenActions: Action[]
+  condition?: Condition
+  thenActions?: Action[]
 }
 
 // payload
-declare interface IPayload {
+declare interface Payload {
   key?: string
   value?: string
   sourceId?: string

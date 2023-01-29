@@ -52,7 +52,7 @@ const demandComponents = {
 }
 
 // 所有组件的默认配置数据 (build 库的时候不用打包组件配置)
-const componentsConfig: { [key: string]: IElement } = {}
+const componentsConfig: { [key: string]: Component } = {}
 if (mode !== 'lib') {
   const allConfig = import.meta.glob('./**/config.ts')
   for (const path in allConfig) {

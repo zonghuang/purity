@@ -2,7 +2,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { PurityComponents, elementPlustIcons } from './components'
-import PurityRender from './render'
+// import PurityRender from './render'
 
 // button
 import '@material/web/button/elevated-button'
@@ -34,7 +34,7 @@ import './style.css'
 const app = createApp(App)
 app.use(elementPlustIcons)
 app.use(PurityComponents)
-app.use(PurityRender)
+// app.use(PurityRender)
 app.use(router)
 app.use(store)
 app.mount('#app')
