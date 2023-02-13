@@ -129,18 +129,18 @@ export const config = {
                   },
                   events: [
                     {
-                      userAction: "click",
-                      event: "reset",
+                      event: "click",
+                      action: "reset",
                       option: {
                         target: "1649076593129",
                       },
                       thenEvents: [],
                     },
                     {
-                      userAction: "click",
-                      event: "fetch",
+                      event: "click",
+                      action: "fetch",
                       option: {
-                        api: "/sso-server/api/onl-report/queryReportData/sso_app_manage",
+                        url: "/sso-server/api/onl-report/queryReportData/sso_app_manage",
                         method: "POST",
                         loading: true,
                         params: [
@@ -193,10 +193,10 @@ export const config = {
                   },
                   events: [
                     {
-                      userAction: "click",
-                      event: "fetch",
+                      event: "click",
+                      action: "fetch",
                       option: {
-                        api: "/sso-server/api/onl-report/queryReportData/sso_app_manage",
+                        url: "/sso-server/api/onl-report/queryReportData/sso_app_manage",
                         method: "POST",
                         loading: true,
                         params: [
@@ -272,10 +272,10 @@ export const config = {
               },
               events: [
                 {
-                  userAction: "click",
-                  event: "openModal",
+                  event: "click",
+                  action: "openModal",
                   option: {
-                    modalId: "1649109281400",
+                    target: "1649109281400",
                   },
                   thenEvents: [],
                 },
@@ -297,14 +297,14 @@ export const config = {
           style: {},
           events: [
             {
-              userAction: "click",
-              event: "openModal",
+              event: "click",
+              action: "openModal",
               option: {
-                modalId: "1649118790283",
+                target: "1649118790283",
               },
               thenEvents: [
                 {
-                  event: "set",
+                  action: "set",
                   option: {
                     assign: "component",
                     params: [
@@ -323,10 +323,10 @@ export const config = {
               bindCode: " approve",
             },
             {
-              userAction: "click",
-              event: "fetch",
+              event: "click",
+              action: "fetch",
               option: {
-                api: "/sso-server/api/form-model/delFormData/sso_app",
+                url: "/sso-server/api/form-model/delFormData/sso_app",
                 method: "POST",
                 loading: true,
                 params: [
@@ -364,8 +364,8 @@ export const config = {
               bindCode: "delete",
             },
             {
-              userAction: "click",
-              event: "set",
+              event: "click",
+              action: "set",
               option: {
                 assign: "component",
                 params: [
@@ -380,9 +380,9 @@ export const config = {
               },
               thenEvents: [
                 {
-                  event: "openModal",
+                  action: "openModal",
                   option: {
-                    modalId: "1649123842917",
+                    target: "1649123842917",
                   },
                   thenEvents: [],
                 },
@@ -390,8 +390,8 @@ export const config = {
               bindCode: "up",
             },
             {
-              userAction: "click",
-              event: "set",
+              event: "click",
+              action: "set",
               option: {
                 assign: "component",
                 params: [
@@ -406,9 +406,9 @@ export const config = {
               },
               thenEvents: [
                 {
-                  event: "openModal",
+                  action: "openModal",
                   option: {
-                    modalId: "1649122952028",
+                    target: "1649122952028",
                   },
                   thenEvents: [],
                 },
@@ -501,10 +501,10 @@ export const config = {
           },
           events: [
             {
-              userAction: "update",
-              event: "fetch",
+              event: "update",
+              action: "fetch",
               option: {
-                api: "/sso-server/api/onl-report/queryReportData/sso_app_manage",
+                url: "/sso-server/api/onl-report/queryReportData/sso_app_manage",
                 method: "POST",
                 loading: true,
                 params: [
@@ -560,8 +560,8 @@ export const config = {
       style: {},
       events: [
         {
-          userAction: "click",
-          event: "",
+          event: "click",
+          action: "",
           option: {},
           thenEvents: [],
         },
@@ -851,10 +851,10 @@ export const config = {
               },
               events: [
                 {
-                  userAction: "click",
-                  event: "closeModal",
+                  event: "click",
+                  action: "closeModal",
                   option: {
-                    modalId: "1649109281400",
+                    target: "1649109281400",
                   },
                   thenEvents: [],
                 },
@@ -874,10 +874,10 @@ export const config = {
               },
               events: [
                 {
-                  userAction: "click",
-                  event: "fetch",
+                  event: "click",
+                  action: "fetch",
                   option: {
-                    api: "/sso-server/api/form-model/saveFormData/sso_app",
+                    url: "/sso-server/api/form-model/saveFormData/sso_app",
                     method: "POST",
                     loading: true,
                     params: [
@@ -908,9 +908,9 @@ export const config = {
                   },
                   thenEvents: [
                     {
-                      event: "openModal",
+                      action: "openModal",
                       option: {
-                        modalId: "1649116983253",
+                        target: "1649116983253",
                       },
                       thenEvents: [],
                     },
@@ -1046,10 +1046,10 @@ export const config = {
               },
               events: [
                 {
-                  userAction: "click",
-                  event: "closeModal",
+                  event: "click",
+                  action: "closeModal",
                   option: {
-                    modalId: "1649116983253",
+                    target: "1649116983253",
                   },
                   thenEvents: [],
                 },
@@ -1338,10 +1338,10 @@ export const config = {
               },
               events: [
                 {
-                  userAction: "click",
-                  event: "fetch",
+                  event: "click",
+                  action: "fetch",
                   option: {
-                    api: "/sso-server/api/app/changeStatus",
+                    url: "/sso-server/api/app/changeStatus",
                     method: "POST",
                     loading: true,
                     params: [
@@ -1367,9 +1367,9 @@ export const config = {
                   },
                   thenEvents: [
                     {
-                      event: "closeModal",
+                      action: "closeModal",
                       option: {
-                        modalId: "1649118790283",
+                        target: "1649118790283",
                       },
                       thenEvents: [],
                     },
@@ -1392,10 +1392,10 @@ export const config = {
               },
               events: [
                 {
-                  userAction: "click",
-                  event: "fetch",
+                  event: "click",
+                  action: "fetch",
                   option: {
-                    api: "/sso-server/api/app/changeStatus",
+                    url: "/sso-server/api/app/changeStatus",
                     method: "POST",
                     loading: true,
                     params: [
@@ -1421,9 +1421,9 @@ export const config = {
                   },
                   thenEvents: [
                     {
-                      event: "closeModal",
+                      action: "closeModal",
                       option: {
-                        modalId: "1649118790283",
+                        target: "1649118790283",
                       },
                       thenEvents: [],
                     },
@@ -1446,10 +1446,10 @@ export const config = {
               },
               events: [
                 {
-                  userAction: "click",
-                  event: "closeModal",
+                  event: "click",
+                  action: "closeModal",
                   option: {
-                    modalId: "1649118790283",
+                    target: "1649118790283",
                   },
                   thenEvents: [],
                 },
@@ -1587,10 +1587,10 @@ export const config = {
               },
               events: [
                 {
-                  userAction: "click",
-                  event: "closeModal",
+                  event: "click",
+                  action: "closeModal",
                   option: {
-                    modalId: "1649122952028",
+                    target: "1649122952028",
                   },
                   thenEvents: [],
                 },
@@ -1610,10 +1610,10 @@ export const config = {
               },
               events: [
                 {
-                  userAction: "click",
-                  event: "fetch",
+                  event: "click",
+                  action: "fetch",
                   option: {
-                    api: "/sso-server/api/component/submit",
+                    url: "/sso-server/api/component/submit",
                     method: "POST",
                     loading: true,
                     params: [
@@ -1644,9 +1644,9 @@ export const config = {
                   },
                   thenEvents: [
                     {
-                      event: "closeModal",
+                      action: "closeModal",
                       option: {
-                        modalId: "1649122952028",
+                        target: "1649122952028",
                       },
                       thenEvents: [],
                     },
@@ -1788,10 +1788,10 @@ export const config = {
               },
               events: [
                 {
-                  userAction: "click",
-                  event: "closeModal",
+                  event: "click",
+                  action: "closeModal",
                   option: {
-                    modalId: "1649123842917",
+                    target: "1649123842917",
                   },
                   thenEvents: [],
                 },
@@ -1811,10 +1811,10 @@ export const config = {
               },
               events: [
                 {
-                  userAction: "click",
-                  event: "fetch",
+                  event: "click",
+                  action: "fetch",
                   option: {
-                    api: "/sso-server/api/component/submit",
+                    url: "/sso-server/api/component/submit",
                     method: "POST",
                     loading: true,
                     params: [
@@ -1845,9 +1845,9 @@ export const config = {
                   },
                   thenEvents: [
                     {
-                      event: "closeModal",
+                      action: "closeModal",
                       option: {
-                        modalId: "1649123842917",
+                        target: "1649123842917",
                       },
                       thenEvents: [],
                     },

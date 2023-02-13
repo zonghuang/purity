@@ -4,7 +4,7 @@ import { componentsConfig } from "./components"
 // 组件库列表
 export const componentLibs: ILib[] = [
   {
-    label: '临时测试',
+    label: '常用',
     name: 'test',
     childrens: [
       {

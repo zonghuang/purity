@@ -1,24 +1,11 @@
 <template>
   <div class="admin">
-    <div class="main">
+    <el-input v-model="user" />
+    <div v-if="user === 'zonghuang'" class="main">
       <h2>Admin</h2>
-      <div class="system-type">
-        <el-radio-group v-model="type" @change="changeType">
-          <el-radio label="sso">统一登录认证</el-radio>
-          <el-radio label="h5">H5</el-radio>
-          <el-radio label="web">网站</el-radio>
-        </el-radio-group>
-
-        <el-input
-          v-if="type === 'sso'"
-          v-model="token"
-          :rows="4"
-          type="textarea"
-          placeholder="请输入token (备注: 因为本系统没有接入后端, 如果要请求“统一认证登录”的数据, 则需要输入 token)"
-          @change="saveToken"
-        />
+      <div style="text-align: right; padding-bottom: 10px;">
+        <el-button type="primary" @click="handleClick">新增模块/页面</el-button>
       </div>
-
       <el-table :data="tableData" style="width: 100%" class="admin-table">
         <el-table-column type="selection" width="55" />
         <el-table-column type="expand">
@@ -57,11 +44,6 @@
           </template>
         </el-table-column>
       </el-table>
-
-      <div >
-        <p>上面的都是示例，由于没有保存到后端，因此更改后，再次进入还是原来的数据</p>
-        用这个来测，可以保存在本地 <el-button type="text" @click="handleClick">Click Me</el-button>
-      </div>
     </div>
     <div class="beian">
       <span>🇨🇳</span>
@@ -77,9 +59,10 @@
 import localCache from '@/utils/cache'
 import { ssoTableData } from '../../mock/admin'
 
+const user = ref('')
+
 const router = useRouter()
 const type = ref('sso')
-const token = ref('')
 const tableData = ssoTableData
 
 const preview = (module: string, page?: string) => {
@@ -103,16 +86,6 @@ const edit = (module: string, page?: string) => {
 
 const handleClick = () => {
   router.push({ name: 'editor' })
-}
-
-const changeType = () => {}
-
-onMounted(() => {
-  token.value = localCache.getCache('token')
-})
-const saveToken = () => {
-  localCache.setCache('token', token.value)
-  ElMessage.success('保存成功')
 }
 </script>
 
